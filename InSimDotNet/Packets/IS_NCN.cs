@@ -83,7 +83,7 @@ namespace InSimDotNet.Packets {
             PName = reader.ReadString(24);
             Admin = reader.ReadBoolean();
             Total = reader.ReadByte();
-            Remote = (reader.ReadByte() & 2) > 0; // bit 2: remote
+            Remote = (reader.ReadByte() & 4) > 0; // bit 2: remote
         }
     }
 }

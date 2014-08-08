@@ -19,6 +19,6 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Player is remote.
         /// </summary>
-        PLT_REMOTE = 3,
+        PLT_REMOTE = 4,
     }
 }
