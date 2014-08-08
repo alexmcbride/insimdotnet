@@ -204,6 +204,7 @@ namespace InSimDotNet {
         /// Sends a message or command to LFS.
         /// </summary>
         /// <param name="message">The message to send.</param>
+        /// <param name="args">Arguments to format the message with.</param>
         public void Send(string message, params object[] args) {
             if (message == null) {
                 throw new ArgumentNullException("message");
@@ -244,6 +245,7 @@ namespace InSimDotNet {
         /// <param name="ucid">The ID of the connection to send the message to.</param>
         /// <param name="plid">The ID of the player to send the message to.</param>
         /// <param name="message">The message to send.</param>
+        /// <param name="args">Arguments to format the message with.</param>
         public void Send(byte ucid, byte plid, string message, params object[] args) {
             if (message == null) {
                 throw new ArgumentNullException("message");
@@ -279,12 +281,6 @@ namespace InSimDotNet {
             bindings.Bind(packetType, callback);
         }
 
-        public void Bind(string packetType, PacketHandler callback) {
-            ThrowIfDisposed();
-
-            bindings.Bind(PacketFactory.PacketLookup(packetType), callback);
-        }
-
         /// <summary>
         /// Unbinds a packet callback from this InSim connection.
         /// </summary>
@@ -307,12 +303,6 @@ namespace InSimDotNet {
             ThrowIfDisposed();
 
             bindings.Unbind(packetType, callback);
-        }
-
-        public void Unbind(string packetType, PacketHandler callback) {
-            ThrowIfDisposed();
-
-            bindings.Unbind(PacketFactory.PacketLookup(packetType), callback);
         }
 
         /// <summary>
@@ -339,12 +329,6 @@ namespace InSimDotNet {
             ThrowIfDisposed();
 
             return bindings.IsBound(packetType, callback);
-        }
-
-        public bool IsBound(string packetType, PacketHandler callback) {
-            ThrowIfDisposed();
-
-            return bindings.IsBound(PacketFactory.PacketLookup(packetType), callback);
         }
 
         private bool IsPacketEventNeeded(PacketType type) {

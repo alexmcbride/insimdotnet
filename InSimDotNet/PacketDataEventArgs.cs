@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace InSimDotNet {
     /// <summary>
-    /// Provides data for the <see cref="ISocket"/> PacketDataReceived event.
+    /// Provides data for the PacketDataReceived event.
     /// </summary>
     public class PacketDataEventArgs : EventArgs {
         private readonly byte[] buffer;
