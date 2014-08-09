@@ -7,20 +7,22 @@ namespace InSimDotNet {
     internal static class LfsEncoding {
         private const char ControlChar = '^';
         private const char FallbackChar = '?';
-        private static readonly Encoding DefaultEncoding = Encoding.GetEncoding(1252);
+        private static readonly bool IsRunningOnMono = (Type.GetType("Mono.Runtime") != null);
 
         private static readonly Dictionary<char, Encoding> EncodingMap = new Dictionary<char, Encoding> {
-            { 'L', Encoding.GetEncoding(1252) },
-            { 'G', Encoding.GetEncoding(1253) },
-            { 'C', Encoding.GetEncoding(1251) },
-            { 'J', Encoding.GetEncoding(932) },
-            { 'E', Encoding.GetEncoding(1250) },
-            { 'T', Encoding.GetEncoding(1254) },
-            { 'B', Encoding.GetEncoding(1257) },
-            { 'H', Encoding.GetEncoding(950) },
-            { 'S', Encoding.GetEncoding(936) },
-            { 'K', Encoding.GetEncoding(949) },
+            { 'L', Encoding.GetEncoding(1252, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
+            { 'G', Encoding.GetEncoding(1253, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
+            { 'C', Encoding.GetEncoding(1251, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
+            { 'J', Encoding.GetEncoding(932, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
+            { 'E', Encoding.GetEncoding(1250, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
+            { 'T', Encoding.GetEncoding(1254, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
+            { 'B', Encoding.GetEncoding(1257, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
+            { 'H', Encoding.GetEncoding(950, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
+            { 'S', Encoding.GetEncoding(936, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
+            { 'K', Encoding.GetEncoding(949, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
         };
+
+        private static readonly Encoding DefaultEncoding = EncodingMap['L'];
 
         private static readonly Dictionary<char, char> EscapeMap = new Dictionary<char, char> {
             { 'v', '|' },
@@ -44,27 +46,39 @@ namespace InSimDotNet {
 
             for (i = index; i < index + length; i++) {
                 char control = (char)buffer[i];
-                if (control == Char.MinValue) break;
-                if (control != ControlChar) continue;
 
+                // Check for null terminator.
+                if (control == Char.MinValue) {
+                    break;
+                }
+
+                // If not control character then ignore.
+                if (control != ControlChar) {
+                    continue;
+                }
+
+                // Found control character so encode everything up to this point.
                 if (i - start > 0) {
                     output.Append(encoding.GetString(buffer, start, (i - start)));
                 }
                 start = (i + 2); // skip control chars.
 
+                // Process control character.
                 char next = (char)buffer[++i];
                 if (EncodingMap.TryGetValue(next, out nextEncoding)) {
-                    encoding = nextEncoding;
+                    encoding = nextEncoding; // Switch encoding.
                 }
                 else if (EscapeMap.TryGetValue(next, out escape)) {
-                    output.Append(escape);
+                    output.Append(escape); // Escape character.
                 }
                 else {
+                    // Character not codepage switch or escape, so just ignore it.
                     output.Append(control);
                     output.Append(next);
                 }
             }
 
+            // End of string reached so encode up all to this point.
             if (i - start > 0) {
                 output.Append(encoding.GetString(buffer, start, (i - start)));
             }
@@ -78,15 +92,21 @@ namespace InSimDotNet {
 
             for (int i = 0; i < value.Length && i < maxLength; i++) {
                 if (value[i] <= 127) {
+                    // All codepages share first 128 values.
                     result++;
                 }
                 else if (TryGetByteCount(encoding, value[i], out tempCount)) {
+                    // Charcter in current codepage.
                     result += tempCount;
                 }
                 else {
+                    // Search for new codepage.
                     bool found = false;
+
                     foreach (KeyValuePair<char, Encoding> map in EncodingMap) {
-                        if (map.Value == encoding) continue;
+                        if (map.Value == encoding) {
+                            continue;
+                        }
 
                         if (TryGetByteCount(map.Value, value[i], out tempCount)) {
                             encoding = map.Value;
@@ -95,7 +115,10 @@ namespace InSimDotNet {
                             break;
                         }
                     }
-                    if (!found) result++;
+
+                    if (!found) {
+                        result++;
+                    }
                 }
             }
 
@@ -103,7 +126,16 @@ namespace InSimDotNet {
         }
 
         [DebuggerStepThrough]
+        // On Windows we use WideCharToMultiByte as it's fast, on Mono we revent to the slower method of throwing exceptions.
         private static bool TryGetByteCount(Encoding encoding, char value, out int count) {
+            if (IsRunningOnMono) {
+                return TryGetByteCountMono(encoding, value, out count);
+            }
+
+            return TryGetByteCountWindows(encoding, value, out count);
+        }
+
+        private static bool TryGetByteCountWindows(Encoding encoding, char value, out int count) {
             bool usedDefault = false;
             count = NativeMethods.WideCharToMultiByte(
                 (uint)encoding.CodePage,
@@ -117,6 +149,17 @@ namespace InSimDotNet {
             return !usedDefault;
         }
 
+        private static bool TryGetByteCountMono(Encoding encoding, char value, out int count) {
+            try {
+                count = encoding.GetByteCount(value.ToString());
+                return true;
+            }
+            catch (EncoderFallbackException) {
+                count = 0;
+                return false;
+            }
+        }
+
         public static int GetBytes(string value, byte[] buffer, int index, int length) {
             Encoding encoding = DefaultEncoding;
             byte[] tempBytes = new byte[2];
@@ -126,28 +169,40 @@ namespace InSimDotNet {
 
             for (int i = 0; i < value.Length && index < totalLength; i++) {
                 if (value[i] <= 127) {
+                    // All codepages share ASCII values.
                     buffer[index++] = (byte)value[i];
                 }
                 else if (TryGetBytes(encoding, value[i], tempBytes, out tempCount)) {
+                    // Character exists in current codepage.
                     Buffer.BlockCopy(tempBytes, 0, buffer, index, tempCount);
                     index += tempCount;
                 }
                 else {
+                    // Search for new codepage.
                     bool found = false;
                     foreach (KeyValuePair<char, Encoding> map in EncodingMap) {
-                        if (map.Value == encoding) continue;
+                        if (map.Value == encoding) {
+                            continue; // Skip current as we've already searched it.
+                        }
 
                         if (TryGetBytes(map.Value, value[i], tempBytes, out tempCount)) {
+                            // Switch codepage.
                             encoding = map.Value;
+
+                            // Add control characters.
                             buffer[index++] = (byte)ControlChar;
                             buffer[index++] = (byte)map.Key;
+
+                            // Copy to buffer.
                             Buffer.BlockCopy(tempBytes, 0, buffer, index, tempCount);
                             index += tempCount;
                             found = true;
+
                             break;
                         }
                     }
 
+                    // If not found in any codepage then add fallout character.
                     if (!found) {
                         buffer[index++] = (byte)FallbackChar;
                     }
@@ -157,8 +212,17 @@ namespace InSimDotNet {
             return index - start;
         }
 
-        [DebuggerStepThrough]
+        //[DebuggerStepThrough]
+        // On Windows we use WideCharToMultiByte as it's fast, on Mono we revent to the slower method of throwing exceptions.
         private static bool TryGetBytes(Encoding encoding, char value, byte[] bytes, out int count) {
+            if (IsRunningOnMono) {
+                return TryGetBytesMono(encoding, value, bytes, out count);
+            }
+
+            return TryGetBytesWindows(encoding, value, bytes, out count);
+        }
+
+        private static bool TryGetBytesWindows(Encoding encoding, char value, byte[] bytes, out int count) {
             bool usedDefault = false;
             count = NativeMethods.WideCharToMultiByte(
                 (uint)encoding.CodePage,
@@ -170,6 +234,17 @@ namespace InSimDotNet {
                 IntPtr.Zero,
                 out usedDefault);
             return !usedDefault;
+        }
+
+        private static bool TryGetBytesMono(Encoding encoding, char value, byte[] bytes, out int count) {
+            try {
+                count = encoding.GetBytes(value.ToString(), 0, 1, bytes, 0);
+                return true;
+            }
+            catch (EncoderFallbackException) {
+                count = 0;
+                return false;
+            }
         }
     }
 }

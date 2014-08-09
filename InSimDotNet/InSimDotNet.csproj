@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>InSimDotNet</RootNamespace>
     <AssemblyName>InSimDotNet</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -65,8 +65,8 @@
     <Compile Include="InitializeEventArgs.cs" />
     <Compile Include="InSimSettings.cs" />
     <Compile Include="Helpers\MathHelper.cs" />
-    <Compile Include="NativeMethods.cs" />
     <Compile Include="Helpers\ObjectHelper.cs" />
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="Out\OutErrorEventArgs.cs" />
     <Compile Include="Out\OutClient.cs" />
     <Compile Include="Out\DashLightFlags.cs" />
