@@ -1,10 +1,11 @@
-- 2.1.0 (8th August 2014)
+- 2.0.15 (8th August 2014)
 
 * Fixed bug remote property in IS_NCN was incorrect
 * Fixed bug PLT_REMOTE in PlayerTypes was incorrect
 * Fixed TyreCompound enum, fixed bits and added TYRE_NONE
 * Added new leave reasons.
 * Fixed issue with IS_AXM Info list being set to wrong size
+* Fixs to the string encoding stuff that prevented the library working on Mono
 
 - 2.0.14 (6th March 2012)
 
