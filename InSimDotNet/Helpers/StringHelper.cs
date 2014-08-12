@@ -37,7 +37,6 @@ namespace InSimDotNet.Helpers {
         public static string ToLapTimeString(this TimeSpan value, bool hours) {
             if (value.Hours > 0 || hours) {
                 return String.Format(
-                    CultureInfo.CurrentCulture,
                     "{0}:{1:00}:{2:00}.{3:000}",
                     value.Hours, 
                     value.Minutes, 
@@ -45,7 +44,6 @@ namespace InSimDotNet.Helpers {
                     value.Milliseconds);
             }
             return String.Format(
-                CultureInfo.CurrentCulture,
                 "{0}:{1:00}.{2:000}",
                 value.Minutes,
                 value.Seconds,

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
-using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace InSimDotNet {
     /// <summary>
@@ -10,7 +10,8 @@ namespace InSimDotNet {
     /// </summary>
     public class UdpSocket : IDisposable {
         private const int BufferSize = 512;
-        private readonly Socket socket;
+
+        private readonly UdpClient client;
         private bool isDisposed;
 
         /// <summary>
@@ -47,14 +48,24 @@ namespace InSimDotNet {
         /// Exposes the underlying socket.
         /// </summary>
         protected Socket Socket {
-            get { return socket; }
+            get { return client.Client; }
         }
+
+        /// <summary>
+        /// Gets the total number of bytes sent by this socket.
+        /// </summary>
+        public int BytesSent { get; private set; }
+
+        /// <summary>
+        /// Gets the total number of bytes received by this socket.
+        /// </summary>
+        public int BytesReceived { get; private set; }
 
         /// <summary>
         /// Creates a new instance of the <see cref="UdpSocket"/> class.
         /// </summary>
         public UdpSocket() {
-            socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            client = new UdpClient();
         }
 
         /// <summary>
@@ -75,7 +86,8 @@ namespace InSimDotNet {
             if (!isDisposed && disposing) {
                 IsConnected = false;
                 isDisposed = true;
-                ((IDisposable)socket).Dispose();
+
+                client.Close();
             }
         }
 
@@ -93,19 +105,22 @@ namespace InSimDotNet {
 
             IsConnected = true;
 
-            socket.Bind(new IPEndPoint(IPAddress.Parse(host), port));
+            client.Connect(host, port);
 
-            HandleReceive();
+            BytesSent = 0;
+            BytesReceived = 0;
+
+            ReceiveAsync();
         }
 
         /// <summary>
         /// Disconnects from LFS.
         /// </summary>
         public void Disconnect() {
-            if (IsConnected && socket != null) {
+            if (IsConnected) {
                 IsConnected = false;
 
-                socket.Close();
+                client.Close();
             }
         }
 
@@ -116,62 +131,39 @@ namespace InSimDotNet {
         public void Send(byte[] buffer) {
             ThrowIfDisposed();
 
-            socket.Send(buffer);
+            client.Send(buffer, buffer.Length);
+            BytesSent += buffer.Length;
         }
 
-        private void HandleReceive() {
-            HandleReceive(new SocketState(socket, new byte[BufferSize]));
-        }
-
-        private void HandleReceive(SocketState state) {
-            if (IsConnected) {
-                state.Socket.BeginReceive(
-                    state.Buffer,
-                    0,
-                    state.Buffer.Length,
-                    SocketFlags.None,
-                    ReceiveCallback,
-                    state);
-            }
-        }
-
-        /// <summary>
-        /// Ends a pending asynchronous receive operation.
-        /// </summary>
-        /// <param name="asyncResult">The result of the receive operation.</param>
-        private void ReceiveCallback(IAsyncResult asyncResult) {
-            SocketState state = (SocketState)asyncResult.AsyncState;
-
+        private async void ReceiveAsync() {
             if (IsConnected) {
                 try {
-                    int bytesReceived = state.Socket.EndReceive(asyncResult);
+                    UdpReceiveResult result = await client.ReceiveAsync();
 
-                    if (bytesReceived == 0) {
+                    if (result.Buffer.Length == 0) {
                         Disconnect();
                         OnConnectionLost(EventArgs.Empty);
                     }
                     else {
-                        state.Offset = bytesReceived;
-                        HandlePacket(state);
-                        HandleReceive(state);
+                        BytesReceived += result.Buffer.Length;
+                        HandlePacket(result.Buffer);
+                        ReceiveAsync();
                     }
                 }
                 catch (Exception ex) {
-                    Debug.WriteLine(String.Format(CultureInfo.CurrentCulture, StringResources.UdpSocketDebugErrorMessage, ex));
+                    Debug.WriteLine(String.Format(StringResources.UdpSocketDebugErrorMessage, ex));
                     Disconnect();
                     OnSocketError(new InSimErrorEventArgs(ex));
                 }
             }
         }
 
-        private void HandlePacket(SocketState state) {
+        private void HandlePacket(byte[] buffer) {
             // If size not multiple of four, packet is corrupt.
-            if (state.Offset % 4 > 0) {
+            if (buffer.Length % 4 > 0) {
                 throw new InSimException(StringResources.PacketSizeErrorMessage);
             }
 
-            byte[] buffer = new byte[state.Offset];
-            Buffer.BlockCopy(state.Buffer, 0, buffer, 0, state.Offset);
             OnPacketDataReceived(new PacketDataEventArgs(buffer));
         }
 

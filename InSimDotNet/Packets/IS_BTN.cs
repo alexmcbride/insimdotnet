@@ -99,7 +99,7 @@ namespace InSimDotNet.Packets {
 
             // Add button caption if set.
             if (!String.IsNullOrEmpty(Caption) && TypeIn > 0) {
-                text = String.Format(CultureInfo.CurrentCulture, "{0}{1}{0}{2}", Char.MinValue, Caption, text);
+                text = String.Format("{0}{1}{0}{2}", Char.MinValue, Caption, text);
             }
 
             // Need to decode string first so we know how big to make the packet.

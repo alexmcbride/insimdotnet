@@ -100,7 +100,6 @@
     <Compile Include="Packets\ReplayMode.cs" />
     <Compile Include="Packets\Tyres.cs" />
     <Compile Include="PacketWriter.cs" />
-    <Compile Include="SocketState.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="ReadOnlyInSimSettings.cs" />
     <Compile Include="Helpers\StringHelper.cs" />

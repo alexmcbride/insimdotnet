@@ -1,10 +1,9 @@
-﻿using System;
+﻿using InSimDotNet.Packets;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Net.Sockets;
-using InSimDotNet.Packets;
 
 namespace InSimDotNet {
     /// <summary>
@@ -62,6 +61,20 @@ namespace InSimDotNet {
         protected bool BuildAllPackets { get; set; }
 
         /// <summary>
+        /// Gets the total number of bytes sent by this socket.
+        /// </summary>
+        public int BytesSent {
+            get { return tcpSocket.BytesSent + udpSocket.BytesSent; }
+        }
+
+        /// <summary>
+        /// Gets the total number of bytes received by this socket.
+        /// </summary>
+        public int BytesReceived {
+            get { return tcpSocket.BytesReceived + udpSocket.BytesReceived; }
+        }
+
+        /// <summary>
         /// Creates a new instance of the <see cref="InSim"/> class.
         /// </summary>
         public InSim() {
@@ -93,16 +106,8 @@ namespace InSimDotNet {
             if (!isDisposed && disposing) {
                 isDisposed = true;
 
-                // Dispose TCP socket.
                 tcpSocket.Dispose();
-                tcpSocket.PacketDataReceived -= tcpSocket_PacketDataReceived;
-                tcpSocket.ConnectionLost -= tcpSocket_ConnectionLost;
-                tcpSocket.SocketError -= tcpSocket_SocketError;
-
-                // Dispose UDP socket.
                 udpSocket.Dispose();
-                udpSocket.PacketDataReceived -= udpSocket_PacketDataReceived;
-                udpSocket.SocketError -= udpSocket_SocketError;
             }
         }
 
@@ -127,7 +132,7 @@ namespace InSimDotNet {
                 else {
                     tcpSocket.Connect(Settings.Host, Settings.Port);
 
-                    tcpSocket.Send(new IS_ISI {
+                    Send(new IS_ISI {
                         Admin = Settings.Admin,
                         Flags = Settings.Flags,
                         IName = Settings.IName,
@@ -135,7 +140,7 @@ namespace InSimDotNet {
                         Prefix = Settings.Prefix,
                         ReqI = 1, // Request version.
                         UDPPort = Settings.UdpPort,
-                    }.GetBuffer());
+                    });
 
                     if (Settings.UdpPort > 0) {
                         udpSocket.Bind(Settings.Host, Settings.UdpPort);
@@ -206,6 +211,10 @@ namespace InSimDotNet {
         /// <param name="message">The message to send.</param>
         /// <param name="args">Arguments to format the message with.</param>
         public void Send(string message, params object[] args) {
+            const int MsxLen = 96;
+            const int MstLen = 64;
+            const string CommandPrefix = "/";
+
             if (message == null) {
                 throw new ArgumentNullException("message");
             }
@@ -213,14 +222,14 @@ namespace InSimDotNet {
             ThrowIfDisposed();
             ThrowIfNotConnected();
 
-            message = String.Format(CultureInfo.CurrentCulture, message, args);
-            if (message.StartsWith("/", StringComparison.OrdinalIgnoreCase)) {
+            message = String.Format(message, args);
+            if (message.StartsWith(CommandPrefix, StringComparison.OrdinalIgnoreCase)) {
                 Send(new IS_MST { Msg = message }); // Send command.
             }
             else {
                 // Get the length the string will be once it's encoded.
-                int length = LfsEncoding.GetByteCount(message, 96);
-                if (length < 64) {
+                int length = LfsEncoding.GetByteCount(message, MsxLen);
+                if (length < MstLen) {
                     Send(new IS_MST { Msg = message }); // Send normal message.
                 }
                 else {
@@ -254,7 +263,7 @@ namespace InSimDotNet {
             ThrowIfDisposed();
             ThrowIfNotConnected();
 
-            message = String.Format(CultureInfo.CurrentCulture, message, args);
+            message = String.Format(message, args);
             Send(new IS_MTC { Msg = message, PLID = plid, UCID = ucid });
         }
 
@@ -347,7 +356,8 @@ namespace InSimDotNet {
 
         private void HandleKeepAlive(PacketType type, byte[] buffer) {
             if (type == PacketType.ISP_TINY) {
-                if ((TinyType)buffer[3] == TinyType.TINY_NONE) {
+                IS_TINY tiny = new IS_TINY(buffer);
+                if (tiny.SubT == TinyType.TINY_NONE) {
                     tcpSocket.Send(buffer);
                 }
             }
@@ -355,7 +365,7 @@ namespace InSimDotNet {
 
         private void tcpSocket_PacketDataReceived(object sender, PacketDataEventArgs e) {
             byte[] buffer = e.GetBuffer();
-            PacketType type = (PacketType)buffer[1];
+            PacketType type = PacketFactory.GetPacketType(buffer);
 
             if (IsPacketEventNeeded(type)) {
                 IPacket packet = PacketFactory.BuildPacket(buffer);
@@ -380,7 +390,7 @@ namespace InSimDotNet {
 
         private void udpSocket_PacketDataReceived(object sender, PacketDataEventArgs e) {
             byte[] buffer = e.GetBuffer();
-            PacketType type = (PacketType)buffer[1];
+            PacketType type = PacketFactory.GetPacketType(buffer);
 
             if ((type == PacketType.ISP_MCI || type == PacketType.ISP_NLP) && IsPacketEventNeeded(type)) {
                 IPacket packet = PacketFactory.BuildPacket(buffer);

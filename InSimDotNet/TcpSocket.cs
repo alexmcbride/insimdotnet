@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace InSimDotNet {
     /// <summary>
@@ -9,9 +10,13 @@ namespace InSimDotNet {
     /// </summary>
     public class TcpSocket : IDisposable {
         private const int BufferSize = 2048;
-        private readonly Socket socket;
-        private bool isDisposed;
 
+        private readonly TcpClient client;
+        private NetworkStream stream;
+        private byte[] buffer = new byte[BufferSize];
+        private int offset;
+        private bool isDisposed;
+	
         /// <summary>
         /// Occurs when packet data is received.
         /// </summary>
@@ -31,7 +36,7 @@ namespace InSimDotNet {
         /// Gets if the socket is connected.
         /// </summary>
         public bool IsConnected {
-            get { return socket.Connected; }
+            get { return client.Connected; }
         }
 
         /// <summary>
@@ -48,15 +53,25 @@ namespace InSimDotNet {
         /// Gets the underlying socket.
         /// </summary>
         protected Socket Socket {
-            get { return socket; }
+            get { return client.Client; }
         }
+
+        /// <summary>
+        /// Gets the total number of bytes sent by this socket.
+        /// </summary>
+        public int BytesSent { get; private set; }
+
+        /// <summary>
+        /// Gets the total number of bytes received by this socket.
+        /// </summary>
+        public int BytesReceived { get; private set; }
 
         /// <summary>
         /// Creates a new instance of the <see cref="TcpSocket"/> class.
         /// </summary>
         public TcpSocket() {
-            socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            socket.NoDelay = true;
+            client = new TcpClient();
+            client.NoDelay = true;
         }
 
         /// <summary>
@@ -76,8 +91,13 @@ namespace InSimDotNet {
         protected virtual void Dispose(bool disposing) {
             if (!isDisposed && disposing) {
                 isDisposed = true;
-                if (socket != null) {
-                    ((IDisposable)socket).Dispose();
+
+                if (stream != null) {
+                    stream.Dispose();
+                }
+
+                if (client != null) {
+                    client.Close();
                 }
             }
         }
@@ -94,9 +114,13 @@ namespace InSimDotNet {
             Host = host;
             Port = port;
 
-            socket.Connect(host, port);
+            client.Connect(host, port);
+            stream = client.GetStream();
 
-            HandleReceive();
+			BytesSent = 0;
+            BytesReceived = 0;
+			
+            ReceiveAsync();
         }
 
         /// <summary>
@@ -106,7 +130,11 @@ namespace InSimDotNet {
             ThrowIfDisposed();
             ThrowIfNotConnected();
 
-            socket.Close();
+            if (stream != null) {
+                stream.Dispose();
+            }
+
+            client.Close();
         }
 
         /// <summary>
@@ -121,110 +149,63 @@ namespace InSimDotNet {
             ThrowIfDisposed();
             ThrowIfNotConnected();
 
-            HandleSend(new SocketState(socket, buffer));
+            stream.Write(buffer, 0, buffer.Length);
+			BytesSent += buffer.Length;
         }
 
-        private void HandleSend(SocketState state) {
-            if (state.Socket.Connected) {
-                state.Socket.BeginSend(
-                      state.Buffer,
-                      state.Offset,
-                      state.Buffer.Length - state.Offset,
-                      SocketFlags.None,
-                      SendCallback,
-                      state);
-            }
-        }
-
-        private void SendCallback(IAsyncResult asyncResult) {
-            SocketState state = (SocketState)asyncResult.AsyncState;
-
-            try {
-                int sent = state.Socket.EndSend(asyncResult);
-
-                // If full buffer not sent, resend.
-                state.Offset += sent;
-                if (state.Offset < state.Buffer.Length) {
-                    HandleSend(state);
-                }
-            }
-            catch (Exception ex) {
-                Debug.WriteLine("TCP Send Error: " + ex);
-                state.Socket.Close();
-                OnSocketError(new InSimErrorEventArgs(ex));
-            }
-        }
-
-        private void HandleReceive() {
-            HandleReceive(new SocketState(socket, new byte[BufferSize]));
-        }
-
-        private void HandleReceive(SocketState state) {
-            if (state.Socket.Connected) {
-                state.Socket.BeginReceive(
-                    state.Buffer,
-                    state.Offset,
-                    state.Buffer.Length - state.Offset,
-                    SocketFlags.None,
-                    ReceiveCallback,
-                    state);
-            }
-        }
-
-        private void ReceiveCallback(IAsyncResult asyncResult) {
-            SocketState state = (SocketState)asyncResult.AsyncState;
-
-            if (state.Socket.Connected) {
+        private async void ReceiveAsync() {
+            if (client.Connected) {
                 try {
-                    int bytesReceived = state.Socket.EndReceive(asyncResult);
+                    int count = await stream.ReadAsync(buffer, offset, buffer.Length - offset);
 
-                    if (bytesReceived == 0) {
-                        state.Socket.Close();
+                    if (count == 0) {
+                        Disconnect();
                         OnConnectionLost(EventArgs.Empty);
                     }
                     else {
-                        state.Offset += bytesReceived;
-                        HandlePackets(state);
-                        HandleReceive(state);
+						BytesReceived += count;
+                        offset += count;
+                        HandlePackets();
+                        ReceiveAsync();
                     }
                 }
                 catch (Exception ex) {
-                    Debug.WriteLine(String.Format(CultureInfo.CurrentCulture, StringResources.TcpSocketDebugErrorMessage, ex));
-                    state.Socket.Close();
+                    Debug.WriteLine(String.Format(StringResources.TcpSocketDebugErrorMessage, ex));
+                    Disconnect();
                     OnSocketError(new InSimErrorEventArgs(ex));
                 }
             }
         }
 
-        private void HandlePackets(SocketState state) {
+        private void HandlePackets() {
             int read = 0;
 
-            while (state.Offset > 0 && state.Offset >= state.Buffer[read]) {
-                int size = state.Buffer[read];
+            while (offset > 0 && offset >= buffer[read]) {
+                int size = buffer[read];
 
-                // If size not multiple of four, packet is corrupt.
+                // If size not multiple of four packet is corrupt.
                 if (size % 4 > 0) {
                     throw new InSimException(StringResources.PacketSizeErrorMessage);
                 }
 
                 // Raise packet event.
-                byte[] buffer = new byte[size];
-                Buffer.BlockCopy(state.Buffer, read, buffer, 0, size);
-                OnPacketDataReceived(new PacketDataEventArgs(buffer));
+                byte[] temp = new byte[size];
+                Buffer.BlockCopy(buffer, read, temp, 0, size);
+                OnPacketDataReceived(new PacketDataEventArgs(temp));
 
                 // Move indices to next packet.
-                state.Offset -= size;
+                offset -= size;
                 read += size;
             }
 
             // Copy leftover bytes to front of buffer.
-            if (state.Offset > 0) {
+            if (offset > 0) {
                 Buffer.BlockCopy(
-                    state.Buffer,
+                    buffer,
                     read,
-                    state.Buffer,
+                    buffer,
                     0,
-                    state.Buffer.Length - read);
+                    buffer.Length - read);
             }
         }
 
