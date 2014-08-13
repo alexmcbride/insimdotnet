@@ -16,7 +16,7 @@ namespace InSimDotNet {
         private byte[] buffer = new byte[BufferSize];
         private int offset;
         private bool isDisposed;
-	
+
         /// <summary>
         /// Occurs when packet data is received.
         /// </summary>
@@ -117,9 +117,9 @@ namespace InSimDotNet {
             client.Connect(host, port);
             stream = client.GetStream();
 
-			BytesSent = 0;
+            BytesSent = 0;
             BytesReceived = 0;
-			
+
             ReceiveAsync();
         }
 
@@ -150,7 +150,7 @@ namespace InSimDotNet {
             ThrowIfNotConnected();
 
             stream.Write(buffer, 0, buffer.Length);
-			BytesSent += buffer.Length;
+            BytesSent += buffer.Length;
         }
 
         private async void ReceiveAsync() {
@@ -163,7 +163,7 @@ namespace InSimDotNet {
                         OnConnectionLost(EventArgs.Empty);
                     }
                     else {
-						BytesReceived += count;
+                        BytesReceived += count;
                         offset += count;
                         HandlePackets();
                         ReceiveAsync();
