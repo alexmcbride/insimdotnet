@@ -17,8 +17,6 @@ namespace InSimDotNet {
         private const string RelayHost = "isrelay.lfs.net";
         private const int RelayPort = 47474;
 
-        private readonly TcpSocket tcpSocket;
-        private readonly UdpSocket udpSocket;
         private readonly BindingManager bindings = new BindingManager();
         private bool isDisposed;
 
@@ -46,7 +44,7 @@ namespace InSimDotNet {
         /// Gets if LFS is connected.
         /// </summary>
         public bool IsConnected {
-            get { return tcpSocket == null ? false : tcpSocket.IsConnected; }
+            get { return TcpSocket == null ? false : TcpSocket.IsConnected; }
         }
 
         /// <summary>
@@ -64,28 +62,38 @@ namespace InSimDotNet {
         /// Gets the total number of bytes sent to LFS.
         /// </summary>
         public int BytesSent {
-            get { return tcpSocket.BytesSent + udpSocket.BytesSent; }
+            get { return TcpSocket.BytesSent + UdpSocket.BytesSent; }
         }
 
         /// <summary>
         /// Gets the total number of bytes received from LFS.
         /// </summary>
         public int BytesReceived {
-            get { return tcpSocket.BytesReceived + udpSocket.BytesReceived; }
+            get { return TcpSocket.BytesReceived + UdpSocket.BytesReceived; }
         }
+
+        /// <summary>
+        /// Gets the underlying TcpSocket used to communicate with LFS.
+        /// </summary>
+        public TcpSocket TcpSocket { get; private set; }
+
+        /// <summary>
+        /// Gets the underlying UdpSocket used to communicate with Lfs.
+        /// </summary>
+        public UdpSocket UdpSocket { get; private set; }
 
         /// <summary>
         /// Creates a new instance of the <see cref="InSim"/> class.
         /// </summary>
         public InSim() {
-            tcpSocket = new TcpSocket();
-            tcpSocket.PacketDataReceived += tcpSocket_PacketDataReceived;
-            tcpSocket.ConnectionLost += tcpSocket_ConnectionLost;
-            tcpSocket.SocketError += tcpSocket_SocketError;
+            TcpSocket = new TcpSocket();
+            TcpSocket.PacketDataReceived += TcpSocket_PacketDataReceived;
+            TcpSocket.ConnectionLost += TcpSocket_ConnectionLost;
+            TcpSocket.SocketError += TcpSocket_SocketError;
 
-            udpSocket = new UdpSocket();
-            udpSocket.PacketDataReceived += udpSocket_PacketDataReceived;
-            udpSocket.SocketError += udpSocket_SocketError;
+            UdpSocket = new UdpSocket();
+            UdpSocket.PacketDataReceived += UdpSocket_PacketDataReceived;
+            UdpSocket.SocketError += UdpSocket_SocketError;
         }
 
         /// <summary>
@@ -106,8 +114,8 @@ namespace InSimDotNet {
             if (!isDisposed && disposing) {
                 isDisposed = true;
 
-                tcpSocket.Dispose();
-                udpSocket.Dispose();
+                TcpSocket.Dispose();
+                UdpSocket.Dispose();
             }
         }
 
@@ -127,10 +135,10 @@ namespace InSimDotNet {
 
             try {
                 if (Settings.IsRelayHost) {
-                    tcpSocket.Connect(RelayHost, RelayPort);
+                    TcpSocket.Connect(RelayHost, RelayPort);
                 }
                 else {
-                    tcpSocket.Connect(Settings.Host, Settings.Port);
+                    TcpSocket.Connect(Settings.Host, Settings.Port);
 
                     Send(new IS_ISI {
                         Admin = Settings.Admin,
@@ -143,7 +151,7 @@ namespace InSimDotNet {
                     });
 
                     if (Settings.UdpPort > 0) {
-                        udpSocket.Bind(Settings.Host, Settings.UdpPort);
+                        UdpSocket.Bind(Settings.Host, Settings.UdpPort);
                     }
                 }
 
@@ -164,8 +172,8 @@ namespace InSimDotNet {
             ThrowIfDisposed();
             ThrowIfNotConnected();
 
-            tcpSocket.Disconnect();
-            udpSocket.Disconnect();
+            TcpSocket.Disconnect();
+            UdpSocket.Disconnect();
 
             OnDisconnected(new DisconnectedEventArgs(DisconnectReason.Request));
         }
@@ -182,7 +190,7 @@ namespace InSimDotNet {
             ThrowIfDisposed();
             ThrowIfNotConnected();
 
-            tcpSocket.Send(packet.GetBuffer());
+            TcpSocket.Send(packet.GetBuffer());
         }
 
         /// <summary>
@@ -202,7 +210,7 @@ namespace InSimDotNet {
             foreach (ISendable packet in packets) {
                 buffer.AddRange(packet.GetBuffer());
             }
-            tcpSocket.Send(buffer.ToArray());
+            TcpSocket.Send(buffer.ToArray());
         }
 
         /// <summary>
@@ -358,12 +366,12 @@ namespace InSimDotNet {
             if (type == PacketType.ISP_TINY) {
                 IS_TINY tiny = new IS_TINY(buffer);
                 if (tiny.SubT == TinyType.TINY_NONE) {
-                    tcpSocket.Send(buffer);
+                    TcpSocket.Send(buffer);
                 }
             }
         }
 
-        private void tcpSocket_PacketDataReceived(object sender, PacketDataEventArgs e) {
+        private void TcpSocket_PacketDataReceived(object sender, PacketDataEventArgs e) {
             byte[] buffer = e.GetBuffer();
             PacketType type = PacketFactory.GetPacketType(buffer);
 
@@ -378,17 +386,17 @@ namespace InSimDotNet {
             HandleKeepAlive(type, buffer);
         }
 
-        private void tcpSocket_ConnectionLost(object sender, EventArgs e) {
-            udpSocket.Disconnect();
+        private void TcpSocket_ConnectionLost(object sender, EventArgs e) {
+            UdpSocket.Disconnect();
             OnDisconnected(new DisconnectedEventArgs(DisconnectReason.Lost));
         }
 
-        private void tcpSocket_SocketError(object sender, InSimErrorEventArgs e) {
-            udpSocket.Disconnect();
+        private void TcpSocket_SocketError(object sender, InSimErrorEventArgs e) {
+            UdpSocket.Disconnect();
             OnInSimError(e);
         }
 
-        private void udpSocket_PacketDataReceived(object sender, PacketDataEventArgs e) {
+        private void UdpSocket_PacketDataReceived(object sender, PacketDataEventArgs e) {
             byte[] buffer = e.GetBuffer();
             PacketType type = PacketFactory.GetPacketType(buffer);
 
@@ -401,8 +409,8 @@ namespace InSimDotNet {
             }
         }
 
-        private void udpSocket_SocketError(object sender, InSimErrorEventArgs e) {
-            tcpSocket.Disconnect();
+        private void UdpSocket_SocketError(object sender, InSimErrorEventArgs e) {
+            TcpSocket.Disconnect();
             OnInSimError(e);
         }
 
