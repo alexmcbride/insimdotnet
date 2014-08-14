@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Globalization;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 
 namespace InSimDotNet {
     /// <summary>
@@ -96,9 +94,7 @@ namespace InSimDotNet {
                     stream.Dispose();
                 }
 
-                if (client != null) {
-                    client.Close();
-                }
+                client.Close();
             }
         }
 
@@ -130,11 +126,7 @@ namespace InSimDotNet {
             ThrowIfDisposed();
             ThrowIfNotConnected();
 
-            if (stream != null) {
-                stream.Dispose();
-            }
-
-            client.Close();
+            Dispose();
         }
 
         /// <summary>
@@ -154,25 +146,30 @@ namespace InSimDotNet {
         }
 
         private async void ReceiveAsync() {
-            if (client.Connected) {
+            if (stream.CanRead) {
                 try {
                     int count = await stream.ReadAsync(buffer, offset, buffer.Length - offset);
 
                     if (count == 0) {
-                        Disconnect();
                         OnConnectionLost(EventArgs.Empty);
+                        Dispose();
                     }
                     else {
                         BytesReceived += count;
                         offset += count;
+
                         HandlePackets();
                         ReceiveAsync();
                     }
                 }
+                catch (ObjectDisposedException) {
+                    // Do nothing... this gets thrown if Dispose is called while waiting for a read to complete.
+                }
                 catch (Exception ex) {
                     Debug.WriteLine(String.Format(StringResources.TcpSocketDebugErrorMessage, ex));
-                    Disconnect();
+                    Dispose();
                     OnSocketError(new InSimErrorEventArgs(ex));
+                    throw;
                 }
             }
         }

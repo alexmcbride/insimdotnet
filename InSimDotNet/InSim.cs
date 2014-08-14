@@ -61,14 +61,14 @@ namespace InSimDotNet {
         protected bool BuildAllPackets { get; set; }
 
         /// <summary>
-        /// Gets the total number of bytes sent by this socket.
+        /// Gets the total number of bytes sent to LFS.
         /// </summary>
         public int BytesSent {
             get { return tcpSocket.BytesSent + udpSocket.BytesSent; }
         }
 
         /// <summary>
-        /// Gets the total number of bytes received by this socket.
+        /// Gets the total number of bytes received from LFS.
         /// </summary>
         public int BytesReceived {
             get { return tcpSocket.BytesReceived + udpSocket.BytesReceived; }

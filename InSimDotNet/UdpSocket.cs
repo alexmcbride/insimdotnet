@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Globalization;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 
 namespace InSimDotNet {
     /// <summary>
@@ -117,11 +115,7 @@ namespace InSimDotNet {
         /// Disconnects from LFS.
         /// </summary>
         public void Disconnect() {
-            if (IsConnected) {
-                IsConnected = false;
-
-                client.Close();
-            }
+            Dispose();
         }
 
         /// <summary>
@@ -150,10 +144,14 @@ namespace InSimDotNet {
                         ReceiveAsync();
                     }
                 }
+                catch (ObjectDisposedException) {
+                    // Do nothing... this gets thrown if Dispose is called while waiting for a read to complete.
+                }
                 catch (Exception ex) {
                     Debug.WriteLine(String.Format(StringResources.UdpSocketDebugErrorMessage, ex));
-                    Disconnect();
+                    Dispose();
                     OnSocketError(new InSimErrorEventArgs(ex));
+                    throw;
                 }
             }
         }
