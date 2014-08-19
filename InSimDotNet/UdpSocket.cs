@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net;
 using System.Net.Sockets;
 
 namespace InSimDotNet {
@@ -101,9 +102,8 @@ namespace InSimDotNet {
             Host = host;
             Port = port;
 
+            client.Client.Bind(new IPEndPoint(IPAddress.Parse(host), port));
             IsConnected = true;
-
-            client.Connect(host, port);
 
             BytesSent = 0;
             BytesReceived = 0;

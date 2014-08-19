@@ -1,11 +1,12 @@
-- 2.0.15 (8th August 2014)
+- 2.1.0 (19th August 2014)
 
-* Fixed bug remote property in IS_NCN was incorrect
+* InSim.NET now requires.NET 4.5 or better
+* Added missing leave reasons
+* Fixed string encoding issues that prevented the library from working on Mono
+* Fixed incorrect remote property in IS_NCN
 * Fixed bug PLT_REMOTE in PlayerTypes was incorrect
-* Fixed TyreCompound enum, fixed bits and added TYRE_NONE
-* Added new leave reasons.
+* Fixed TyreCompound enum and added TYRE_NONE
 * Fixed issue with IS_AXM Info list being set to wrong size
-* Fixs to the string encoding stuff that prevented the library working on Mono
 
 - 2.0.14 (6th March 2012)
 

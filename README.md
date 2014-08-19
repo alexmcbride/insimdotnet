@@ -7,6 +7,8 @@ The library has been designed to be simple, fast and flexible, and stays as clos
 
 This project site is for version 2.0 of the library, which includes full InSim, InSim Relay, OutSim and OutGauge support, improvements to the API and improved network efficiency.
 
+From InSim.NET 2.1.0 onwards the library requires *.NET Framework 4.5*. Older binaries for .NET 4.0 and 3.5 are available in the releases section.
+
 To install InSimDotNet using [NuGet](http://nuget.org/) run the following command in the [Package Manager Console](http://docs.nuget.org/docs/start-here/using-the-package-manager-console).
 
 ```powershell
