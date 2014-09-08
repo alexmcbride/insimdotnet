@@ -1,3 +1,7 @@
+- 2.1.1 (8th September 2014)
+
+* Added ContinueOnCapturedContext property to InSim, TcpSocket and UdpSocket. Setting this to false causes the packet handler continuation to happen on threadpool.
+
 - 2.1.0 (19th August 2014)
 
 * InSim.NET now requires.NET 4.5 or better
@@ -7,6 +11,7 @@
 * Fixed bug PLT_REMOTE in PlayerTypes was incorrect
 * Fixed TyreCompound enum and added TYRE_NONE
 * Fixed issue with IS_AXM Info list being set to wrong size
+* Added BytesSent and BytesReceived properties.
 
 - 2.0.14 (6th March 2012)
 

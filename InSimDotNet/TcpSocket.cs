@@ -65,11 +65,18 @@ namespace InSimDotNet {
         public int BytesReceived { get; private set; }
 
         /// <summary>
+        /// Gets or sets whether packet handlers should be marshalled back onto the original context.
+        /// </summary>
+        public bool ContinueOnCapturedContext { get; set; }
+
+        /// <summary>
         /// Creates a new instance of the <see cref="TcpSocket"/> class.
         /// </summary>
         public TcpSocket() {
             client = new TcpClient();
             client.NoDelay = true;
+
+            ContinueOnCapturedContext = true;
         }
 
         /// <summary>
@@ -148,7 +155,9 @@ namespace InSimDotNet {
         private async void ReceiveAsync() {
             if (stream.CanRead) {
                 try {
-                    int count = await stream.ReadAsync(buffer, offset, buffer.Length - offset);
+                    int count = await stream
+                        .ReadAsync(buffer, offset, buffer.Length - offset)
+                        .ConfigureAwait(ContinueOnCapturedContext);
 
                     if (count == 0) {
                         OnConnectionLost(EventArgs.Empty);

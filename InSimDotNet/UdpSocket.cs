@@ -61,6 +61,11 @@ namespace InSimDotNet {
         public int BytesReceived { get; private set; }
 
         /// <summary>
+        /// Gets or sets whether packet handlers should be marshalled back onto the original context.
+        /// </summary>
+        public bool ContinueOnCapturedContext { get; set; }
+
+        /// <summary>
         /// Creates a new instance of the <see cref="UdpSocket"/> class.
         /// </summary>
         public UdpSocket() {
@@ -108,6 +113,8 @@ namespace InSimDotNet {
             BytesSent = 0;
             BytesReceived = 0;
 
+            ContinueOnCapturedContext = true;
+
             ReceiveAsync();
         }
 
@@ -132,7 +139,9 @@ namespace InSimDotNet {
         private async void ReceiveAsync() {
             if (IsConnected) {
                 try {
-                    UdpReceiveResult result = await client.ReceiveAsync();
+                    UdpReceiveResult result = await client
+                        .ReceiveAsync()
+                        .ConfigureAwait(ContinueOnCapturedContext);
 
                     if (result.Buffer.Length == 0) {
                         Disconnect();

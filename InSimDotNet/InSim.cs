@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace InSimDotNet {
     /// <summary>
@@ -81,6 +82,17 @@ namespace InSimDotNet {
         /// Gets the underlying UdpSocket used to communicate with Lfs.
         /// </summary>
         public UdpSocket UdpSocket { get; private set; }
+
+        /// <summary>
+        /// Gets or sets whether packet handlers should be marshalled back onto the original context.
+        /// </summary>
+        public bool ContinueOnCapturedContext {
+            get { return TcpSocket.ContinueOnCapturedContext && UdpSocket.ContinueOnCapturedContext; }
+            set {
+                TcpSocket.ContinueOnCapturedContext = value;
+                UdpSocket.ContinueOnCapturedContext = value;
+            }
+        }
 
         /// <summary>
         /// Creates a new instance of the <see cref="InSim"/> class.
