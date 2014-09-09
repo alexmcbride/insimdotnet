@@ -10,16 +10,16 @@ namespace InSimDotNet {
         private static readonly bool IsRunningOnMono = (Type.GetType("Mono.Runtime") != null);
 
         private static readonly Dictionary<char, Encoding> EncodingMap = new Dictionary<char, Encoding> {
-            { 'L', Encoding.GetEncoding(1252, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
-            { 'G', Encoding.GetEncoding(1253, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
-            { 'C', Encoding.GetEncoding(1251, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
-            { 'J', Encoding.GetEncoding(932, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
-            { 'E', Encoding.GetEncoding(1250, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
-            { 'T', Encoding.GetEncoding(1254, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
-            { 'B', Encoding.GetEncoding(1257, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
-            { 'H', Encoding.GetEncoding(950, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
-            { 'S', Encoding.GetEncoding(936, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
-            { 'K', Encoding.GetEncoding(949, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ExceptionFallback) },
+            { 'L', Encoding.GetEncoding(1252, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ReplacementFallback) },
+            { 'G', Encoding.GetEncoding(1253, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ReplacementFallback) },
+            { 'C', Encoding.GetEncoding(1251, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ReplacementFallback) },
+            { 'J', Encoding.GetEncoding(932, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ReplacementFallback) },
+            { 'E', Encoding.GetEncoding(1250, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ReplacementFallback) },
+            { 'T', Encoding.GetEncoding(1254, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ReplacementFallback) },
+            { 'B', Encoding.GetEncoding(1257, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ReplacementFallback) },
+            { 'H', Encoding.GetEncoding(950, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ReplacementFallback) },
+            { 'S', Encoding.GetEncoding(936, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ReplacementFallback) },
+            { 'K', Encoding.GetEncoding(949, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ReplacementFallback) },
         };
 
         private static readonly Encoding DefaultEncoding = EncodingMap['L'];
