@@ -46,7 +46,7 @@ namespace InSimDotNet {
         /// <summary>
         /// Exposes the underlying socket.
         /// </summary>
-        protected Socket Socket {
+        public Socket Socket {
             get { return client.Client; }
         }
 
@@ -69,7 +69,11 @@ namespace InSimDotNet {
         /// Creates a new instance of the <see cref="UdpSocket"/> class.
         /// </summary>
         public UdpSocket() {
-            client = new UdpClient();
+            client = new UdpClient(); 
+            
+            BytesSent = 0;
+            BytesReceived = 0;
+            ContinueOnCapturedContext = true;
         }
 
         /// <summary>
@@ -109,11 +113,6 @@ namespace InSimDotNet {
 
             client.Client.Bind(new IPEndPoint(IPAddress.Parse(host), port));
             IsConnected = true;
-
-            BytesSent = 0;
-            BytesReceived = 0;
-
-            ContinueOnCapturedContext = true;
 
             ReceiveAsync();
         }

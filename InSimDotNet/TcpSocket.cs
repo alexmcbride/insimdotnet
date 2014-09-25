@@ -50,7 +50,7 @@ namespace InSimDotNet {
         /// <summary>
         /// Gets the underlying socket.
         /// </summary>
-        protected Socket Socket {
+        public Socket Socket {
             get { return client.Client; }
         }
 
@@ -76,6 +76,8 @@ namespace InSimDotNet {
             client = new TcpClient();
             client.NoDelay = true;
 
+            BytesSent = 0;
+            BytesReceived = 0;
             ContinueOnCapturedContext = true;
         }
 
@@ -119,9 +121,6 @@ namespace InSimDotNet {
 
             client.Connect(host, port);
             stream = client.GetStream();
-
-            BytesSent = 0;
-            BytesReceived = 0;
 
             ReceiveAsync();
         }
