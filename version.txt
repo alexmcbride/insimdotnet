@@ -1,6 +1,8 @@
-- 2.1.1 (8th September 2014)
+- 2.1.1 (25th September 2014)
 
-* Added ContinueOnCapturedContext property to InSim, TcpSocket and UdpSocket. Setting this to false causes the packet handler continuation to happen on threadpool.
+* Fixed exploit that allowed players to crash InSim.NET by typing characters in LFS that were not translatable into unicode.
+* Added ContinueOnCapturedContext property to InSim, TcpSocket and UdpSocket. Setting this to false prevents InSim.NET from marshalling packet callbacks back onto the calling thread e.g. in UI programs.
+* TcpSocket and UdpSocket now expose their underlying .NET Socket objects for convienence.
 
 - 2.1.0 (19th August 2014)
 

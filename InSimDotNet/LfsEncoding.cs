@@ -23,6 +23,7 @@ namespace InSimDotNet {
         };
 
         private static readonly Encoding DefaultEncoding = EncodingMap['L'];
+        private static readonly Encoding SubstitutionHackEncoding = EncodingMap['S'];
 
         private static readonly Dictionary<char, char> EscapeMap = new Dictionary<char, char> {
             { 'v', '|' },
@@ -128,6 +129,11 @@ namespace InSimDotNet {
         [DebuggerStepThrough]
         // On Windows we use WideCharToMultiByte as it's fast, on Mono we revent to the slower method of throwing exceptions.
         private static bool TryGetByteCount(Encoding encoding, char value, out int count) {
+            if (value >= 0xFF01 && value <= 0xFF5E && encoding != SubstitutionHackEncoding) {
+                count = 0;
+                return false;
+            }
+
             if (IsRunningOnMono) {
                 return TryGetByteCountMono(encoding, value, out count);
             }
@@ -215,6 +221,11 @@ namespace InSimDotNet {
         //[DebuggerStepThrough]
         // On Windows we use WideCharToMultiByte as it's fast, on Mono we revent to the slower method of throwing exceptions.
         private static bool TryGetBytes(Encoding encoding, char value, byte[] bytes, out int count) {
+            if (value >= 0xFF01 && value <= 0xFF5E && encoding != SubstitutionHackEncoding) {
+                count = 0;
+                return false;
+            }
+
             if (IsRunningOnMono) {
                 return TryGetBytesMono(encoding, value, bytes, out count);
             }
