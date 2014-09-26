@@ -59,9 +59,9 @@ void RunInSim() {
 }
 
 // Method called when MSO packet is recieved
-void MessageOut(InSim insim, IS_MSO mso) {
+void MessageOut(InSim insim, IS_MSO packet) {
     // Print contents of MSO message to the console.
-    Console.WriteLine(mso.Msg);
+    Console.WriteLine(packet.Msg);
 }
 ```
 
@@ -73,7 +73,7 @@ insim.Send(new IS_TINY {
 });
 ```
 
-To save bandwidth send multiple packets in a single call.
+To save bandwidth send multiple packets in a single call using the `InSim.Send(IEnumerable<ISendable>)` method.
 
 ```csharp
 insim.Send(new ISendable[] {
@@ -86,17 +86,52 @@ insim.Send(new ISendable[] {
 });
 ```
 
-If all packets are of the same type the type declaration can be omitted.
+To keep a program open while InSim is still connected.
 
 ```csharp
-insim.Send(new [] {
-    new IS_TINY {
-        SubT = TinyType.TINY_NCN
-    },
-    new IS_TINY {
-        SubT = TinyType.TINY_NPL
-    },
-});
+while (insim.IsConnected) {
+    Thread.Sleep(200);
+}
+```
+
+Here is it all together.
+
+```csharp
+void RunInSim() {
+    InSim insim = new InSim();
+
+    // Bind packet events.
+    insim.Bind<IS_NCN>(NewConnection);
+    insim.Bind<IS_NPL>(NewPlayer);
+
+    // Initialize InSim
+    insim.Initialize(new InSimSettings {
+        Host = "127.0.0.1",
+        Port = 29999,
+        Admin = String.Empty,
+    });
+    
+    // Request all connections and players to be sent.
+    insim.Send(new [] {
+        new IS_TINY { SubT = TinyType.TINY_NCN },
+        new IS_TINY { SubT = TinyType.TINY_NPL },
+    });
+    
+    // Stop console app from exiting while connection is active.
+    while (insim.IsConnected) {
+        Thread.Sleep(200);
+    }
+}
+
+// Method called when NCN packet is recieved
+void NewConnection(InSim insim, IS_NCN packet) {
+    // Handle new connection.
+}
+
+// Method called when NPL packet is recieved
+void NewPlayer(InSim insim, IS_NPL packet) {
+    // Handle new player.
+}
 ```
 
 InSim Relay
