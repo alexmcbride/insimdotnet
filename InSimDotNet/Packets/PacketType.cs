@@ -284,6 +284,11 @@
         ISP_ACR,
 
         /// <summary>
+        /// car handicaps
+        /// </summary>
+        ISP_HCP,
+
+        /// <summary>
         /// Admin request
         /// </summary>
         IRP_ARQ = 250,

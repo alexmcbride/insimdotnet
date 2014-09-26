@@ -83,6 +83,7 @@
     <Compile Include="Packets\CarContact.cs" />
     <Compile Include="Packets\CarContOBJ.cs" />
     <Compile Include="Packets\CarFlags.cs" />
+    <Compile Include="Packets\CarHCP.cs" />
     <Compile Include="Packets\CharacterModifiers.cs" />
     <Compile Include="Packets\ContactFlags.cs" />
     <Compile Include="Packets\FlagType.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Packets\IS_ACR.cs" />
     <Compile Include="Packets\IS_AXM.cs" />
     <Compile Include="Packets\IS_CON.cs" />
+    <Compile Include="Packets\IS_HCP.cs" />
     <Compile Include="Packets\IS_HLV.cs" />
     <Compile Include="Packets\IS_OBH.cs" />
     <Compile Include="Packets\IS_PLC.cs" />
