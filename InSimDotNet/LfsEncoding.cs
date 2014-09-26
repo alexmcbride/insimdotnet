@@ -12,6 +12,8 @@ namespace InSimDotNet {
         private const char FallbackChar = '?';
         private static readonly bool IsRunningOnMono = (Type.GetType("Mono.Runtime") != null);
 
+        // ExceptionFallback is only used by Mono code path, otherwise we want ReplacementFallback everywhere.
+        // These codepages don't translate perfectly to LFS but the best we can do in .NET.
         private static readonly Dictionary<char, Encoding> EncodingMap = new Dictionary<char, Encoding> {
             { 'L', Encoding.GetEncoding(1252, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ReplacementFallback) },
             { 'G', Encoding.GetEncoding(1253, EncoderExceptionFallback.ExceptionFallback, DecoderExceptionFallback.ReplacementFallback) },
