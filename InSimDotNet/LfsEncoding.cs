@@ -4,6 +4,9 @@ using System.Diagnostics;
 using System.Text;
 
 namespace InSimDotNet {
+    /// <summary>
+    /// Handles converting strings from LFS encoding into unicode and vice versa.
+    /// </summary>
     internal static class LfsEncoding {
         private const char ControlChar = '^';
         private const char FallbackChar = '?';
@@ -37,6 +40,13 @@ namespace InSimDotNet {
             { '^', '^' },
         };
 
+        /// <summary>
+        /// Converts a LFS encoded string to unicode.
+        /// </summary>
+        /// <param name="buffer">The buffer containing the packet data.</param>
+        /// <param name="index">The index that the string starts in the packet data.</param>
+        /// <param name="length">The length of the string.</param>
+        /// <returns>The resulting unicode string.</returns>
         public static string GetString(byte[] buffer, int index, int length) {
             StringBuilder output = new StringBuilder(length);
             Encoding encoding = DefaultEncoding;
@@ -86,6 +96,12 @@ namespace InSimDotNet {
             return output.ToString();
         }
 
+        /// <summary>
+        /// Gets the number of bytes a string will take up once it has been converted from unicode string into a LFS encoded string.
+        /// </summary>
+        /// <param name="value">The string to test.</param>
+        /// <param name="maxLength">The maximum number of characters to test.</param>
+        /// <returns>The resulting number of bytes.</returns>
         public static int GetByteCount(string value, int maxLength) {
             Encoding encoding = DefaultEncoding;
             int tempCount, result = 0;
@@ -125,9 +141,20 @@ namespace InSimDotNet {
             return result;
         }
 
+        /// <summary>
+        /// Tries to figure out the number of bytes a unicode character will take up once it has been converted into a LFS character. Either one or two bytes.
+        /// </summary>
+        /// <param name="encoding">The encoding to try and convert the character to.</param>
+        /// <param name="value">The character to convert.</param>
+        /// <param name="count">The numbers of bytes the character will take up.</param>
+        /// <returns>Returns true if the character could be successfully converted or false otherwise.</returns>
         [DebuggerStepThrough]
-        // On Windows we use WideCharToMultiByte as it's fast, on Mono we revent to the slower method of throwing exceptions.
         private static bool TryGetByteCount(Encoding encoding, char value, out int count) {
+            // We use WideCharToMultiByte on Windows as it's very fast, but that's not 
+            // available on Mono so we revert to trying to convert a character and then 
+            // catching the exception generated when it fails. This is very slow as the 
+            // callstack may potentionally need to be unwound for every character in the 
+            // string.
             if (IsRunningOnMono) {
                 return TryGetByteCountMono(encoding, value, out count);
             }
@@ -160,6 +187,14 @@ namespace InSimDotNet {
             }
         }
 
+        /// <summary>
+        /// Converts a unicode string into a LFS encoded string.
+        /// </summary>
+        /// <param name="value">The unicode string to convert.</param>
+        /// <param name="buffer">The packet buffer into which the bytes will be written.</param>
+        /// <param name="index">The index in the packet buffer to start writing bytes.</param>
+        /// <param name="length">The maximum number of bytes to write.</param>
+        /// <returns>The number of bytes written during the operation.</returns>
         public static int GetBytes(string value, byte[] buffer, int index, int length) {
             Encoding encoding = DefaultEncoding;
             byte[] tempBytes = new byte[2];
@@ -212,9 +247,21 @@ namespace InSimDotNet {
             return index - start;
         }
 
-        //[DebuggerStepThrough]
-        // On Windows we use WideCharToMultiByte as it's fast, on Mono we revent to the slower method of throwing exceptions.
+        /// <summary>
+        /// Tries to convert a unicode character into a LFS encoded one.
+        /// </summary>
+        /// <param name="encoding">The encoding to attempt to convert the character into.</param>
+        /// <param name="value">The character to attempt to encode.</param>
+        /// <param name="bytes">The array to write the LFS encoded character into.</param>
+        /// <param name="count">The number of bytes that the character was encoded into.</param>
+        /// <returns>Returns true if the conversion was successful or false if otherwise.</returns>
+        [DebuggerStepThrough]
         private static bool TryGetBytes(Encoding encoding, char value, byte[] bytes, out int count) {
+            // We use WideCharToMultiByte on Windows as it's very fast, but that's not 
+            // available on Mono so we revert to trying to convert a character and then 
+            // catching the exception generated when it fails. This is very slow as the 
+            // callstack may potentionally need to be unwound for every character in the 
+            // string.
             if (IsRunningOnMono) {
                 return TryGetBytesMono(encoding, value, bytes, out count);
             }
