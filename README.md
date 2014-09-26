@@ -56,10 +56,6 @@ void RunInSim() {
         Port = 29999,
         Admin = String.Empty,
     });
-    
-    // Stop program closing while connected.
-    Console.WriteLine("Press any key to exit...");
-    Console.ReadKey(true);
 }
 
 // Method called when MSO packet is recieved
@@ -67,6 +63,40 @@ void MessageOut(InSim insim, IS_MSO mso) {
     // Print contents of MSO message to the console.
     Console.WriteLine(mso.Msg);
 }
+```
+
+To send a packet use the `InSim.Send(ISendable)` method.
+
+```csharp
+insim.Send(new IS_TINY {
+    SubT = TinyType.TINY_NCN
+});
+```
+
+To save bandwidth send multiple packets in a single call.
+
+```csharp
+insim.Send(new ISendable[] {
+    new IS_TINY {
+        SubT = TinyType.TINY_NCN
+    },
+    new IS_SMALL {
+        SubT = SmallType.SMALL_SSP,
+    }
+});
+```
+
+If all packets are of the same type the type declaration can be omitted.
+
+```csharp
+insim.Send(new [] {
+    new IS_TINY {
+        SubT = TinyType.TINY_NCN
+    },
+    new IS_TINY {
+        SubT = TinyType.TINY_NPL
+    },
+});
 ```
 
 InSim Relay

@@ -239,7 +239,7 @@ namespace InSimDotNet {
                         }
                     }
 
-                    // If not found in any codepage then add fallout character.
+                    // If not found in any codepage then add fallback character.
                     if (!found) {
                         buffer[index++] = (byte)FallbackChar;
                     }
