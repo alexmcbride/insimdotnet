@@ -34,6 +34,14 @@ namespace InSimDotNet.Out {
         public TimeSpan Timeout { get; private set; }
 
         /// <summary>
+        /// Gets or sets whether packet handlers should be marshalled back onto the original context.
+        /// </summary>
+        public bool ContinueOnCapturedContext {
+            get { return udpSocket.ContinueOnCapturedContext; }
+            set { udpSocket.ContinueOnCapturedContext = value; }
+        }
+
+        /// <summary>
         /// Creates a new instance of the <see cref="OutClient"/> class.
         /// </summary>
         protected OutClient()
