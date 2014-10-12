@@ -168,4 +168,4 @@ outgauge.PacketReceived += (sender, e) => {
 outgauge.Connect("127.0.0.1", 30000);
 ```
 
-You can find many more examples and information about using the library in the documentation.
+You can find many more examples and information about using the library in the [documentation wiki](https://github.com/alexmcbride/insimdotnet/wiki).

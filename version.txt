@@ -1,7 +1,7 @@
-- 2.1.1 (26th September 2014)
+- 2.1.1 (29th September 2014)
 
 * Added new IS_HCP packet and HandicapHelper class.
-* Added ContinueOnCapturedContext property to InSim, TcpSocket and UdpSocket. Setting this to false prevents InSim.NET from marshalling packet callbacks back onto the calling thread e.g. in UI programs.
+* Added ContinueOnCapturedContext property to InSim, OutSim, OutGauge, TcpSocket and UdpSocket classes. Setting this to false prevents InSim.NET from marshalling packet callbacks back onto the calling thread e.g. in UI programs.
 * Fixed bug that allowed players to crash InSim.NET by typing characters in LFS that were not translatable into unicode.
 * TcpSocket and UdpSocket now expose their underlying .NET Socket objects for convienence.
 

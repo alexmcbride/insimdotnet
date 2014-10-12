@@ -6,7 +6,7 @@ namespace InSimDotNet.Helpers {
     /// Helper class for setting car handicaps.
     /// </summary>
     public static class HandicapHelper {
-        private static Dictionary<CarFlags, byte> CarMap = new Dictionary<CarFlags, byte>() {
+        private static readonly Dictionary<CarFlags, byte> CarMap = new Dictionary<CarFlags, byte>() {
             { CarFlags.XFG, 0 },
             { CarFlags.XRG, 1 },
             { CarFlags.XRT, 2 },
@@ -37,10 +37,10 @@ namespace InSimDotNet.Helpers {
         /// <param name="H_Mass">The added mass to set in kilograms (0 - 200).</param>
         /// <param name="H_TRes">The intake restriction to set (0 - 50).</param>
         public static void SetHandicap(IS_HCP packet, CarFlags cars, byte H_Mass = 0, byte H_TRes = 0) {
-            foreach (var car in CarMap) {
-                if (cars.HasFlag(CarFlags.All) || cars.HasFlag(car.Key)) {
-                    packet.Info[car.Value].H_Mass = H_Mass;
-                    packet.Info[car.Value].H_TRes = H_TRes;
+            foreach (KeyValuePair<CarFlags, byte> map in CarMap) {
+                if (cars.HasFlag(CarFlags.All) || cars.HasFlag(map.Key)) {
+                    packet.Info[map.Value].H_Mass = H_Mass;
+                    packet.Info[map.Value].H_TRes = H_TRes;
                 }
             }
         }
