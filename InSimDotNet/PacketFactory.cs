@@ -2,15 +2,37 @@
 using InSimDotNet.Packets;
 
 namespace InSimDotNet {
-    internal static class PacketFactory {
+    /// <summary>
+    /// Statis class for building packets.
+    /// </summary>
+    public static class PacketFactory {
+        /// <summary>
+        /// Gets the type of the packet.
+        /// </summary>
+        /// <param name="buffer">Buffer containing the packet data.</param>
+        /// <returns>The packet type.</returns>
         public static PacketType GetPacketType(byte[] buffer) {
+            if (buffer == null) {
+                throw new ArgumentNullException("buffer");
+            }
+
             if (buffer.Length > 1) {
                 return (PacketType)buffer[1];
             }
+
             return PacketType.ISP_NONE;
         }
 
+        /// <summary>
+        /// Builds a packet.
+        /// </summary>
+        /// <param name="buffer">Buffer containing the packet data.</param>
+        /// <returns>The built packet object.</returns>
         public static IPacket BuildPacket(byte[] buffer) {
+            if (buffer == null) {
+                throw new ArgumentNullException("buffer");
+            }
+
             PacketType packetType = GetPacketType(buffer);
             switch (packetType) {
                 case PacketType.ISP_AXI:
@@ -112,14 +134,25 @@ namespace InSimDotNet {
             }
         }
 
+        /// <summary>
+        /// Looks up a packet type from a string.
+        /// </summary>
+        /// <param name="type">The type of packet as a string (e.g. "ISP_TINY")</param>
+        /// <returns>The packet type.</returns>
         public static PacketType PacketLookup(string type) {
             PacketType packetType;
             if (Enum.TryParse(type, true, out packetType)) {
                 return packetType;
             }
+
             return PacketType.ISP_NONE;
         }
 
+        /// <summary>
+        /// Looks up the packet type for the specified object type.
+        /// </summary>
+        /// <param name="type">The type to lookup.</param>
+        /// <returns>The packet type.</returns>
         public static PacketType PacketLookup(Type type) {
             if (type == typeof(IS_ISI))
                 return PacketType.ISP_ISI;
