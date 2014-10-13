@@ -1,3 +1,9 @@
+- 2.1.2 (13th October 2014)
+
+* Made PacketFactory public.
+* Added async methods to TcpSocket and UdpSocket.
+* Tweaked way packet errors are handled.
+
 - 2.1.1 (29th September 2014)
 
 * Added new IS_HCP packet and HandicapHelper class.
