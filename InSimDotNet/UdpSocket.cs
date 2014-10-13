@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace InSimDotNet {
     /// <summary>
@@ -132,6 +133,18 @@ namespace InSimDotNet {
             ThrowIfDisposed();
 
             client.Send(buffer, buffer.Length);
+            BytesSent += buffer.Length;
+        }
+
+        /// <summary>
+        /// Sends byte data to LFS asynchronously.
+        /// </summary>
+        /// <param name="buffer">The data to send.</param>
+        /// <returns>An async task object.</returns>
+        public async Task SendAsync(byte[] buffer) {
+            ThrowIfDisposed();
+
+            await client.SendAsync(buffer, buffer.Length);
             BytesSent += buffer.Length;
         }
 

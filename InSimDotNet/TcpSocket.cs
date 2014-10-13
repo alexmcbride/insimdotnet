@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace InSimDotNet {
     /// <summary>
@@ -126,6 +127,25 @@ namespace InSimDotNet {
         }
 
         /// <summary>
+        /// Establishes the TCP connection with LFS asynchronously.
+        /// </summary>
+        /// <param name="host">The host to connect to.</param>
+        /// <param name="port">The port to connect to the host through.</param>
+        /// <returns>An async task object.</returns>
+        public async Task ConnectAsync(string host, int port) {
+            ThrowIfDisposed();
+            ThrowIfConnected();
+
+            Host = host;
+            Port = port;
+
+            await client.ConnectAsync(host, port);
+            stream = client.GetStream();
+
+            ReceiveAsync();
+        }
+
+        /// <summary>
         /// Disconnects from LFS.
         /// </summary>
         public void Disconnect() {
@@ -148,6 +168,23 @@ namespace InSimDotNet {
             ThrowIfNotConnected();
 
             stream.Write(buffer, 0, buffer.Length);
+            BytesSent += buffer.Length;
+        }
+
+        /// <summary>
+        /// Sends byte data to LFS asynchronously.
+        /// </summary>
+        /// <param name="buffer">The data to send.</param>
+        /// <returns>An async task object.</returns>
+        public async Task SendAsync(byte[] buffer) {
+            if (buffer == null) {
+                throw new ArgumentNullException("buffer");
+            }
+
+            ThrowIfDisposed();
+            ThrowIfNotConnected();
+
+            await stream.WriteAsync(buffer, 0, buffer.Length);
             BytesSent += buffer.Length;
         }
 
