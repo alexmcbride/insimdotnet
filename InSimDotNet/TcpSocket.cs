@@ -214,7 +214,6 @@ namespace InSimDotNet {
                     Debug.WriteLine(String.Format(StringResources.TcpSocketDebugErrorMessage, ex));
                     Dispose();
                     OnSocketError(new InSimErrorEventArgs(ex));
-                    throw;
                 }
             }
         }

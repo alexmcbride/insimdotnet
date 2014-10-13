@@ -172,7 +172,6 @@ namespace InSimDotNet {
                     Debug.WriteLine(String.Format(StringResources.UdpSocketDebugErrorMessage, ex));
                     Dispose();
                     OnSocketError(new InSimErrorEventArgs(ex));
-                    throw;
                 }
             }
         }
