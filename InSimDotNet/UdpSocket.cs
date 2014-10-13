@@ -25,7 +25,7 @@ namespace InSimDotNet {
         public event EventHandler ConnectionLost;
 
         /// <summary>
-        /// Occurs when an internal socket error occurs.
+        /// Occurs when an error is thrown while dispatching a packet event.
         /// </summary>
         public event EventHandler<InSimErrorEventArgs> SocketError;
 
@@ -62,7 +62,7 @@ namespace InSimDotNet {
         public int BytesReceived { get; private set; }
 
         /// <summary>
-        /// Gets or sets whether packet handlers should be marshalled back onto the original context.
+        /// Gets or sets whether events should be marshalled back onto the original context.
         /// </summary>
         public bool ContinueOnCapturedContext { get; set; }
 
