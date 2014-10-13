@@ -161,10 +161,10 @@ namespace InSimDotNet {
                 return TryGetByteCountMono(encoding, value, out count);
             }
 
-            return TryGetByteCountWindows(encoding, value, out count);
+            return TryGetByteCountDotNet(encoding, value, out count);
         }
 
-        private static bool TryGetByteCountWindows(Encoding encoding, char value, out int count) {
+        private static bool TryGetByteCountDotNet(Encoding encoding, char value, out int count) {
             bool usedDefault = false;
             count = NativeMethods.WideCharToMultiByte(
                 (uint)encoding.CodePage,
@@ -268,10 +268,10 @@ namespace InSimDotNet {
                 return TryGetBytesMono(encoding, value, bytes, out count);
             }
 
-            return TryGetBytesWindows(encoding, value, bytes, out count);
+            return TryGetBytesDotNet(encoding, value, bytes, out count);
         }
 
-        private static bool TryGetBytesWindows(Encoding encoding, char value, byte[] bytes, out int count) {
+        private static bool TryGetBytesDotNet(Encoding encoding, char value, byte[] bytes, out int count) {
             bool usedDefault = false;
             count = NativeMethods.WideCharToMultiByte(
                 (uint)encoding.CodePage,
