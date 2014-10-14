@@ -44,5 +44,19 @@ namespace InSimDotNet.Helpers {
                 }
             }
         }
+
+        /// <summary>
+        /// Creates an IS_HCP packet and sets the various car handicaps.
+        /// </summary>
+        /// <param name="cars">The cars to set the handicap for.</param>
+        /// <param name="H_Mass">The added mass to set in kilograms (0 - 200).</param>
+        /// <param name="H_TRes">The intake restriction to set (0 - 50).</param>
+        /// <returns>An IS_HCP packet.</returns>
+        public static IS_HCP SetHandicap(CarFlags cars, byte H_Mass = 0, byte H_TRes = 0)
+        {
+            var packet = new IS_HCP();
+            SetHandicap(packet, cars, H_Mass, H_TRes);
+            return packet;
+        }
     }
 }
