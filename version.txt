@@ -1,3 +1,7 @@
+- 2.1.3 (15th October 2014)
+
+* Fixed bug introduced in previous release that could cause InSim.NET to crash.
+
 - 2.1.2 (13th October 2014)
 
 * Made PacketFactory public.

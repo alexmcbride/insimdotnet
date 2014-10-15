@@ -222,7 +222,7 @@ namespace InSimDotNet {
             int read = 0;
 
             while (offset > 0 && offset >= buffer[read]) {
-                int size = Buffer.GetByte(buffer, 0);
+                int size = Buffer.GetByte(buffer, read);
 
                 // If size not multiple of four packet is corrupt.
                 if (size % 4 > 0) {
