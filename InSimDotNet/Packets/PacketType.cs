@@ -289,6 +289,11 @@
         ISP_HCP,
 
         /// <summary>
+        /// new connection - extra info for host.
+        /// </summary>
+        ISP_NCI,
+
+        /// <summary>
         /// Admin request
         /// </summary>
         IRP_ARQ = 250,

@@ -31,7 +31,7 @@ namespace InSimDotNet.Packets {
         public byte NumP { get; private set; }
 
         /// <summary>
-        /// Gets a collection of up to 32 <see cref="NodeLap"/> packets.
+        /// Gets a collection of <see cref="NodeLap"/> packets.
         /// </summary>
         public ReadOnlyCollection<NodeLap> Info { get; private set; }
 

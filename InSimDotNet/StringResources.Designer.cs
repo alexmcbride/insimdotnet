@@ -115,7 +115,7 @@ namespace InSimDotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IS_AXM more than max 30 objects set.
+        ///   Looks up a localized string similar to IS_AXM too many objects set.
         /// </summary>
         internal static string IsAxmInfoErrorMessage {
             get {
@@ -124,7 +124,7 @@ namespace InSimDotNet {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IS_REO more than max 32 PLIDs set.
+        ///   Looks up a localized string similar to IS_REO too many PLIDs set.
         /// </summary>
         internal static string IsReoPlidErrorMessage {
             get {

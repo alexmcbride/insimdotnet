@@ -18,7 +18,7 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Gets or sets the height of the object.
         /// </summary>
-        public short Zchar { get; set; }
+        public byte Zbyte { get; set; }
 
         /// <summary>
         /// Gets or sets the object flags (always 0 for objects).
@@ -51,7 +51,7 @@ namespace InSimDotNet.Packets {
 
             X = reader.ReadInt16();
             Y = reader.ReadInt16();
-            Zchar = reader.ReadSByte();
+            Zbyte = reader.ReadByte();
             Flags = reader.ReadByte();
             Index = reader.ReadByte();
             Heading = reader.ReadByte();
@@ -68,7 +68,7 @@ namespace InSimDotNet.Packets {
 
             writer.Write(X);
             writer.Write(Y);
-            writer.Write((sbyte)Zchar);
+            writer.Write(Zbyte);
             writer.Write(Flags);
             writer.Write(Index);
             writer.Write(Heading);

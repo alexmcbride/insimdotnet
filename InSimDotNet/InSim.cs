@@ -13,7 +13,7 @@ namespace InSimDotNet {
         /// <summary>
         /// Gets the current InSim version. This is a constant field.
         /// </summary>
-        public const int InSimVersion = 5;
+        public const int InSimVersion = 6;
         private const string RelayHost = "isrelay.lfs.net";
         private const int RelayPort = 47474;
 

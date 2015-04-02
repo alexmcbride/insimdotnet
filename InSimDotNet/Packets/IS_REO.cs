@@ -1,7 +1,6 @@
 using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace InSimDotNet.Packets {
     /// <summary>
@@ -11,6 +10,8 @@ namespace InSimDotNet.Packets {
     /// Sent when race starts or is restarted. Used to reorder grid.
     /// </remarks>
     public class IS_REO : IPacket, ISendable {
+        private const int MaxDrivers = 40;
+
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
@@ -41,9 +42,9 @@ namespace InSimDotNet.Packets {
         /// Creates a new reorder packet.
         /// </summary>
         public IS_REO() {
-            Size = 36;
+            Size = 4 + MaxDrivers;
             Type = PacketType.ISP_REO;
-            PLID = new List<byte>(32);
+            PLID = new List<byte>(MaxDrivers);
         }
 
         /// <summary>
@@ -74,7 +75,7 @@ namespace InSimDotNet.Packets {
         /// </summary>
         /// <returns>The packet data.</returns>
         public byte[] GetBuffer() {
-            if (PLID.Count > 32) {
+            if (PLID.Count > MaxDrivers) {
                 throw new InvalidOperationException(StringResources.IsReoPlidErrorMessage);
             }
 

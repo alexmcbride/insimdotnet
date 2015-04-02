@@ -136,10 +136,10 @@
     <value>Cannot connect to InSim Relay with UDP</value>
   </data>
   <data name="IsAxmInfoErrorMessage" xml:space="preserve">
-    <value>IS_AXM more than max 30 objects set</value>
+    <value>IS_AXM too many objects set</value>
   </data>
   <data name="IsReoPlidErrorMessage" xml:space="preserve">
-    <value>IS_REO more than max 32 PLIDs set</value>
+    <value>IS_REO too many PLIDs set</value>
   </data>
   <data name="PacketSizeErrorMessage" xml:space="preserve">
     <value>Packet size was not a multiple of four</value>
