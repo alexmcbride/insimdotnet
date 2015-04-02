@@ -117,5 +117,10 @@
         /// Send an IS_RIP - Replay Information Packet.
         /// </summary>
         TINY_RIP,
+
+        /// <summary>
+        /// Send an IS_NCI for all guests (on host only)
+        /// </summary>
+        TINY_NCI,
     }
 }

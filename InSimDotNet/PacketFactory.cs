@@ -123,6 +123,8 @@ namespace InSimDotNet {
                     return new IS_AXM(buffer);
                 case PacketType.ISP_ACR:
                     return new IS_ACR(buffer);
+                case PacketType.ISP_NCI:
+                    return new IS_NCI(buffer);
                 case PacketType.IRP_ARP:
                     return new IR_ARP(buffer);
                 case PacketType.IRP_HOS:

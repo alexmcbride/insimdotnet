@@ -95,8 +95,10 @@
     <Compile Include="Packets\IS_CON.cs" />
     <Compile Include="Packets\IS_HCP.cs" />
     <Compile Include="Packets\IS_HLV.cs" />
+    <Compile Include="Packets\IS_NCI.cs" />
     <Compile Include="Packets\IS_OBH.cs" />
     <Compile Include="Packets\IS_PLC.cs" />
+    <Compile Include="Packets\LfsLanguage.cs" />
     <Compile Include="Packets\ObjectFlags.cs" />
     <Compile Include="Packets\ObjectInfo.cs" />
     <Compile Include="Packets\PlayerTypes.cs" />
