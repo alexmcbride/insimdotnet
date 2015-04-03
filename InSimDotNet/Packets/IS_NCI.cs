@@ -43,11 +43,18 @@ namespace InSimDotNet.Packets {
         /// </summary>
         public IPAddress IPAddress { get; private set; }
 
+        /// <summary>
+        /// Creates a new IS_NCI class.
+        /// </summary>
         public IS_NCI() {
             Size = 16;
             Type = PacketType.ISP_NCI;
         }
 
+        /// <summary>
+        /// Creates a new IS_NCI class.
+        /// </summary>
+        /// <param name="buffer">The buffer containing the packet data.</param>
         public IS_NCI(byte[] buffer):this() {
             PacketReader reader = new PacketReader(buffer);
             Size = reader.ReadByte();
