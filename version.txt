@@ -1,7 +1,9 @@
-- 2.2.0
+- 2.2.0 (3rd April 2015)
 
-* Updated library for LFS 0.6H (added IS_NCI packet).
-
+* Updated library for LFS 0.6H (added IS_NCI packet, added TINY_NCI, updated IS_REO/IS_NLP, added IS_NCI to PacketFactory).
+* Fixed big in PitWorkFlags (thanks to MariusMM for fix)
+* Added new Westhill configurations to TrackHelper (thanks to NeOn_sp)
+* Added new objects to ObjectHelper (thanks to NeOn_sp)
 
 - 2.1.3 (15th October 2014)
 
