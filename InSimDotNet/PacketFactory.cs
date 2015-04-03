@@ -266,6 +266,8 @@ namespace InSimDotNet {
                 return PacketType.ISP_AXM;
             if (type == typeof(IS_ACR))
                 return PacketType.ISP_ACR;
+            if (type == typeof(IS_NCI))
+                return PacketType.ISP_NCI;
             if (type == typeof(IR_ARP))
                 return PacketType.IRP_ARP;
             if (type == typeof(IR_ARQ))
