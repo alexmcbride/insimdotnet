@@ -69,7 +69,7 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Right-rear damage.
         /// </summary>
-        PSE_RI_RE_DAM = 4094,
+        PSE_RI_RE_DAM = 4096,
 
         /// <summary>
         /// Right-rear wheel changed.
