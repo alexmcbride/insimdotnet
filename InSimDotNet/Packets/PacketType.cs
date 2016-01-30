@@ -294,6 +294,11 @@
         ISP_NCI,
 
         /// <summary>
+        /// join request
+        /// </summary>
+        ISP_JRR,
+
+        /// <summary>
         /// Admin request
         /// </summary>
         IRP_ARQ = 250,

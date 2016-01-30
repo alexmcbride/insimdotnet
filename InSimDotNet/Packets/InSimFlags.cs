@@ -60,5 +60,10 @@ namespace InSimDotNet.Packets {
         /// Enable receive AXM when changing objects.
         /// </summary>
         ISF_AXM_EDIT = 1024,
+
+        /// <summary>
+        /// Enable to get send JRR join request packets.
+        /// </summary>
+        ISF_REQ_JOIN = 2048,
     }
 }

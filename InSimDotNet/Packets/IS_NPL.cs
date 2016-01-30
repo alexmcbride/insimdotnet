@@ -96,7 +96,7 @@ namespace InSimDotNet.Packets {
         public SetupFlags SetF { get; private set; }
 
         /// <summary>
-        /// Gets the number of player in the race.
+        /// Gets the number of player in the race. ZERO if this is a join request.
         /// </summary>
         public byte NumP { get; private set; }
 
