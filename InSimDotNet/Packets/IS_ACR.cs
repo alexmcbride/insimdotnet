@@ -47,6 +47,14 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Creates a new <see cref="IS_ACR"/> object.
         /// </summary>
+        public IS_ACR() {
+            Size = DefaultSize;
+            Type = PacketType.ISP_ACR;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="IS_ACR"/> object.
+        /// </summary>
         /// <param name="buffer">The packet data.</param>
         public IS_ACR(byte[] buffer) {
             PacketReader reader = new PacketReader(buffer);

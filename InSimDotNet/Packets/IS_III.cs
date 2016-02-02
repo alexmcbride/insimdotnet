@@ -44,7 +44,7 @@ namespace InSimDotNet.Packets {
         /// Creates a new InSim info packet.
         /// </summary>
         public IS_III() {
-            Size = 72;
+            Size = DefaultSize;
             Type = PacketType.ISP_III;
             Msg = String.Empty;
         }

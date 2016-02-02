@@ -1,3 +1,10 @@
+- 2.3.0 (02/02/2016)
+
+* Updates to match latest InSim revisions:
+* Added IS_JRR (join request) packet
+* IS_MSO, IS_III, and IS_ACR packets are now variable sized
+* IS_BFN can now be used to delete a range of buttons
+
 - 2.2.0 (3rd April 2015)
 
 * Updated library for LFS 0.6H (added IS_NCI packet, added TINY_NCI, updated IS_REO/IS_NLP, added IS_NCI to PacketFactory).
