@@ -4,7 +4,8 @@
     /// </summary>
     public enum ButtonFunction {
         /// <summary>
-        /// Delete one button (must set ClickID).
+        /// Delete one button or a range of buttons (must set ClickID to delete single button, 
+        /// to delete range set ClickID to first button in range and MaxClick to last).
         /// </summary>
         BFN_DEL_BTN,
 

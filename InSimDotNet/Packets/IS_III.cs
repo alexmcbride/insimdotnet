@@ -8,6 +8,8 @@ namespace InSimDotNet.Packets {
     /// Sent when a player sends a /i message to a host.
     /// </remarks>
     public class IS_III : IPacket {
+        private const int DefaultSize = 8;
+
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
@@ -61,7 +63,10 @@ namespace InSimDotNet.Packets {
             UCID = reader.ReadByte();
             PLID = reader.ReadByte();
             reader.Skip(2);
-            Msg = reader.ReadString(64);
+
+            // read variable sized packet.
+            int msgLength = Size - DefaultSize;
+            Msg = reader.ReadString(msgLength);
         }
     }
 }

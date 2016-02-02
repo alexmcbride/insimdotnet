@@ -7,6 +7,8 @@ namespace InSimDotNet.Packets {
     /// Any user typed an admin command.
     /// </remarks>
     public class IS_ACR : IPacket {
+        private const int DefaultSize = 8;
+
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
@@ -56,7 +58,10 @@ namespace InSimDotNet.Packets {
             Admin = reader.ReadBoolean();
             Result = (AdminResult)reader.ReadByte();
             reader.Skip(1);
-            Text = reader.ReadString(64);
+
+            // read out variable sized packet.
+            int textLength = Size - DefaultSize;
+            Text = reader.ReadString(textLength);
         }
     }
 }

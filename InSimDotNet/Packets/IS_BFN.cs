@@ -34,9 +34,14 @@ namespace InSimDotNet.Packets {
         public byte UCID { get; set; }
 
         /// <summary>
-        /// Gets or sets the ID of the button to delete (if SubT is BFN_DEL_BTN)
+        /// Gets or sets the ID of the button to delete (if SubT is BFN_DEL_BTN).
         /// </summary>
         public byte ClickID { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ID of the last button in the range (if SubT is BFN_DEL_BTN and greater than ClickID).
+        /// </summary>
+        public byte ClickMax { get; set; }
 
         /// <summary>
         /// Used internally by InSim.
@@ -64,6 +69,7 @@ namespace InSimDotNet.Packets {
             SubT = (ButtonFunction)reader.ReadByte();
             UCID = reader.ReadByte();
             ClickID = reader.ReadByte();
+            ClickMax = reader.ReadByte();
             Inst = reader.ReadByte();
         }
 
@@ -79,6 +85,7 @@ namespace InSimDotNet.Packets {
             writer.Write((byte)SubT);
             writer.Write(UCID);
             writer.Write(ClickID);
+            writer.Write(ClickMax);
             writer.Write(Inst);
             return writer.GetBuffer();
         }

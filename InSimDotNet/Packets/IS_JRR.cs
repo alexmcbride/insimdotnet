@@ -52,15 +52,6 @@
         /// </summary>
         /// <returns>The buffer.</returns>
         public byte[] GetBuffer() {
-            //byte Size;      // 16
-            //byte Type;      // ISP_JRR
-            //byte ReqI;      // 0
-            //byte PLID;      // ZERO when this is a reply to a join request - SET to move a car
-            //byte UCID;      // set when this is a reply to a join request - ignored when moving a car
-            //byte JRRAction; // 1 - allow / 0 - reject (should send message to user)
-            //byte Sp2;
-            //byte Sp3;
-            //ObjectInfo StartPos; // 0 : use default start point / Flags = 0x80 : set start point
             var writer = new PacketWriter(Size);
             writer.Write(Size);
             writer.Write((byte)Type);

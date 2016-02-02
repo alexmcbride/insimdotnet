@@ -8,6 +8,8 @@ namespace InSimDotNet.Packets {
     /// Sent by LFS containing system and user messages.
     /// </remarks>
     public class IS_MSO : IPacket {
+        private const int DefaultSize = 8;
+
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
@@ -52,7 +54,7 @@ namespace InSimDotNet.Packets {
         /// Creates a new message out packet.
         /// </summary>
         public IS_MSO() {
-            Size = 136;
+            Size = DefaultSize;
             Type = PacketType.ISP_MSO;
             Msg = String.Empty;
         }
@@ -71,17 +73,19 @@ namespace InSimDotNet.Packets {
             UCID = reader.ReadByte();
             PLID = reader.ReadByte();
             UserType = (UserType)reader.ReadByte();
-
-            // Need to correct textstart after we've converted
-            // string to unicode.
             int textStart = reader.ReadByte();
+
+            // the length of the message will be the size of the packet minus all the above crap.
+            int msgLength = Size - DefaultSize;
+
+            // Need to correct textstart after we've converted string to unicode.
             if (textStart > 0) {
                 string pname = reader.ReadString(textStart);
                 TextStart = (byte)pname.Length;
-                Msg = pname + reader.ReadString(128 - textStart);
+                Msg = pname + reader.ReadString(msgLength - textStart);
             }
             else {
-                Msg = reader.ReadString(128);
+                Msg = reader.ReadString(msgLength);
             }
         }
     }
