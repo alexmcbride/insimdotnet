@@ -12,7 +12,6 @@ namespace InSimDotNet {
         private const int BufferSize = 512;
 
         private readonly UdpClient client;
-        private bool isDisposed;
 
         /// <summary>
         /// Occurs when packet data is received.
@@ -67,6 +66,11 @@ namespace InSimDotNet {
         public bool ContinueOnCapturedContext { get; set; }
 
         /// <summary>
+        /// Gets if the object is disposed.
+        /// </summary>
+        public bool IsDisposed { get; private set; }
+
+        /// <summary>
         /// Creates a new instance of the <see cref="UdpSocket"/> class.
         /// </summary>
         public UdpSocket() {
@@ -81,7 +85,7 @@ namespace InSimDotNet {
         /// Disposes the <see cref="UdpSocket"/>.
         /// </summary>
         public void Dispose() {
-            if (!isDisposed) {
+            if (!IsDisposed) {
                 Dispose(true);
                 GC.SuppressFinalize(this);
             }
@@ -92,9 +96,9 @@ namespace InSimDotNet {
         /// </summary>
         /// <param name="disposing">Set true to dispose managed resources.</param>
         protected virtual void Dispose(bool disposing) {
-            if (!isDisposed && disposing) {
+            if (!IsDisposed && disposing) {
                 IsConnected = false;
-                isDisposed = true;
+                IsDisposed = true;
 
                 client.Close();
             }
@@ -187,7 +191,7 @@ namespace InSimDotNet {
 
         [DebuggerStepThrough]
         private void ThrowIfDisposed() {
-            if (isDisposed) {
+            if (IsDisposed) {
                 throw new ObjectDisposedException(GetType().ToString());
             }
         }

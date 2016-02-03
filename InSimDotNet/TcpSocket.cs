@@ -14,7 +14,6 @@ namespace InSimDotNet {
         private NetworkStream stream;
         private byte[] buffer = new byte[BufferSize];
         private int offset;
-        private bool isDisposed;
 
         /// <summary>
         /// Occurs when packet data is received.
@@ -71,6 +70,11 @@ namespace InSimDotNet {
         public bool ContinueOnCapturedContext { get; set; }
 
         /// <summary>
+        /// Gets if the object is disposed
+        /// </summary>
+        public bool IsDisposed { get; private set; }
+
+        /// <summary>
         /// Creates a new instance of the <see cref="TcpSocket"/> class.
         /// </summary>
         public TcpSocket() {
@@ -86,7 +90,7 @@ namespace InSimDotNet {
         /// Disposes the <see cref="TcpSocket"/> object.
         /// </summary>
         public void Dispose() {
-            if (!isDisposed) {
+            if (!IsDisposed) {
                 Dispose(true);
                 GC.SuppressFinalize(this);
             }
@@ -97,8 +101,8 @@ namespace InSimDotNet {
         /// </summary>
         /// <param name="disposing">Set true to dispose managed resources.</param>
         protected virtual void Dispose(bool disposing) {
-            if (!isDisposed && disposing) {
-                isDisposed = true;
+            if (!IsDisposed && disposing) {
+                IsDisposed = true;
 
                 if (stream != null) {
                     stream.Dispose();
@@ -252,7 +256,7 @@ namespace InSimDotNet {
 
         [DebuggerStepThrough]
         private void ThrowIfDisposed() {
-            if (isDisposed) {
+            if (IsDisposed) {
                 throw new ObjectDisposedException(GetType().ToString());
             }
         }

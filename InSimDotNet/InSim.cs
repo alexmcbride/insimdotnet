@@ -97,10 +97,25 @@ namespace InSimDotNet {
         /// Creates a new instance of the <see cref="InSim"/> class.
         /// </summary>
         public InSim() {
+            
+        }
+
+        private void InitializeSockets() {
+            if (TcpSocket != null) {
+                TcpSocket.PacketDataReceived -= TcpSocket_PacketDataReceived;
+                TcpSocket.ConnectionLost -= TcpSocket_ConnectionLost;
+                TcpSocket.SocketError -= TcpSocket_SocketError;
+            }
+
             TcpSocket = new TcpSocket();
             TcpSocket.PacketDataReceived += TcpSocket_PacketDataReceived;
             TcpSocket.ConnectionLost += TcpSocket_ConnectionLost;
             TcpSocket.SocketError += TcpSocket_SocketError;
+
+            if (UdpSocket != null) {
+                TcpSocket.PacketDataReceived += UdpSocket_PacketDataReceived;
+                TcpSocket.SocketError += UdpSocket_SocketError;
+            }
 
             UdpSocket = new UdpSocket();
             UdpSocket.PacketDataReceived += UdpSocket_PacketDataReceived;
@@ -141,6 +156,8 @@ namespace InSimDotNet {
 
             ThrowIfDisposed();
             ThrowIfConnected();
+
+            InitializeSockets();
 
             Settings = new ReadOnlyInSimSettings(settings);
 
