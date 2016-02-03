@@ -34,6 +34,11 @@ namespace InSimDotNet.Packets {
         public InSimFlags Flags { get; set; }
 
         /// <summary>
+        /// Gets or sets the InSim version.
+        /// </summary>
+        public int InSimVer { get; set; }
+
+        /// <summary>
         /// Gets or sets the special host message prefix character.
         /// </summary>
         public char Prefix { get; set; }

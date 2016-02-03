@@ -42,5 +42,10 @@
         /// Set node lap interval
         /// </summary>
         SMALL_NLI,
+
+        /// <summary>
+        /// Set allowed cars (use TINY_ALC to request)
+        /// </summary>
+        SMALL_ALC
     }
 }

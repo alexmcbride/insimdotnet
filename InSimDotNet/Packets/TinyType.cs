@@ -122,5 +122,10 @@
         /// Send an IS_NCI for all guests (on host only)
         /// </summary>
         TINY_NCI,
+
+        /// <summary>
+        /// Request a SMALL_ALC is sent.
+        /// </summary>
+        TINY_ALC
     }
 }

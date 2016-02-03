@@ -61,7 +61,8 @@ namespace InSimDotNet.Packets {
             reader.Skip(1);
             Version = reader.ReadString(8);
             Product = reader.ReadString(6);
-            InSimVer = reader.ReadUInt16();
+            InSimVer = reader.ReadByte();
+            reader.Skip(1);
         }
     }
 }

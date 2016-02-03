@@ -13,7 +13,7 @@ namespace InSimDotNet {
         /// <summary>
         /// Gets the current InSim version. This is a constant field.
         /// </summary>
-        public const int InSimVersion = 6;
+        public const int InSimVersion = 7;
         private const string RelayHost = "isrelay.lfs.net";
         private const int RelayPort = 47474;
 
@@ -159,6 +159,7 @@ namespace InSimDotNet {
                         Prefix = Settings.Prefix,
                         ReqI = 1, // Request version.
                         UDPPort = Settings.UdpPort,
+                        InSimVer = InSimVersion, // request latest InSim version
                     });
 
                     if (Settings.UdpPort > 0) {
