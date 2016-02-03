@@ -36,7 +36,7 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Gets or sets the InSim version.
         /// </summary>
-        public int InSimVer { get; set; }
+        public byte InSimVer { get; set; }
 
         /// <summary>
         /// Gets or sets the special host message prefix character.
@@ -80,7 +80,7 @@ namespace InSimDotNet.Packets {
             writer.Skip(1);
             writer.Write((ushort)UDPPort);
             writer.Write((ushort)Flags);
-            writer.Skip(1);
+            writer.Write(InSimVer);
             writer.Write(Prefix);
             writer.Write((ushort)Interval);
             writer.Write(Admin, 16);
