@@ -1,4 +1,4 @@
-- 2.3.0 (02/02/2016)
+- 2.3.0 (2nd Febuary 2016)
 
 * Added IS_JRR (join request) packet
 * IS_MSO, IS_III, and IS_ACR packets are now variable sized

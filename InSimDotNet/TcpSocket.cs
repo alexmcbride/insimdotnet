@@ -196,8 +196,8 @@ namespace InSimDotNet {
                         .ConfigureAwait(ContinueOnCapturedContext);
 
                     if (count == 0) {
-                        OnConnectionLost(EventArgs.Empty);
                         Dispose();
+                        OnConnectionLost(EventArgs.Empty);
                     }
                     else {
                         BytesReceived += count;
