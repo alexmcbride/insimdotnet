@@ -98,8 +98,6 @@ namespace InSimDotNet {
         /// </summary>
         public InSim() {
             InitializeSockets();
-
-            Bind<IS_TINY>(HandleKeepAlive);
         }
 
         /// <summary>
@@ -393,12 +391,6 @@ namespace InSimDotNet {
             }
         }
 
-        private void HandleKeepAlive(InSim insim, IS_TINY packet) {
-            if (packet.SubT == TinyType.TINY_NONE) {
-                Send(packet);
-            }
-        }
-
         private void TcpSocket_PacketDataReceived(object sender, PacketDataEventArgs e) {
             byte[] buffer = e.GetBuffer();
             PacketType type = PacketFactory.GetPacketType(buffer);
@@ -408,6 +400,17 @@ namespace InSimDotNet {
 
                 if (packet != null) {
                     RaisePacketEvent(packet);
+                }
+            }
+
+            HandleKeepAlive(type, buffer);
+        }
+
+        private void HandleKeepAlive(PacketType type, byte[] buffer) {
+            if (type == PacketType.ISP_TINY) {
+                IS_TINY tiny = new IS_TINY(buffer);
+                if (tiny.SubT == TinyType.TINY_NONE) {
+                    Send(tiny);
                 }
             }
         }
