@@ -24,11 +24,6 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Clear all objects (NumO must be zero).
         /// </summary>
-        PMO_CLEAR_ALL,
-
-        /// <summary>
-        /// Huh?
-        /// </summary>
-        PMO_NUM
+        PMO_CLEAR_ALL
     }
 }
