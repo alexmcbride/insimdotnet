@@ -98,6 +98,8 @@ namespace InSimDotNet {
         /// </summary>
         public InSim() {
             InitializeSockets();
+
+            Bind<IS_TINY>(HandleKeepAlive);
         }
 
         /// <summary>
@@ -226,7 +228,7 @@ namespace InSimDotNet {
         /// Sends the specified sequence of packets to LFS.
         /// </summary>
         /// <param name="packets">The sequence of <see cref="ISendable"/> packets to send.</param>
-        public void Send(IEnumerable<ISendable> packets) {
+        public void Send(params ISendable[] packets) {
             if (packets == null) {
                 throw new ArgumentNullException("packets");
             }
@@ -240,14 +242,6 @@ namespace InSimDotNet {
                 buffer.AddRange(packet.GetBuffer());
             }
             TcpSocket.Send(buffer.ToArray());
-        }
-
-        /// <summary>
-        /// Sends the specified sequence of packets to LFS.
-        /// </summary>
-        /// <param name="packets">The sequence of <see cref="ISendable"/> packets to send.</param>
-        public void Send(params ISendable[] packets) {
-            Send(packets);
         }
 
         /// <summary>
@@ -399,12 +393,9 @@ namespace InSimDotNet {
             }
         }
 
-        private void HandleKeepAlive(PacketType type, byte[] buffer) {
-            if (type == PacketType.ISP_TINY) {
-                IS_TINY tiny = new IS_TINY(buffer);
-                if (tiny.SubT == TinyType.TINY_NONE) {
-                    TcpSocket.Send(buffer);
-                }
+        private void HandleKeepAlive(InSim insim, IS_TINY packet) {
+            if (packet.SubT == TinyType.TINY_NONE) {
+                Send(packet);
             }
         }
 
@@ -419,8 +410,6 @@ namespace InSimDotNet {
                     RaisePacketEvent(packet);
                 }
             }
-
-            HandleKeepAlive(type, buffer);
         }
 
         private void TcpSocket_ConnectionLost(object sender, EventArgs e) {
