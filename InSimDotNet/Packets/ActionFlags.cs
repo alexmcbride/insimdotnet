@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-
-namespace InSimDotNet.Packets {
+﻿namespace InSimDotNet.Packets {
     /// <summary>
     /// Represents the <see cref="IS_AXM"/> PMOAction flags.
     /// </summary>

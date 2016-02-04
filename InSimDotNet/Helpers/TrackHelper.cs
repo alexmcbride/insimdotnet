@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
 
 namespace InSimDotNet.Helpers {
@@ -56,142 +55,6 @@ namespace InSimDotNet.Helpers {
             { "RO9", "Rockingham Historic Short" },
             { "RO10", "Rockingham International Long" },
             { "RO11", "Rockingham Sportscar" },
-
-            { "BL1R", "Blackwood Grand Prix Reversed" },
-            { "BL2R", "Blackwood Rallycross Reversed" },
-            { "BL3R", "Blackwood Car Park Reversed" },
-            { "SO1R", "South City Classic Reversed" },
-            { "SO2R", "South City Sprint 1 Reversed" },
-            { "SO3R", "South City Sprint 2 Reversed" },
-            { "SO4R", "South City Long Reversed" },
-            { "SO5R", "South City Town Reversed" },
-            { "SO6R", "South City Chicane Reversed" },
-            { "FE1R", "Fern Bay Club Reversed" },
-            { "FE2R", "Fern Bay Green Reversed" },
-            { "FE3R", "Fern Bay Gold Reversed" },
-            { "FE4R", "Fern Bay Black Reversed" },
-            { "FE5R", "Fern Bay Rallycross Reversed" },
-            { "FE6R", "Fern Bay RallyX Green Reversed" },
-            { "AU1R", "Autocross Reversed" },
-            { "AU2R", "Skid Pad Reversed" },
-            { "AU3R", "Drag Strip Reversed" },
-            { "AU4R", "Eight Lane Drag Reversed" },
-            { "KY1R", "Kyoto Ring Oval Reversed" },
-            { "KY2R", "Kyoto Ring National Reversed" },
-            { "KY3R", "Kyoto Ring Grand Prix Reversed" },
-            { "WE1R", "Westhill National Reversed" },
-            { "WE2R", "Westhill International Reversed" },
-            { "WE4R", "Westhill Karting Reversed" },
-            { "WE5R", "Westhill Karting National Reversed" },
-            { "AS1R", "Aston Cadet Reversed" },
-            { "AS2R", "Aston Club Reversed" },
-            { "AS3R", "Aston National Reversed" },
-            { "AS4R", "Aston Historic Reversed" },
-            { "AS5R", "Aston Grand Prix Reversed" },
-            { "AS6R", "Aston Grand Touring Reversed" },
-            { "AS7R", "Aston North Reversed" },
-            { "RO1R", "Rockingham ISSC Reversed" },
-            { "RO2R", "Rockingham National Reversed" },
-            { "RO3R", "Rockingham Oval Reversed" },
-            { "RO4R", "Rockingham ISSC Long Reversed" },
-            { "RO5R", "Rockingham Lake Reversed" },
-            { "RO6R", "Rockingham Handling Reversed" },
-            { "RO7R", "Rockingham International Reversed" },
-            { "RO8R", "Rockingham Historic Reversed" },
-            { "RO9R", "Rockingham Historic Short Reversed" },
-            { "RO10R", "Rockingham International Long Reversed" },
-            { "RO11R", "Rockingham Sportscar Reversed" },
-
-            { "BL1X", "Blackwood Grand Prix Open" },
-            { "BL2X", "Blackwood Rallycross Open" },
-            { "BL3X", "Blackwood Car Park Open" },
-            { "SO1X", "South City Classic Open" },
-            { "SO2X", "South City Sprint 1 Open" },
-            { "SO3X", "South City Sprint 2 Open" },
-            { "SO4X", "South City Long Open" },
-            { "SO5X", "South City Town Open" },
-            { "SO6X", "South City Chicane Open" },
-            { "FE1X", "Fern Bay Club Open" },
-            { "FE2X", "Fern Bay Green Open" },
-            { "FE3X", "Fern Bay Gold Open" },
-            { "FE4X", "Fern Bay Black Open" },
-            { "FE5X", "Fern Bay Rallycross Open" },
-            { "FE6X", "Fern Bay RallyX Green Open" },
-            { "AU1X", "Autocross Open" },
-            { "AU2X", "Skid Pad Open" },
-            { "AU3X", "Drag Strip Open" },
-            { "AU4X", "Eight Lane Drag Open" },
-            { "KY1X", "Kyoto Ring Oval Open" },
-            { "KY2X", "Kyoto Ring National Open" },
-            { "KY3X", "Kyoto Ring Grand Prix Open" },
-            { "WE1X", "Westhill National Open" },
-            { "WE2X", "Westhill International Open" },
-            { "WE3X", "Westhill Car Park Open" },
-            { "WE4X", "Westhill Karting Open" },
-            { "WE5X", "Westhill Karting National Open" },
-            { "AS1X", "Aston Cadet Open" },
-            { "AS2X", "Aston Club Open" },
-            { "AS3X", "Aston National Open" },
-            { "AS4X", "Aston Historic Open" },
-            { "AS5X", "Aston Grand Prix Open" },
-            { "AS6X", "Aston Grand Touring Open" },
-            { "AS7X", "Aston North Open" },
-            { "RO1X", "Rockingham ISSC Open" },
-            { "RO2X", "Rockingham National Open" },
-            { "RO3X", "Rockingham Oval Open" },
-            { "RO4X", "Rockingham ISSC Long Open" },
-            { "RO5X", "Rockingham Lake Open" },
-            { "RO6X", "Rockingham Handling Open" },
-            { "RO7X", "Rockingham International Open" },
-            { "RO8X", "Rockingham Historic Open" },
-            { "RO9X", "Rockingham Historic Short Open" },
-            { "RO10X", "Rockingham International Long Open" },
-            { "RO11X", "Rockingham Sportscar Open" },
-
-            { "BL1Y", "Blackwood Grand Prix Open" },
-            { "BL2Y", "Blackwood Rallycross Open" },
-            { "BL3Y", "Blackwood Car Park Open" },
-            { "SO1Y", "South City Classic Open" },
-            { "SO2Y", "South City Sprint 1 Open" },
-            { "SO3Y", "South City Sprint 2 Open" },
-            { "SO4Y", "South City Long Open" },
-            { "SO5Y", "South City Town Open" },
-            { "SO6Y", "South City Chicane Open" },
-            { "FE1Y", "Fern Bay Club Open" },
-            { "FE2Y", "Fern Bay Green Open" },
-            { "FE3Y", "Fern Bay Gold Open" },
-            { "FE4Y", "Fern Bay Black Open" },
-            { "FE5Y", "Fern Bay Rallycross Open" },
-            { "FE6Y", "Fern Bay RallyX Green Open" },
-            { "AU1Y", "Autocross Open" },
-            { "AU2Y", "Skid Pad Open" },
-            { "AU3Y", "Drag Strip Open" },
-            { "AU4Y", "Eight Lane Drag Open" },
-            { "KY1Y", "Kyoto Ring Oval Open" },
-            { "KY2Y", "Kyoto Ring National Open" },
-            { "KY3Y", "Kyoto Ring Grand Prix Open" },
-            { "WE1Y", "Westhill National Open" },
-            { "WE2Y", "Westhill International Open" },
-            { "WE4Y", "Westhill Karting Open" },
-            { "WE5Y", "Westhill Karting National Open" },
-            { "AS1Y", "Aston Cadet Open" },
-            { "AS2Y", "Aston Club Open" },
-            { "AS3Y", "Aston National Open" },
-            { "AS4Y", "Aston Historic Open" },
-            { "AS5Y", "Aston Grand Prix Open" },
-            { "AS6Y", "Aston Grand Touring Open" },
-            { "AS7Y", "Aston North Open" },
-            { "RO1Y", "Rockingham ISSC Open" },
-            { "RO2Y", "Rockingham National Open" },
-            { "RO3Y", "Rockingham Oval Open" },
-            { "RO4Y", "Rockingham ISSC Long Open" },
-            { "RO5Y", "Rockingham Lake Open" },
-            { "RO6Y", "Rockingham Handling Open" },
-            { "RO7Y", "Rockingham International Open" },
-            { "RO8Y", "Rockingham Historic Open" },
-            { "RO9Y", "Rockingham Historic Short Open" },
-            { "RO10Y", "Rockingham International Long Open" },
-            { "RO11Y", "Rockingham Sportscar Open" },
         };
 
         /// <summary>
@@ -226,11 +89,24 @@ namespace InSimDotNet.Helpers {
                 throw new ArgumentNullException("shortTrackName");
             }
 
-            shortTrackName = shortTrackName.ToUpper(CultureInfo.InvariantCulture);
+            shortTrackName = shortTrackName.ToUpper();
+
+            char lastChar = shortTrackName.Last();
+            if (lastChar == 'R' || lastChar == 'X' || lastChar == 'Y') {
+                shortTrackName = shortTrackName.Substring(0, shortTrackName.Length - 1);
+            }
 
             string track;
             if (TrackMap.TryGetValue(shortTrackName, out track)) {
-                return track;
+                switch(lastChar) {
+                    case 'R':
+                        return String.Format("{0} Reversed", track);
+                    case 'X':
+                    case 'Y':
+                        return String.Format("{0} Open", track);
+                    default:
+                        return track;
+                }
             }
 
             return null;
@@ -252,6 +128,17 @@ namespace InSimDotNet.Helpers {
         /// <param name="shortTrackName">The short name of the track.</param>
         /// <returns>True if the track exists.</returns>
         public static bool TrackExists(string shortTrackName) {
+            if (shortTrackName == null) {
+                throw new ArgumentNullException("shortTrackName");
+            }
+
+            shortTrackName = shortTrackName.ToUpper();
+
+            char lastChar = shortTrackName.Last();
+            if (lastChar == 'R' || lastChar == 'X' || lastChar == 'Y') {
+                shortTrackName = shortTrackName.Substring(0, shortTrackName.Length - 1);
+            }
+
             return TrackMap.ContainsKey(shortTrackName);
         }
     }
