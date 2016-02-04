@@ -100,28 +100,6 @@ namespace InSimDotNet {
             InitializeSockets();
         }
 
-        private void InitializeSockets() {
-            if (TcpSocket != null && TcpSocket.IsDisposed) {
-                TcpSocket.PacketDataReceived -= TcpSocket_PacketDataReceived;
-                TcpSocket.ConnectionLost -= TcpSocket_ConnectionLost;
-                TcpSocket.SocketError -= TcpSocket_SocketError;
-            }
-
-            TcpSocket = new TcpSocket();
-            TcpSocket.PacketDataReceived += TcpSocket_PacketDataReceived;
-            TcpSocket.ConnectionLost += TcpSocket_ConnectionLost;
-            TcpSocket.SocketError += TcpSocket_SocketError;
-
-            if (UdpSocket != null && UdpSocket.IsDisposed) {
-                TcpSocket.PacketDataReceived += UdpSocket_PacketDataReceived;
-                TcpSocket.SocketError += UdpSocket_SocketError;
-            }
-
-            UdpSocket = new UdpSocket();
-            UdpSocket.PacketDataReceived += UdpSocket_PacketDataReceived;
-            UdpSocket.SocketError += UdpSocket_SocketError;
-        }
-
         /// <summary>
         /// Releases all resources used by the connection.
         /// </summary>
@@ -194,6 +172,28 @@ namespace InSimDotNet {
             }
         }
 
+        private void InitializeSockets() {
+            if (TcpSocket != null && TcpSocket.IsDisposed) {
+                TcpSocket.PacketDataReceived -= TcpSocket_PacketDataReceived;
+                TcpSocket.ConnectionLost -= TcpSocket_ConnectionLost;
+                TcpSocket.SocketError -= TcpSocket_SocketError;
+            }
+
+            TcpSocket = new TcpSocket();
+            TcpSocket.PacketDataReceived += TcpSocket_PacketDataReceived;
+            TcpSocket.ConnectionLost += TcpSocket_ConnectionLost;
+            TcpSocket.SocketError += TcpSocket_SocketError;
+
+            if (UdpSocket != null && UdpSocket.IsDisposed) {
+                TcpSocket.PacketDataReceived += UdpSocket_PacketDataReceived;
+                TcpSocket.SocketError += UdpSocket_SocketError;
+            }
+
+            UdpSocket = new UdpSocket();
+            UdpSocket.PacketDataReceived += UdpSocket_PacketDataReceived;
+            UdpSocket.SocketError += UdpSocket_SocketError;
+        }
+
         /// <summary>
         /// Disconnects from LFS and releases all resources associated with the connection.
         /// </summary>
@@ -240,6 +240,14 @@ namespace InSimDotNet {
                 buffer.AddRange(packet.GetBuffer());
             }
             TcpSocket.Send(buffer.ToArray());
+        }
+
+        /// <summary>
+        /// Sends the specified sequence of packets to LFS.
+        /// </summary>
+        /// <param name="packets">The sequence of <see cref="ISendable"/> packets to send.</param>
+        public void Send(params ISendable[] packets) {
+            Send(packets);
         }
 
         /// <summary>
