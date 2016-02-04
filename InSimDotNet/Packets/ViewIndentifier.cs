@@ -31,6 +31,11 @@
         /// <summary>
         /// Max
         /// </summary>
-        VIEW_MAX
+        VIEW_MAX,
+
+        /// <summary>
+        /// Viewing another player
+        /// </summary>
+        VIEW_ANOTHER = 255
     }
 }
