@@ -91,7 +91,7 @@ namespace InSimDotNet.Helpers {
 
             shortTrackName = shortTrackName.ToUpper();
 
-            char lastChar = shortTrackName.Last();
+            char lastChar = shortTrackName.LastOrDefault();
             if (lastChar == 'R' || lastChar == 'X' || lastChar == 'Y') {
                 shortTrackName = shortTrackName.Substring(0, shortTrackName.Length - 1);
             }
