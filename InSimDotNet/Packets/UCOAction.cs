@@ -4,22 +4,22 @@
     /// </summary>
     public enum UCOAction {
         /// <summary>
-        /// entered a circle
+        /// Entered a circle
         /// </summary>
         UCO_CIRCLE_ENTER,
 
         /// <summary>
-        /// left a circle
+        /// Left a circle
         /// </summary>
         UCO_CIRCLE_LEAVE,
 
         /// <summary>
-        /// crossed cp in forward direction
+        /// Crossed checkpoint in forward direction
         /// </summary>
         UCO_CP_FWD,
 
         /// <summary>
-        /// crossed cp in reverse direction
+        /// Crossed checkpoint in reverse direction
         /// </summary>
         UCO_CP_REV,
     }

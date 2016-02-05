@@ -1,5 +1,6 @@
-- 2.3.0 (4th Febuary 2016)
+- 2.3.0 (5th Febuary 2016)
 
+* Updated with latest LFS changes
 * Added IS_JRR (join request) packet
 * IS_MSO, IS_III, and IS_ACR packets are now variable sized
 * IS_BFN can now be used to delete a range of buttons
@@ -7,7 +8,8 @@
 * Added TINY_ALC and SMALL_ALC
 * InSim object no longer throws ObjectDisposed exception when being used to reconnect to LFS
 * Added new method InSim.Send(params ISendable[])
-* Added VIEW_ANOTHER identifier to ViewIdentifiers
+* Fixed missing VIEW_ANOTHER identifier from ViewIdentifiers
+* Added IS_UCO (user control object) packet.
 
 - 2.2.0 (3rd April 2015)
 

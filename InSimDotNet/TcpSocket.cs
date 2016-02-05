@@ -57,12 +57,12 @@ namespace InSimDotNet {
         /// <summary>
         /// Gets the total number of bytes sent by this socket.
         /// </summary>
-        public int BytesSent { get; private set; }
+        public long BytesSent { get; private set; }
 
         /// <summary>
         /// Gets the total number of bytes received by this socket.
         /// </summary>
-        public int BytesReceived { get; private set; }
+        public long BytesReceived { get; private set; }
 
         /// <summary>
         /// Gets or sets whether events should be marshalled back onto the original context.
