@@ -110,9 +110,16 @@ namespace InSimDotNet.Helpers {
 
             Track track;
             if (TrackMap.TryGetValue(shortTrackName, out track)) {
-                if (config == 'R' || config == 'Y') {
+                if (config == 'R') {
                     if (track.HasReverse) {
                         return String.Format("{0} Reversed", track.FullTrackName);
+                    }
+                    return null;
+                }
+
+                if (config == 'Y') {
+                    if (track.HasReverse) {
+                        return String.Format("{0} Open", track.FullTrackName);
                     }
                     return null;
                 }
