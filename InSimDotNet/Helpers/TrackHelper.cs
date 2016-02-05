@@ -75,7 +75,6 @@ namespace InSimDotNet.Helpers {
         public static ReadOnlyCollection<string> FullTrackNames {
             get {
                 return new ReadOnlyCollection<string>((from t in TrackMap.Values
-                                                       orderby t
                                                        select t.FullTrackName).ToList());
             }
         }
@@ -86,7 +85,6 @@ namespace InSimDotNet.Helpers {
         public static ReadOnlyCollection<string> ShortTrackNames {
             get {
                 return new ReadOnlyCollection<string>((from t in TrackMap.Keys
-                                                       orderby t
                                                        select t).ToList());
             }
         }
