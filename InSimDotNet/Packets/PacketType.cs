@@ -299,6 +299,11 @@
         ISP_JRR,
 
         /// <summary>
+        /// report InSim checkpoint / InSim circle
+        /// </summary>
+        ISP_UCO,
+
+        /// <summary>
         /// Admin request
         /// </summary>
         IRP_ARQ = 250,

@@ -100,6 +100,7 @@
     <Compile Include="Packets\IS_NCI.cs" />
     <Compile Include="Packets\IS_OBH.cs" />
     <Compile Include="Packets\IS_PLC.cs" />
+    <Compile Include="Packets\IS_UCO.cs" />
     <Compile Include="Packets\JrrAction.cs" />
     <Compile Include="Packets\LfsLanguage.cs" />
     <Compile Include="Packets\ObjectFlags.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Packets\PlayerTypes.cs" />
     <Compile Include="Packets\ReplayMode.cs" />
     <Compile Include="Packets\Tyres.cs" />
+    <Compile Include="Packets\UCOAction.cs" />
     <Compile Include="PacketWriter.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="ReadOnlyInSimSettings.cs" />

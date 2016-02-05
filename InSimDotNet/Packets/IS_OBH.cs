@@ -51,6 +51,11 @@ namespace InSimDotNet.Packets {
         public short Y { get; private set; }
 
         /// <summary>
+        /// Gets Zbyte as in ObjectInfo if OBH_LAYOUT is set. 
+        /// </summary>
+        public byte Zbyte { get; private set; }
+
+        /// <summary>
         /// Gets the object index or zero if it is an unknown object.
         /// </summary>
         public byte Index { get; private set; }
@@ -75,7 +80,8 @@ namespace InSimDotNet.Packets {
             C = new CarContOBJ(reader);
             X = reader.ReadInt16();
             Y = reader.ReadInt16();
-            reader.Skip(2);
+            Zbyte = reader.ReadByte();
+            reader.Skip(1);
             Index = reader.ReadByte();
             OBHFlags = (ObjectFlags)reader.ReadByte();
         }
