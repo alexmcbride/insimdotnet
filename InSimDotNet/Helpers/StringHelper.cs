@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Globalization;
 using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace InSimDotNet.Helpers {
     /// <summary>
@@ -106,10 +104,160 @@ namespace InSimDotNet.Helpers {
                         case '9':
                             i++;
                             continue;
+                        case 'v':
+                            sb.Append('|');
+                            i++;
+                            continue;
+                        case 'a':
+                            sb.Append('*');
+                            i++;
+                            continue;
+                        case 'c':
+                            sb.Append(':');
+                            i++;
+                            continue;
+                        case 'd':
+                            sb.Append('\\');
+                            i++;
+                            continue;
+                        case 's':
+                            sb.Append('/');
+                            i++;
+                            continue;
+                        case 'q':
+                            sb.Append('?');
+                            i++;
+                            continue;
+                        case 't':
+                            sb.Append('"');
+                            i++;
+                            continue;
+                        case 'l':
+                            sb.Append('<');
+                            i++;
+                            continue;
+                        case 'r':
+                            sb.Append('>');
+                            i++;
+                            continue;
+                        case '^':
+                            sb.Append('^');
+                            i++;
+                            continue;
                     }
                 }
 
                 sb.Append(value[i]);
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Unescapes a LFS string (e.g. converts ^v to | etc..)
+        /// </summary>
+        /// <param name="value">The string to unescape.</param>
+        /// <returns>The unescaped string.</returns>
+        public static string Unescape(string value) {
+            var sb = new StringBuilder(value.Length);
+
+            for (int i = 0; i < value.Length; i++) {
+                if (value[i] == '^' && i + 1 < value.Length) {
+                    switch (value[i + 1]) {
+                        case 'v':
+                            sb.Append('|');
+                            i++;
+                            continue;
+                        case 'a':
+                            sb.Append('*');
+                            i++;
+                            continue;
+                        case 'c':
+                            sb.Append(':');
+                            i++;
+                            continue;
+                        case 'd':
+                            sb.Append('\\');
+                            i++;
+                            continue;
+                        case 's':
+                            sb.Append('/');
+                            i++;
+                            continue;
+                        case 'q':
+                            sb.Append('?');
+                            i++;
+                            continue;
+                        case 't':
+                            sb.Append('"');
+                            i++;
+                            continue;
+                        case 'l':
+                            sb.Append('<');
+                            i++;
+                            continue;
+                        case 'r':
+                            sb.Append('>');
+                            i++;
+                            continue;
+                        case '^':
+                            sb.Append('^');
+                            i++;
+                            continue;
+                    }
+
+                }
+
+                sb.Append(value[i]);
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Escapes a LFS string (e.g. converts | to ^v and ? to ^q etc..).
+        /// </summary>
+        /// <param name="value">The string to escape.</param>
+        /// <returns>The escaped string.</returns>
+        public static string Escape(string value) {
+            var sb = new StringBuilder(value.Length);
+
+            for (int i = 0; i < value.Length; i++) {
+                switch (value[i]) {
+                    case '|':
+                        sb.Append("^v");
+                        break;
+                    case '*':
+                        sb.Append("^a");
+                        break;
+                    case ':':
+                        sb.Append("^c");
+                        break;
+                    case '\\':
+                        sb.Append("^d");
+                        break;
+                    case '/':
+                        sb.Append("^s");
+                        break;
+                    case '?':
+                        sb.Append("^q");
+                        break;
+                    case '"':
+                        sb.Append("^t");
+                        break;
+                    case '<':
+                        sb.Append("^l");
+                        break;
+                    case '>':
+                        sb.Append("^r");
+                        break;
+                    case '^':
+                        sb.Append("^^");
+                        break;
+                    default:
+                        sb.Append(value[i]);
+                        break;
+                }
             }
 
             return sb.ToString();

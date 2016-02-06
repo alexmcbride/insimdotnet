@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
-using System.Linq;
 
 namespace InSimDotNet {
     /// <summary>
     /// Handles converting strings from LFS encoding into unicode and vice versa.
     /// </summary>
-    internal static class LfsEncoding {
+    public static class LfsEncoding {
         private const char ControlChar = '^';
         private const char FallbackChar = '?';
         private static readonly bool IsRunningOnMono = (Type.GetType("Mono.Runtime") != null);
@@ -30,19 +29,6 @@ namespace InSimDotNet {
 
         private static readonly Encoding DefaultEncoding = EncodingMap['L'];
 
-        private static readonly Dictionary<char, char> EscapeMap = new Dictionary<char, char> {
-            { 'v', '|' },
-            { 'a', '*' },
-            { 'c', ':' },
-            { 'd', '\\' },
-            { 's', '/' },
-            { 'q', '?' },
-            { 't', '"' },
-            { 'l', '<' },
-            { 'r', '>' },
-            { '^', '^' },
-        };
-
         /// <summary>
         /// Converts a LFS encoded string to unicode.
         /// </summary>
@@ -54,7 +40,7 @@ namespace InSimDotNet {
             StringBuilder output = new StringBuilder(length);
             Encoding encoding = DefaultEncoding, nextEncoding;
             int i = 0, lastEncode = index;
-            char escape, control, next;
+            char control, nextChar;
 
             for (i = index; i < index + length; i++) {
                 control = (char)buffer[i];
@@ -69,19 +55,18 @@ namespace InSimDotNet {
                     continue;
                 }
 
-                next = (char)buffer[i + 1];
-                if (EncodingMap.TryGetValue(next, out nextEncoding)) {
-                    // We're switching encoding to encode everything up to this point.
-                    output.Append(encoding.GetString(buffer, lastEncode, (i - lastEncode)));
-                    lastEncode = i;
-                    encoding = nextEncoding; // Switch encoding.
-                }
-                else if (EscapeMap.TryGetValue(next, out escape)) {
-                    output.Append(escape); // Escape character.
+                // Switch encoding, so let's encode everything up until this point.
+                if (i + 1 < buffer.Length) {
+                    nextChar = (char)buffer[i + 1];
+                    if (EncodingMap.TryGetValue(nextChar, out nextEncoding)) {
+                        output.Append(encoding.GetString(buffer, lastEncode, (i - lastEncode)));
+                        lastEncode = i;
+                        encoding = nextEncoding;
+                    }
                 }
             }
 
-            // Encoding anything that's left.
+            // Encode anything that's left.
             if (i - lastEncode > 0) {
                 output.Append(encoding.GetString(buffer, lastEncode, (i - lastEncode)));
             }
@@ -104,7 +89,7 @@ namespace InSimDotNet {
             bool found;
 
             for (int i = 0; i < value.Length && index < totalLength; i++) {
-                // Figure out which codepage to try first.
+                // Switch codepage.
                 if (value[i] == '^' && i + 1 < value.Length) {
                     if (EncodingMap.TryGetValue(value[i + 1], out tempEncoding)) {
                         encoding = tempEncoding;
