@@ -267,7 +267,7 @@ namespace InSimDotNet {
                 byte[] buffer = new byte[MsxLen];
                 int length = LfsEncoding.GetBytes(message, buffer, 0, MsxLen);
                 if (length < MstLen) {
-                    Send(new IS_MST(buffer.Take(length).ToArray())); // Send normal message.
+                    Send(new IS_MST(buffer.Take(MstLen).ToArray())); // Send normal message.
                 }
                 else {
                     Send(new IS_MSX(buffer)); // Send extended message.

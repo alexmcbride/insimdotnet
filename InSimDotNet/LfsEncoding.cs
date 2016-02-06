@@ -98,18 +98,16 @@ namespace InSimDotNet {
         /// <param name="length">The maximum number of bytes to write.</param>
         /// <returns>The number of bytes written during the operation.</returns>
         public static int GetBytes(string value, byte[] buffer, int index, int length) {
-            Encoding encoding = DefaultEncoding;
+            Encoding encoding = DefaultEncoding, tempEncoding;
             byte[] tempBytes = new byte[2];
-            int tempCount;
-            int start = index;
-            int totalLength = index + (length - 1);
+            int tempCount, start = index, totalLength = index + (length - 1);
+            bool found;
 
             for (int i = 0; i < value.Length && index < totalLength; i++) {
                 // Figure out which codepage to try first.
                 if (value[i] == '^' && i + 1 < value.Length) {
-                    Encoding enc;
-                    if (EncodingMap.TryGetValue(value[i + 1], out enc)) {
-                        encoding = enc;
+                    if (EncodingMap.TryGetValue(value[i + 1], out tempEncoding)) {
+                        encoding = tempEncoding;
                     }
                 }
 
@@ -124,7 +122,7 @@ namespace InSimDotNet {
                 }
                 else {
                     // Search for new codepage.
-                    bool found = false;
+                    found = false;
                     foreach (KeyValuePair<char, Encoding> map in EncodingMap) {
                         if (map.Value == encoding) {
                             continue; // Skip current as we've already searched it.
