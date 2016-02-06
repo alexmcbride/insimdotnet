@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Linq;
 
 namespace InSimDotNet {
     /// <summary>
@@ -205,6 +206,25 @@ namespace InSimDotNet {
             int totalLength = index + (length - 1);
 
             for (int i = 0; i < value.Length && index < totalLength; i++) {
+                // Remove any existing language tags from the string.
+                int next = i + 1;
+                if (value[i] == '^' && next < value.Length) {
+                    switch (value[next]) {
+                        case 'L':
+                        case 'G':
+                        case 'C':
+                        case 'J':
+                        case 'E':
+                        case 'T':
+                        case 'B':
+                        case 'H':
+                        case 'S':
+                        case 'K':
+                            i++; // skip codepage chars
+                            continue;
+                    }
+                }
+
                 if (value[i] <= 127) {
                     // All codepages share ASCII values.
                     buffer[index++] = (byte)value[i];
