@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace InSimDotNet.Helpers {
@@ -8,15 +9,110 @@ namespace InSimDotNet.Helpers {
     /// Static class to help with LFS related string operations.
     /// </summary>
     public static class StringHelper {
-        private static readonly Regex ColorsRegex = new Regex(@"\^[0-9]");
-
         /// <summary>
         /// Strips color codes from a string.
         /// </summary>
         /// <param name="value">The string to strip.</param>
         /// <returns>The resulting string, sans colors.</returns>
         public static string StripColors(string value) {
-            return ColorsRegex.Replace(value, String.Empty);
+            var sb = new StringBuilder(value.Length);
+
+            for (int i = 0; i < value.Length; i++) {
+                if (value[i] == '^' && i + 1 < value.Length) {
+                    switch (value[i + 1]) {
+                        case '0':
+                        case '1':
+                        case '2':
+                        case '3':
+                        case '4':
+                        case '5':
+                        case '6':
+                        case '7':
+                        case '8':
+                        case '9':
+                            i++;
+                            continue;
+                    }
+                }
+
+                sb.Append(value[i]);
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Strips language codes from a string.
+        /// </summary>
+        /// <param name="value">The string to strip.</param>
+        /// <returns>The resulting string, sans language.</returns>
+        public static string StripLanguage(string value) {
+            var sb = new StringBuilder(value.Length);
+
+            for (int i = 0; i < value.Length; i++) {
+                if (value[i] == '^' && i + 1 < value.Length) {
+                    switch (value[i + 1]) {
+                        case 'L':
+                        case 'G':
+                        case 'C':
+                        case 'J':
+                        case 'E':
+                        case 'T':
+                        case 'B':
+                        case 'H':
+                        case 'S':
+                        case 'K':
+                            i++;
+                            continue;
+                    }
+                }
+
+                sb.Append(value[i]);
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Strings colour (^1, ^2 etc..) and language tags (^L, ^J etc..) from a string.
+        /// </summary>
+        /// <param name="value">The string to strip.</param>
+        /// <returns>The resulting string.</returns>
+        public static string Strip(string value) {
+            var sb = new StringBuilder(value.Length);
+
+            for (int i = 0; i < value.Length; i++) {
+                if (value[i] == '^' && i + 1 < value.Length) {
+                    switch (value[i + 1]) {
+                        case 'L':
+                        case 'G':
+                        case 'C':
+                        case 'J':
+                        case 'E':
+                        case 'T':
+                        case 'B':
+                        case 'H':
+                        case 'S':
+                        case 'K':
+                        case '0':
+                        case '1':
+                        case '2':
+                        case '3':
+                        case '4':
+                        case '5':
+                        case '6':
+                        case '7':
+                        case '8':
+                        case '9':
+                            i++;
+                            continue;
+                    }
+                }
+
+                sb.Append(value[i]);
+            }
+
+            return sb.ToString();
         }
 
         /// <summary>
@@ -38,9 +134,9 @@ namespace InSimDotNet.Helpers {
             if (value.Hours > 0 || hours) {
                 return String.Format(
                     "{0}:{1:00}:{2:00}.{3:000}",
-                    value.Hours, 
-                    value.Minutes, 
-                    value.Seconds, 
+                    value.Hours,
+                    value.Minutes,
+                    value.Seconds,
                     value.Milliseconds);
             }
             return String.Format(

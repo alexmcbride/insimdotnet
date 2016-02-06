@@ -264,13 +264,13 @@ namespace InSimDotNet {
                 Send(new IS_MST { Msg = message }); // Send command.
             }
             else {
-                // Get the length the string will be once it's encoded.
-                int length = LfsEncoding.GetByteCount(message, MsxLen);
+                byte[] buffer = new byte[MsxLen];
+                int length = LfsEncoding.GetBytes(message, buffer, 0, MsxLen);
                 if (length < MstLen) {
-                    Send(new IS_MST { Msg = message }); // Send normal message.
+                    Send(new IS_MST(buffer.Take(length).ToArray())); // Send normal message.
                 }
                 else {
-                    Send(new IS_MSX { Msg = message }); // Send extended message.
+                    Send(new IS_MSX(buffer)); // Send extended message.
                 }
             }
         }
