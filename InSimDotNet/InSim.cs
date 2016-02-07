@@ -264,6 +264,8 @@ namespace InSimDotNet {
                 Send(new IS_MST { Msg = message }); // Send command.
             }
             else {
+                // We need to know the length the string will be once converted into bytes so we 
+                // know which packet to send, so we just convert it here.
                 byte[] buffer = new byte[MsxLen];
                 int length = LfsEncoding.GetBytes(message, buffer, 0, MsxLen);
                 if (length < MstLen) {

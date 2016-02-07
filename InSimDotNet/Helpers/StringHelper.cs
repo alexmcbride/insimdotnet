@@ -1,12 +1,43 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using System.Linq;
 
 namespace InSimDotNet.Helpers {
     /// <summary>
     /// Static class to help with LFS related string operations.
     /// </summary>
     public static class StringHelper {
+        private static readonly char[] ColorCodes = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+        private static readonly char[] LanguageCodes = new char[] { 'L', 'G', 'C', 'J', 'E', 'T', 'B', 'H', 'S', 'K' };
+
+        private static readonly Dictionary<char, char> UnescapeMap = new Dictionary<char, char> {
+            { 'v', '|' },
+            { 'a', '*' },
+            { 'c', ':' },
+            { 'd', '\\' },
+            { 's', '/' },
+            { 'q', '?' },
+            { 't', '"' },
+            { 'l', '<' },
+            { 'r', '>' },
+            { '^', '^' },
+        };
+
+        private static readonly Dictionary<char, char> EscapeMap = new Dictionary<char, char> {
+            { '|', 'v' },
+            { '*', 'a' },
+            { ':', 'c' },
+            { '\\', 'd' },
+            { '/', 's' },
+            { '?', 'q' },
+            { '"', 't' },
+            { '<', 'l' },
+            { '>', 'r' },
+            { '^', '^' },
+        };
+
         /// <summary>
         /// Strips color codes from a string.
         /// </summary>
@@ -17,19 +48,9 @@ namespace InSimDotNet.Helpers {
 
             for (int i = 0; i < value.Length; i++) {
                 if (value[i] == '^' && i + 1 < value.Length) {
-                    switch (value[i + 1]) {
-                        case '0':
-                        case '1':
-                        case '2':
-                        case '3':
-                        case '4':
-                        case '5':
-                        case '6':
-                        case '7':
-                        case '8':
-                        case '9':
-                            i++;
-                            continue;
+                    if (ColorCodes.Contains(value[i + 1])) {
+                        i++;
+                        continue;
                     }
                 }
 
@@ -49,19 +70,9 @@ namespace InSimDotNet.Helpers {
 
             for (int i = 0; i < value.Length; i++) {
                 if (value[i] == '^' && i + 1 < value.Length) {
-                    switch (value[i + 1]) {
-                        case 'L':
-                        case 'G':
-                        case 'C':
-                        case 'J':
-                        case 'E':
-                        case 'T':
-                        case 'B':
-                        case 'H':
-                        case 'S':
-                        case 'K':
-                            i++;
-                            continue;
+                    if (LanguageCodes.Contains(value[i + 1])) {
+                        i++;
+                        continue;
                     }
                 }
 
@@ -81,69 +92,18 @@ namespace InSimDotNet.Helpers {
 
             for (int i = 0; i < value.Length; i++) {
                 if (value[i] == '^' && i + 1 < value.Length) {
-                    switch (value[i + 1]) {
-                        case 'L':
-                        case 'G':
-                        case 'C':
-                        case 'J':
-                        case 'E':
-                        case 'T':
-                        case 'B':
-                        case 'H':
-                        case 'S':
-                        case 'K':
-                        case '0':
-                        case '1':
-                        case '2':
-                        case '3':
-                        case '4':
-                        case '5':
-                        case '6':
-                        case '7':
-                        case '8':
-                        case '9':
-                            i++;
-                            continue;
-                        case 'v':
-                            sb.Append('|');
-                            i++;
-                            continue;
-                        case 'a':
-                            sb.Append('*');
-                            i++;
-                            continue;
-                        case 'c':
-                            sb.Append(':');
-                            i++;
-                            continue;
-                        case 'd':
-                            sb.Append('\\');
-                            i++;
-                            continue;
-                        case 's':
-                            sb.Append('/');
-                            i++;
-                            continue;
-                        case 'q':
-                            sb.Append('?');
-                            i++;
-                            continue;
-                        case 't':
-                            sb.Append('"');
-                            i++;
-                            continue;
-                        case 'l':
-                            sb.Append('<');
-                            i++;
-                            continue;
-                        case 'r':
-                            sb.Append('>');
-                            i++;
-                            continue;
-                        case '^':
-                            sb.Append('^');
-                            i++;
-                            continue;
+                    char next = value[i + 1];
+
+                    if (ColorCodes.Contains(next) || LanguageCodes.Contains(next)) {
+                        i++;
+                        continue;
+                    }
+
+                    char c;
+                    if (UnescapeMap.TryGetValue(next, out c)) {
+                        sb.Append(c);
+                        i++;
+                        continue;
                     }
                 }
 
@@ -163,49 +123,12 @@ namespace InSimDotNet.Helpers {
 
             for (int i = 0; i < value.Length; i++) {
                 if (value[i] == '^' && i + 1 < value.Length) {
-                    switch (value[i + 1]) {
-                        case 'v':
-                            sb.Append('|');
-                            i++;
-                            continue;
-                        case 'a':
-                            sb.Append('*');
-                            i++;
-                            continue;
-                        case 'c':
-                            sb.Append(':');
-                            i++;
-                            continue;
-                        case 'd':
-                            sb.Append('\\');
-                            i++;
-                            continue;
-                        case 's':
-                            sb.Append('/');
-                            i++;
-                            continue;
-                        case 'q':
-                            sb.Append('?');
-                            i++;
-                            continue;
-                        case 't':
-                            sb.Append('"');
-                            i++;
-                            continue;
-                        case 'l':
-                            sb.Append('<');
-                            i++;
-                            continue;
-                        case 'r':
-                            sb.Append('>');
-                            i++;
-                            continue;
-                        case '^':
-                            sb.Append('^');
-                            i++;
-                            continue;
+                    char c;
+                    if (UnescapeMap.TryGetValue(value[i + 1], out c)) {
+                        sb.Append(c);
+                        i++;
+                        continue;
                     }
-
                 }
 
                 sb.Append(value[i]);
@@ -223,40 +146,12 @@ namespace InSimDotNet.Helpers {
             var sb = new StringBuilder(value.Length);
 
             for (int i = 0; i < value.Length; i++) {
-                switch (value[i]) {
-                    case '|':
-                        sb.Append("^v");
-                        break;
-                    case '*':
-                        sb.Append("^a");
-                        break;
-                    case ':':
-                        sb.Append("^c");
-                        break;
-                    case '\\':
-                        sb.Append("^d");
-                        break;
-                    case '/':
-                        sb.Append("^s");
-                        break;
-                    case '?':
-                        sb.Append("^q");
-                        break;
-                    case '"':
-                        sb.Append("^t");
-                        break;
-                    case '<':
-                        sb.Append("^l");
-                        break;
-                    case '>':
-                        sb.Append("^r");
-                        break;
-                    case '^':
-                        sb.Append("^^");
-                        break;
-                    default:
-                        sb.Append(value[i]);
-                        break;
+                char c;
+                if (EscapeMap.TryGetValue(value[i], out c)) {
+                    sb.AppendFormat("^{0}", c);
+                }
+                else {
+                    sb.Append(value[i]);
                 }
             }
 

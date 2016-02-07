@@ -50,13 +50,8 @@ namespace InSimDotNet {
                     break;
                 }
 
-                // If not control character then ignore.
-                if (control != ControlChar) {
-                    continue;
-                }
-
-                // Switch encoding, so let's encode everything up until this point.
-                if (i + 1 < buffer.Length) {
+                // Check if codepage switch needed.
+                if (control == ControlChar && (i + 1) < buffer.Length) {
                     nextChar = (char)buffer[i + 1];
                     if (EncodingMap.TryGetValue(nextChar, out nextEncoding)) {
                         output.Append(encoding.GetString(buffer, lastEncode, (i - lastEncode)));
