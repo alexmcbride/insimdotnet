@@ -1,4 +1,6 @@
-﻿using System;
+﻿using InSimDotNet.Packets;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -14,6 +16,7 @@ namespace InSimDotNet {
         private NetworkStream stream;
         private byte[] buffer = new byte[BufferSize];
         private int offset;
+        private List<byte[]> sendBuffer = new List<byte[]>(BufferSize);
 
         /// <summary>
         /// Occurs when packet data is received.
@@ -171,26 +174,29 @@ namespace InSimDotNet {
             ThrowIfDisposed();
             ThrowIfNotConnected();
 
-            stream.Write(buffer, 0, buffer.Length);
-            BytesSent += buffer.Length;
-        }
-
-        /// <summary>
-        /// Sends byte data to LFS asynchronously.
-        /// </summary>
-        /// <param name="buffer">The data to send.</param>
-        /// <returns>An async task object.</returns>
-        public async Task SendAsync(byte[] buffer) {
-            if (buffer == null) {
-                throw new ArgumentNullException("buffer");
+            int sent = 0;
+            while (sent < buffer.Length) {
+                sent += client.Client.Send(buffer, sent, buffer.Length - sent, SocketFlags.None);
             }
-
-            ThrowIfDisposed();
-            ThrowIfNotConnected();
-
-            await stream.WriteAsync(buffer, 0, buffer.Length);
-            BytesSent += buffer.Length;
+            BytesSent += sent;
         }
+
+        ///// <summary>
+        ///// Sends byte data to LFS asynchronously.
+        ///// </summary>
+        ///// <param name="buffer">The data to send.</param>
+        ///// <returns>An async task object.</returns>
+        //public async Task SendAsync(byte[] buffer) {
+        //    if (buffer == null) {
+        //        throw new ArgumentNullException("buffer");
+        //    }
+
+        //    ThrowIfDisposed();
+        //    ThrowIfNotConnected();
+
+        //    await stream.WriteAsync(buffer, 0, buffer.Length);
+        //    BytesSent += buffer.Length;
+        //}
 
         private async void ReceiveAsync() {
             if (stream.CanRead) {
