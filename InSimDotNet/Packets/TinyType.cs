@@ -126,6 +126,11 @@
         /// <summary>
         /// Request a SMALL_ALC is sent.
         /// </summary>
-        TINY_ALC
+        TINY_ALC,
+
+        /// <summary>
+        /// Request all IS_AXM packets sent.
+        /// </summary>
+        TINY_AXM
     }
 }

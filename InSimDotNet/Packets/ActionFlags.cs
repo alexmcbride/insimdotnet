@@ -21,6 +21,11 @@
         /// <summary>
         /// Clear all objects (NumO must be zero).
         /// </summary>
-        PMO_CLEAR_ALL
+        PMO_CLEAR_ALL,
+
+        /// <summary>
+        /// A reply to a TINY_AXM request.
+        /// </summary>
+        PMO_REQUESTED
     }
 }
