@@ -60,6 +60,7 @@
     <Compile Include="DisconnectedEventArgs.cs" />
     <Compile Include="DisconnectReason.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Helpers\BatchHelper.cs" />
     <Compile Include="Helpers\EventHelper.cs" />
     <Compile Include="Helpers\HandicapHelper.cs" />
     <Compile Include="LfsEncoding.cs" />
