@@ -26,6 +26,16 @@
         /// <summary>
         /// A reply to a TINY_AXM request.
         /// </summary>
-        PMO_REQUESTED
+        PMO_TINY_AXM,
+
+        /// <summary>
+        /// A reply to a TINY_SELL request.
+        /// </summary>
+        PMIO_TINY_SEL,
+
+        /// <summary>
+        /// Set the current editor selection.
+        /// </summary>
+        PMO_SELECTION,
     }
 }

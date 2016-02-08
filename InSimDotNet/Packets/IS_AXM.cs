@@ -42,12 +42,9 @@ namespace InSimDotNet.Packets {
         public ActionFlags PMOAction { get; set; }
 
         /// <summary>
-        /// Gets the flags (only bit 0 is currently used). If PMOFlags bit 0 is set in a PMO_LOADING_FILE packet, LFS has 
-        /// reached the end of a layout file which it is loading. PMOFlags bit 0 can also be set in an IS_AXM with PMOAction
-        /// of PMO_ADD_OBJECTS. This causes all objects to be optimised.  It is important not to set bit 0 in every packet 
-        /// you send to add objects or you will cause severe glitches on the clients computers. See InSim.txt for details.
+        /// Gets the PMOFlags of the packet.
         /// </summary>
-        public byte PMOFlags { get; set; }
+        public PMOFlags PMOFlags { get; set; }
 
         /// <summary>
         /// Gets a collection of <see cref="ObjectInfo"/> sub-packets.

@@ -107,6 +107,7 @@
     <Compile Include="Packets\ObjectFlags.cs" />
     <Compile Include="Packets\ObjectInfo.cs" />
     <Compile Include="Packets\PlayerTypes.cs" />
+    <Compile Include="Packets\PMOFlags.cs" />
     <Compile Include="Packets\ReplayMode.cs" />
     <Compile Include="Packets\Tyres.cs" />
     <Compile Include="Packets\UCOAction.cs" />
