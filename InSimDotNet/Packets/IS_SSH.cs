@@ -5,7 +5,8 @@ namespace InSimDotNet.Packets {
     /// Screenshot packet.
     /// </summary>
     /// <remarks>
-    /// Used to take a screenshot in LFS.
+    /// Used to take a screenshot in LFS. It will be saved as either bmp, jpg, or png, depending 
+    /// on what is set in your LFS > Misc settings.
     /// </remarks>
     public class IS_SSH : IPacket, ISendable {
         /// <summary>
@@ -29,9 +30,9 @@ namespace InSimDotNet.Packets {
         public ScreenshotError Error { get; private set; }
 
         /// <summary>
-        /// Gets or sets the bitmap name.
+        /// Gets or sets the screenshot name. If you leave this blank LFS is invent a new name for the screenshot.
         /// </summary>
-        public string BMP { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Creates a new screenshot packet.
@@ -39,7 +40,7 @@ namespace InSimDotNet.Packets {
         public IS_SSH() {
             Size = 40;
             Type = PacketType.ISP_SSH;
-            BMP = String.Empty;
+            Name = String.Empty;
         }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace InSimDotNet.Packets {
             ReqI = reader.ReadByte();
             Error = (ScreenshotError)reader.ReadByte();
             reader.Skip(4);
-            BMP = reader.ReadString(32);
+            Name = reader.ReadString(32);
         }
 
         /// <summary>
@@ -68,7 +69,7 @@ namespace InSimDotNet.Packets {
             writer.Write(ReqI);
             writer.Write((byte)Error);
             writer.Skip(4);
-            writer.Write(BMP, 32);
+            writer.Write(Name, 32);
             return writer.GetBuffer();
         }
     }

@@ -304,6 +304,11 @@
         ISP_UCO,
 
         /// <summary>
+        /// Object control (currently used for lights)
+        /// </summary>
+        ISP_OCO,
+
+        /// <summary>
         /// Admin request
         /// </summary>
         IRP_ARQ = 250,

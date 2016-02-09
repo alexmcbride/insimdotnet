@@ -92,7 +92,7 @@ namespace InSimDotNet.Helpers {
         }
 
         /// <summary>
-        /// Strings colour (^1, ^2 etc..) and language tags (^L, ^J etc..) from a string.
+        /// strips colour (^1, ^2 etc..) and language tags (^L, ^J etc..) from a string.
         /// </summary>
         /// <param name="value">The string to strip.</param>
         /// <returns>The resulting string.</returns>

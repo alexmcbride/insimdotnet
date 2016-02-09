@@ -274,6 +274,8 @@ namespace InSimDotNet {
                 return PacketType.ISP_JRR;
             if (type == typeof(IS_UCO))
                 return PacketType.ISP_UCO;
+            if (type == typeof(IS_OCO))
+                return PacketType.ISP_OCO;
             if (type == typeof(IR_ARP))
                 return PacketType.IRP_ARP;
             if (type == typeof(IR_ARQ))

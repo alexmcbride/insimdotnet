@@ -83,6 +83,7 @@
     <Compile Include="PacketReader.cs" />
     <Compile Include="Packets\AdminResult.cs" />
     <Compile Include="Packets\ActionFlags.cs" />
+    <Compile Include="Packets\BulbInfo.cs" />
     <Compile Include="Packets\CarContact.cs" />
     <Compile Include="Packets\CarContOBJ.cs" />
     <Compile Include="Packets\CarFlags.cs" />
@@ -100,12 +101,14 @@
     <Compile Include="Packets\IS_JRR.cs" />
     <Compile Include="Packets\IS_NCI.cs" />
     <Compile Include="Packets\IS_OBH.cs" />
+    <Compile Include="Packets\IS_OCO.cs" />
     <Compile Include="Packets\IS_PLC.cs" />
     <Compile Include="Packets\IS_UCO.cs" />
     <Compile Include="Packets\JrrAction.cs" />
     <Compile Include="Packets\LfsLanguage.cs" />
     <Compile Include="Packets\ObjectFlags.cs" />
     <Compile Include="Packets\ObjectInfo.cs" />
+    <Compile Include="Packets\OCOAction.cs" />
     <Compile Include="Packets\PlayerTypes.cs" />
     <Compile Include="Packets\PMOFlags.cs" />
     <Compile Include="Packets\ReplayMode.cs" />
