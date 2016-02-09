@@ -81,7 +81,7 @@ namespace InSimDotNet.Packets {
             NumO = reader.ReadByte();
             UCID = reader.ReadByte();
             PMOAction = (ActionFlags)reader.ReadByte();
-            PMOFlags = reader.ReadByte();
+            PMOFlags = (PMOFlags)reader.ReadByte();
             reader.Skip(1);
 
             Info = new List<ObjectInfo>(NumO);
@@ -107,7 +107,7 @@ namespace InSimDotNet.Packets {
             writer.Write((byte)Info.Count);
             writer.Write(UCID);
             writer.Write((byte)PMOAction);
-            writer.Write(PMOFlags);
+            writer.Write((byte)PMOFlags);
             writer.Skip(1);
 
             foreach (ObjectInfo info in Info) {
