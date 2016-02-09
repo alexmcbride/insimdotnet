@@ -160,6 +160,10 @@ namespace InSimDotNet.Helpers {
         /// <param name="value">The string to escape.</param>
         /// <returns>The escaped string.</returns>
         public static string Escape(string value) {
+            if (String.IsNullOrEmpty(value)) {
+                throw new ArgumentNullException("value");
+            }
+
             var sb = new StringBuilder(value.Length);
 
             for (int i = 0; i < value.Length; i++) {
@@ -182,7 +186,7 @@ namespace InSimDotNet.Helpers {
         /// <returns>A string represenation of the packet.</returns>
         public static string PacketDump(IPacket packet) {
             if (packet == null) {
-                new ArgumentNullException("packet");
+                throw new ArgumentNullException("packet");
             }
 
             var sb = new StringBuilder();
