@@ -45,6 +45,10 @@ namespace InSimDotNet.Helpers {
         /// <param name="value">The string to strip.</param>
         /// <returns>The resulting string, sans colors.</returns>
         public static string StripColors(string value) {
+            if (String.IsNullOrEmpty(value)) {
+                throw new ArgumentNullException("value");
+            }
+
             var sb = new StringBuilder(value.Length);
 
             for (int i = 0; i < value.Length; i++) {
@@ -67,6 +71,10 @@ namespace InSimDotNet.Helpers {
         /// <param name="value">The string to strip.</param>
         /// <returns>The resulting string, sans language.</returns>
         public static string StripLanguage(string value) {
+            if (String.IsNullOrEmpty(value)) {
+                throw new ArgumentNullException("value");
+            }
+
             var sb = new StringBuilder(value.Length);
 
             for (int i = 0; i < value.Length; i++) {
@@ -89,6 +97,10 @@ namespace InSimDotNet.Helpers {
         /// <param name="value">The string to strip.</param>
         /// <returns>The resulting string.</returns>
         public static string Strip(string value) {
+            if (String.IsNullOrEmpty(value)) {
+                throw new ArgumentNullException("value");
+            }
+
             var sb = new StringBuilder(value.Length);
 
             for (int i = 0; i < value.Length; i++) {
@@ -120,6 +132,10 @@ namespace InSimDotNet.Helpers {
         /// <param name="value">The string to unescape.</param>
         /// <returns>The unescaped string.</returns>
         public static string Unescape(string value) {
+            if (String.IsNullOrEmpty(value)) {
+                throw new ArgumentNullException("value");
+            }
+
             var sb = new StringBuilder(value.Length);
 
             for (int i = 0; i < value.Length; i++) {
@@ -165,6 +181,10 @@ namespace InSimDotNet.Helpers {
         /// <param name="packet">The packet in question.</param>
         /// <returns>A string represenation of the packet.</returns>
         public static string PacketDump(IPacket packet) {
+            if (packet == null) {
+                new ArgumentNullException("packet");
+            }
+
             var sb = new StringBuilder();
 
             var properties = packet.GetType().GetProperties();
