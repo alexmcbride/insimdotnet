@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Linq;
+using InSimDotNet.Packets;
 
 namespace InSimDotNet.Helpers {
     /// <summary>
@@ -153,6 +154,26 @@ namespace InSimDotNet.Helpers {
                 else {
                     sb.Append(value[i]);
                 }
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Generates a string representation of a packet.
+        /// </summary>
+        /// <param name="packet">The packet in question.</param>
+        /// <returns>A string represenation of the packet.</returns>
+        public static string PacketDump(IPacket packet) {
+            var sb = new StringBuilder();
+
+            var properties = packet.GetType().GetProperties();
+            foreach (var property in properties) {
+                sb.AppendFormat(
+                    "{0} = {1}{2}", 
+                    property.Name, 
+                    property.GetValue(packet),
+                    Environment.NewLine);
             }
 
             return sb.ToString();

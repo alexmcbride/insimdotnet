@@ -6,10 +6,13 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace InSimDotNet.Helpers {
+    /// <summary>
+    /// Experimental - don't use.
+    /// </summary>
     public class BatchHelper {
         private InSim insim;
-        private List<ISendable> buffer = new List<ISendable>();
-        private bool isAlreadySending;
+        private List<ISendable> packets = new List<ISendable>();
+        private bool isSending;
 
         public int BatchSize { get; set; }
         public int BatchDelay { get; private set; }
@@ -34,7 +37,7 @@ namespace InSimDotNet.Helpers {
                 throw new InSimException(StringResources.InSimNotConnectedMessage);
             }
 
-            buffer.Add(packet);
+            packets.Add(packet);
 
             BatchSendAsync();
         }
@@ -44,18 +47,18 @@ namespace InSimDotNet.Helpers {
                 throw new InSimException(StringResources.InSimNotConnectedMessage);
             }
 
-            buffer.AddRange(packets);
+            this.packets.AddRange(packets);
 
             BatchSendAsync();
         }
 
         private async void BatchSendAsync() {
-            if (isAlreadySending) {
+            if (isSending) {
                 Debug.WriteLine("already sending");
                 return;
             }
 
-            isAlreadySending = true;
+            isSending = true;
 
             while (true) {
                 var packets = GetPacketBatch();
@@ -68,28 +71,31 @@ namespace InSimDotNet.Helpers {
                 Debug.WriteLine("just waited "+ BatchDelay + " ms");
 
                 // if not then bye bye
-                if (buffer.Count == 0) {
+                if (this.packets.Count == 0) {
                     break;
                 }
             }
 
-            isAlreadySending = false;
+            isSending = false;
         }
 
         private IList<ISendable> GetPacketBatch() {
-            var packets = new List<ISendable>();
+            var batch = new List<ISendable>();
 
+            // get batch of packets up to max byte size.
             int size = 0;
-            for (int i = 0; i < buffer.Count; i++) {
-                if (size + buffer[i].Size < BatchSize) {
-                    packets.Add(buffer[i]);
-                    size += buffer[i].Size;
+            for (int i = 0; i < packets.Count; i++) {
+                if (size + packets[i].Size < BatchSize) {
+                    batch.Add(packets[i]);
+                    size += packets[i].Size;
                     break;
                 }
             }
-            buffer.RemoveRange(0, packets.Count);
 
-            return packets;
+            // remove the packets for that last batch.
+            packets.RemoveRange(0, batch.Count);
+
+            return batch;
         }
     }
 }
