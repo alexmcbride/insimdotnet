@@ -111,6 +111,7 @@
     <Compile Include="Packets\ObjectFlags.cs" />
     <Compile Include="Packets\ObjectInfo.cs" />
     <Compile Include="Packets\OCOAction.cs" />
+    <Compile Include="Packets\OCOIndex.cs" />
     <Compile Include="Packets\PlayerTypes.cs" />
     <Compile Include="Packets\PMOFlags.cs" />
     <Compile Include="Packets\ReplayMode.cs" />

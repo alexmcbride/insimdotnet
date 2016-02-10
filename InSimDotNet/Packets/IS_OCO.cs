@@ -4,11 +4,6 @@
     /// </summary>
     public class IS_OCO : ISendable {
         /// <summary>
-        /// Index used to overide the main start light system.
-        /// </summary>
-        public const byte OCO_INDEX_MAIN = 240;
-
-        /// <summary>
         /// Gets the size of the packet.
         /// </summary>
         public byte Size { get; private set; }
@@ -32,7 +27,7 @@
         /// Gets or sets the index of the start light object, either from AutoX AXO_START_LIGHTS, 
         /// or set IS_OCO.OCO_INDEX_MAIN to overide the main start light system.
         /// </summary>
-        public byte Index { get; set; }
+        public OCOIndex Index { get; set; }
 
         /// <summary>
         /// Gets or sets particular start light objects (0 to 63 or 255 = all), corresponds with the 
@@ -64,7 +59,7 @@
             writer.Write(ReqI);
             writer.Skip(1);
             writer.Write((byte)OCOAction);
-            writer.Write(Index);
+            writer.Write((byte)Index);
             writer.Write(Identifier);
             writer.Write((byte)Data);
             return writer.GetBuffer();
