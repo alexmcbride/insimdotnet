@@ -7,7 +7,7 @@ namespace InSimDotNet {
     /// <summary>
     /// Handles converting strings from LFS encoding into unicode and vice versa.
     /// </summary>
-    internal static class LfsEncoding {
+    internal static class LfsEncoding2 {
         private const char ControlChar = '^';
         private const char FallbackChar = '?';
         private static readonly bool IsRunningOnMono = (Type.GetType("Mono.Runtime") != null);
@@ -29,19 +29,6 @@ namespace InSimDotNet {
 
         private static readonly Encoding DefaultEncoding = EncodingMap['L'];
 
-        private static readonly Dictionary<char, char> EscapeMap = new Dictionary<char, char> {
-            { 'v', '|' },
-            { 'a', '*' },
-            { 'c', ':' },
-            { 'd', '\\' },
-            { 's', '/' },
-            { 'q', '?' },
-            { 't', '"' },
-            { 'l', '<' },
-            { 'r', '>' },
-            { '^', '^' },
-        };
-
         /// <summary>
         /// Converts a LFS encoded string to unicode.
         /// </summary>
@@ -51,48 +38,32 @@ namespace InSimDotNet {
         /// <returns>The resulting unicode string.</returns>
         public static string GetString(byte[] buffer, int index, int length) {
             StringBuilder output = new StringBuilder(length);
-            Encoding encoding = DefaultEncoding;
-            Encoding nextEncoding;
-            int i = 0, start = index;
-            char escape;
+            Encoding encoding = DefaultEncoding, nextEncoding;
+            int i = 0, lastEncode = index;
+            char control, nextChar;
 
             for (i = index; i < index + length; i++) {
-                char control = (char)buffer[i];
+                control = (char)buffer[i];
 
                 // Check for null terminator.
                 if (control == Char.MinValue) {
                     break;
                 }
 
-                // If not control character then ignore.
-                if (control != ControlChar) {
-                    continue;
-                }
-
-                // Found control character so encode everything up to this point.
-                if (i - start > 0) {
-                    output.Append(encoding.GetString(buffer, start, (i - start)));
-                }
-                start = (i + 2); // skip control chars.
-
-                // Process control character.
-                char next = (char)buffer[++i];
-                if (EncodingMap.TryGetValue(next, out nextEncoding)) {
-                    encoding = nextEncoding; // Switch encoding.
-                }
-                else if (EscapeMap.TryGetValue(next, out escape)) {
-                    output.Append(escape); // Escape character.
-                }
-                else {
-                    // Character not codepage switch or escape, so just ignore it.
-                    output.Append(control);
-                    output.Append(next);
+                // Check if codepage switch needed.
+                if (control == ControlChar && (i + 1) < buffer.Length) {
+                    nextChar = (char)buffer[i + 1];
+                    if (EncodingMap.TryGetValue(nextChar, out nextEncoding)) {
+                        output.Append(encoding.GetString(buffer, lastEncode, (i - lastEncode)));
+                        lastEncode = i;
+                        encoding = nextEncoding;
+                    }
                 }
             }
 
-            // End of string reached so encode up all to this point.
-            if (i - start > 0) {
-                output.Append(encoding.GetString(buffer, start, (i - start)));
+            // Encode anything that's left.
+            if (i - lastEncode > 0) {
+                output.Append(encoding.GetString(buffer, lastEncode, (i - lastEncode)));
             }
 
             return output.ToString();
@@ -107,29 +78,16 @@ namespace InSimDotNet {
         /// <param name="length">The maximum number of bytes to write.</param>
         /// <returns>The number of bytes written during the operation.</returns>
         public static int GetBytes(string value, byte[] buffer, int index, int length) {
-            Encoding encoding = DefaultEncoding;
+            Encoding encoding = DefaultEncoding, tempEncoding;
             byte[] tempBytes = new byte[2];
-            int tempCount;
-            int start = index;
-            int totalLength = index + (length - 1);
+            int tempCount, start = index, totalLength = index + (length - 1);
+            bool found;
 
             for (int i = 0; i < value.Length && index < totalLength; i++) {
-                // Remove any existing language tags from the string.
-                int next = i + 1;
-                if (value[i] == '^' && next < value.Length) {
-                    switch (value[next]) {
-                        case 'L':
-                        case 'G':
-                        case 'C':
-                        case 'J':
-                        case 'E':
-                        case 'T':
-                        case 'B':
-                        case 'H':
-                        case 'S':
-                        case 'K':
-                            i++; // skip codepage chars
-                            continue;
+                // Switch codepage.
+                if (value[i] == '^' && i + 1 < value.Length) {
+                    if (EncodingMap.TryGetValue(value[i + 1], out tempEncoding)) {
+                        encoding = tempEncoding;
                     }
                 }
 
@@ -144,7 +102,7 @@ namespace InSimDotNet {
                 }
                 else {
                     // Search for new codepage.
-                    bool found = false;
+                    found = false;
                     foreach (KeyValuePair<char, Encoding> map in EncodingMap) {
                         if (map.Value == encoding) {
                             continue; // Skip current as we've already searched it.

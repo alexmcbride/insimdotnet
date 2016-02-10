@@ -3,6 +3,9 @@
     /// Object COntrol - currently used for switching start lights
     /// </summary>
     public class IS_OCO : ISendable {
+        /// <summary>
+        /// Index used to overide the main start light system.
+        /// </summary>
         public const byte OCO_INDEX_MAIN = 240;
 
         /// <summary>
@@ -26,14 +29,14 @@
         public OCOAction OCOAction { get; set; }
 
         /// <summary>
-        /// Gets or sets the index of the start light object, either one  from AutoX AXO_START_LIGHTS, 
+        /// Gets or sets the index of the start light object, either from AutoX AXO_START_LIGHTS, 
         /// or set IS_OCO.OCO_INDEX_MAIN to overide the main start light system.
         /// </summary>
         public byte Index { get; set; }
 
         /// <summary>
         /// Gets or sets particular start light objects (0 to 63 or 255 = all), corresponds with the 
-        /// indentifier seen in the layout editor.
+        /// indentifier in the layout editor.
         /// </summary>
         public byte Identifier { get; set; }
 

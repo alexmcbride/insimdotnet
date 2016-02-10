@@ -9,7 +9,7 @@ namespace InSimDotNet.Helpers {
     /// <summary>
     /// Experimental - don't use.
     /// </summary>
-    public class BatchHelper {
+    internal class BatchHelper {
         private InSim insim;
         private List<ISendable> packets = new List<ISendable>();
         private bool isSending;

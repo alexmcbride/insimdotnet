@@ -8,7 +8,7 @@ namespace InSimDotNet.Helpers {
     /// <summary>
     /// Class to manage handling events for multiple InSim objects.
     /// </summary>
-    public class EventHelper {
+    internal class EventHelper {
         private class Connection {
             public InSim InSim { get; private set; }
             public InSimSettings Settings { get; private set; }
