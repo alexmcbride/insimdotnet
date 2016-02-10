@@ -110,7 +110,7 @@ namespace InSimDotNet {
         /// <returns>A Unicode string.</returns>
         public string ReadString(int count) {
             position += count;
-            return LfsEncoding.GetString(buffer, position - count, count);
+            return LfsEncoding.Current.GetString(buffer, position - count, count);
         }
 
         /// <summary>

@@ -7,7 +7,7 @@ namespace InSimDotNet {
     /// <summary>
     /// Handles converting strings from LFS encoding into unicode and vice versa.
     /// </summary>
-    internal static class LfsEncoding2 {
+    public class NewLfsEncoding : LfsEncoding {
         private const char ControlChar = '^';
         private const char FallbackChar = '?';
         private static readonly bool IsRunningOnMono = (Type.GetType("Mono.Runtime") != null);
@@ -36,7 +36,7 @@ namespace InSimDotNet {
         /// <param name="index">The index that the string starts in the packet data.</param>
         /// <param name="length">The length of the string.</param>
         /// <returns>The resulting unicode string.</returns>
-        public static string GetString(byte[] buffer, int index, int length) {
+        public override string GetString(byte[] buffer, int index, int length) {
             StringBuilder output = new StringBuilder(length);
             Encoding encoding = DefaultEncoding, nextEncoding;
             int i = 0, lastEncode = index;
@@ -77,7 +77,7 @@ namespace InSimDotNet {
         /// <param name="index">The index in the packet buffer to start writing bytes.</param>
         /// <param name="length">The maximum number of bytes to write.</param>
         /// <returns>The number of bytes written during the operation.</returns>
-        public static int GetBytes(string value, byte[] buffer, int index, int length) {
+        public override int GetBytes(string value, byte[] buffer, int index, int length) {
             Encoding encoding = DefaultEncoding, tempEncoding;
             byte[] tempBytes = new byte[2];
             int tempCount, start = index, totalLength = index + (length - 1);

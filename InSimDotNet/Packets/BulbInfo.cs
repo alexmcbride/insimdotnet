@@ -9,21 +9,21 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// When the...
         /// </summary>
-        Red1,
+        Red1 = 1,
 
         /// <summary>
         /// Three lights...
         /// </summary>
-        Red2,
+        Red2 = 2,
 
         /// <summary>
         /// Go out...
         /// </summary>
-        Red3,
+        Red3 = 4,
 
         /// <summary>
         /// It's GO GO GO!
         /// </summary>
-        Green
+        Green = 8
     }
 }
