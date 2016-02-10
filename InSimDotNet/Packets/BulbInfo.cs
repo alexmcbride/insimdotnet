@@ -7,22 +7,22 @@ namespace InSimDotNet.Packets {
     [Flags]
     public enum BulbInfo {
         /// <summary>
-        /// When the...
+        /// First start light
         /// </summary>
         Red1 = 1,
 
         /// <summary>
-        /// Three lights...
+        /// Second start light
         /// </summary>
         Red2 = 2,
 
         /// <summary>
-        /// Go out...
+        /// Third start light
         /// </summary>
         Red3 = 4,
 
         /// <summary>
-        /// It's GO GO GO!
+        /// GO GO GO!
         /// </summary>
         Green = 8
     }
