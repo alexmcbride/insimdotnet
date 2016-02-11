@@ -7,7 +7,7 @@ namespace InSimDotNet {
     /// <summary>
     /// Handles converting strings from LFS encoding into unicode and vice versa.
     /// </summary>
-    public class NewLfsEncoding : LfsEncoding {
+    internal class NewLfsEncoding : LfsEncoding {
         private const char ControlChar = '^';
         private const char FallbackChar = '?';
         private static readonly bool IsRunningOnMono = (Type.GetType("Mono.Runtime") != null);

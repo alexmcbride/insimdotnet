@@ -70,7 +70,7 @@
     <Compile Include="Helpers\MathHelper.cs" />
     <Compile Include="Helpers\ObjectHelper.cs" />
     <Compile Include="NewLfsEncoding.cs" />
-    <Compile Include="OldLfsEncoding.cs" />
+    <Compile Include="LfsUnicodeEncoding.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Out\OutErrorEventArgs.cs" />
     <Compile Include="Out\OutClient.cs" />

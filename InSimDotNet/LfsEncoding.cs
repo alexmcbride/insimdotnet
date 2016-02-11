@@ -6,7 +6,7 @@ namespace InSimDotNet {
     /// Abstract class for implementing LFS string handling.
     /// </summary>
     public abstract class LfsEncoding {
-        private static LfsEncoding current = new OldLfsEncoding();
+        private static LfsEncoding current = new LfsUnicodeEncoding();
 
         /// <summary>
         /// Gets or sets the current encoding for InSim.NET to use when converting strings.
