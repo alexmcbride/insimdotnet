@@ -185,8 +185,8 @@ namespace InSimDotNet {
             TcpSocket.SocketError += TcpSocket_SocketError;
 
             if (UdpSocket != null && UdpSocket.IsDisposed) {
-                TcpSocket.PacketDataReceived += UdpSocket_PacketDataReceived;
-                TcpSocket.SocketError += UdpSocket_SocketError;
+                TcpSocket.PacketDataReceived -= UdpSocket_PacketDataReceived;
+                TcpSocket.SocketError -= UdpSocket_SocketError;
             }
 
             UdpSocket = new UdpSocket();
