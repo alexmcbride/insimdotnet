@@ -1,7 +1,4 @@
-﻿using System;
-
-namespace InSimDotNet.Packets
-{
+﻿namespace InSimDotNet.Packets {
     /// <summary>
     /// General purpose packet eight byte packet.
     /// </summary>
@@ -28,27 +25,24 @@ namespace InSimDotNet.Packets
         public TtcType SubT { get; set; }
 
         /// <summary>
-        /// connection's unique id (0 = local)
+        /// Gets or sets the connection's unique id (0 = local).
         /// </summary>
         public byte UCID { get; set; }
 
-        //DarkTimes DOUBLE CHECK THIS PLEASE
-        /*
         /// <summary>
-        /// B1, B2, B3 may be used in various ways depending on SubT
+        /// Gets or sets a value that may be used in various ways depending on SubT.
         /// </summary>
         public byte B1 { get; set; }
 
         /// <summary>
-        /// B1, B2, B3 may be used in various ways depending on SubT
+        /// Gets or sets a value that may be used in various ways depending on SubT.
         /// </summary>
         public byte B2 { get; set; }
 
         /// <summary>
-        /// B1, B2, B3 may be used in various ways depending on SubT
+        /// Gets or sets a value that may be used in various ways depending on SubT.
         /// </summary>
         public byte B3 { get; set; }
-        */
 
         /// <summary>
         /// Creates a new general purpose packet.
@@ -72,10 +66,9 @@ namespace InSimDotNet.Packets
             ReqI = reader.ReadByte();
             SubT = (TtcType)reader.ReadByte();
             UCID = reader.ReadByte();
-            //DarkTimes DOUBLE CHECK THIS PLEASE
-            //B1 = reader.ReadByte();
-            //B2 = reader.ReadByte();
-            //B3 = reader.ReadByte();
+            B1 = reader.ReadByte();
+            B2 = reader.ReadByte();
+            B3 = reader.ReadByte();
         }
 
         /// <summary>
@@ -90,10 +83,9 @@ namespace InSimDotNet.Packets
             writer.Write(ReqI);
             writer.Write((byte)SubT);
             writer.Write(UCID);
-            //DarkTimes DOUBLE CHECK THIS PLEASE
-            //writer.Write(B1);
-            //writer.Write(B2);
-            //writer.Write(B3);
+            writer.Write(B1);
+            writer.Write(B2);
+            writer.Write(B3);
             return writer.GetBuffer();
         }
     }

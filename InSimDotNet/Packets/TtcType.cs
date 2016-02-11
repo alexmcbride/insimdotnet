@@ -6,12 +6,12 @@
     public enum TtcType
     {
         /// <summary>
-        /// not used
+        /// Not used
         /// </summary>
         TTC_NONE,
 
         /// <summary>
-        /// send IS_AXM for a layout editor selection
+        /// Send IS_AXM for a layout editor selection
         /// </summary>
         TTC_SEL,
     }

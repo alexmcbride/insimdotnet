@@ -309,7 +309,7 @@
         ISP_OCO,
 
         /// <summary>
-        /// Multi purpose
+        /// Multi purpose - target to connection
         /// </summary>
         ISP_TTC,
 

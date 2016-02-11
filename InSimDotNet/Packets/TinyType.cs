@@ -132,10 +132,5 @@
         /// Request all IS_AXM packets sent.
         /// </summary>
         TINY_AXM,
-
-        /// <summary>
-        /// Request IS_AXM for the layout editor selection.
-        /// </summary>
-        TINY_SEL,
     }
 }
