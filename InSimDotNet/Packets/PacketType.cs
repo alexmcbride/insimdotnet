@@ -309,6 +309,11 @@
         ISP_OCO,
 
         /// <summary>
+        /// Multi purpose
+        /// </summary>
+        ISP_TTC,
+
+        /// <summary>
         /// Admin request
         /// </summary>
         IRP_ARQ = 250,

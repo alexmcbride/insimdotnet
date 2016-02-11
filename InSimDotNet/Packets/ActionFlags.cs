@@ -31,7 +31,7 @@
         /// <summary>
         /// A reply to a TINY_SELL request.
         /// </summary>
-        PMO_TINY_SEL,
+        PMO_TTC_SEL,
 
         /// <summary>
         /// Set the current editor selection.
