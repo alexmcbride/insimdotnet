@@ -4,6 +4,8 @@ using System.Net;
 using System.Text;
 using System.Linq;
 using InSimDotNet.Packets;
+using System.Collections;
+using System.Collections.ObjectModel;
 
 namespace InSimDotNet.Helpers {
     /// <summary>
@@ -174,30 +176,6 @@ namespace InSimDotNet.Helpers {
                 else {
                     sb.Append(value[i]);
                 }
-            }
-
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Generates a string representation of a packet.
-        /// </summary>
-        /// <param name="packet">The packet in question.</param>
-        /// <returns>A string represenation of the packet.</returns>
-        public static string PacketDump(IPacket packet) {
-            if (packet == null) {
-                throw new ArgumentNullException("packet");
-            }
-
-            var sb = new StringBuilder();
-
-            var properties = packet.GetType().GetProperties();
-            foreach (var property in properties) {
-                sb.AppendFormat(
-                    "{0} = {1}{2}", 
-                    property.Name, 
-                    property.GetValue(packet),
-                    Environment.NewLine);
             }
 
             return sb.ToString();

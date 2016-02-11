@@ -1,15 +1,13 @@
-- 2.3.0 (5th Febuary 2016)
+- 2.3.0 (11th Febuary 2016)
 
-* Updated with latest LFS changes
-* Added IS_JRR (join request) packet
-* IS_MSO, IS_III, and IS_ACR packets are now variable sized
-* IS_BFN can now be used to delete a range of buttons
-* InSim.NET now requests InSim version 7
-* Added TINY_ALC and SMALL_ALC
-* InSim object no longer throws ObjectDisposed exception when being used to reconnect to LFS
-* Added new method InSim.Send(params ISendable[])
-* Fixed missing VIEW_ANOTHER identifier from ViewIdentifiers
-* Added IS_UCO (user control object) packet.
+* Updated for LFS 0.6L - many new packets and changes (see lfs\docs\insim.txt for details)
+* Library now uses InSim version 7
+* InSim object no longer throws ObjectDisposed exception when being reused to connect to LFS
+* Fixed encoding bug that could cause garbled strings to be sent to LFS
+* Changed InSim.Send(IEnumerable<ISendable>) method to InSim.Send(params ISendable[]) which provides better syntax
+* Fixed missing VIEW_ANOTHER identifier to ViewIdentifiers
+* Added new StringHelpers: StripLanguage(string), Strip(string), Unescape(string), Escape(string), and PacketDump(IPacket)
+* Added Rockingham to TrackHelper
 
 - 2.2.0 (3rd April 2015)
 
