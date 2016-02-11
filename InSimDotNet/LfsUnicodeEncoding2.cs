@@ -5,9 +5,10 @@ using System.Text;
 
 namespace InSimDotNet {
     /// <summary>
-    /// Handles converting strings from LFS encoding into unicode and vice versa.
+    /// An update method of handling unicode strings that is not fully tested. This should provide better 
+    /// compatibility and ease of use but may have some bugs.
     /// </summary>
-    internal class NewLfsEncoding : LfsEncoding {
+    public class LfsUnicodeEncoding2 : LfsEncoding {
         private const char ControlChar = '^';
         private const char FallbackChar = '?';
         private static readonly bool IsRunningOnMono = (Type.GetType("Mono.Runtime") != null);

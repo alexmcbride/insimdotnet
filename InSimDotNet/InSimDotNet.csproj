@@ -69,7 +69,7 @@
     <Compile Include="InSimSettings.cs" />
     <Compile Include="Helpers\MathHelper.cs" />
     <Compile Include="Helpers\ObjectHelper.cs" />
-    <Compile Include="NewLfsEncoding.cs" />
+    <Compile Include="LfsUnicodeEncoding2.cs" />
     <Compile Include="LfsUnicodeEncoding.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Out\OutErrorEventArgs.cs" />
