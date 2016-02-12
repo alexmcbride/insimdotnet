@@ -319,6 +319,11 @@
         ISP_SLC,
 
         /// <summary>
+        /// Car state changed
+        /// </summary>
+        ISP_CSC,
+
+        /// <summary>
         /// Admin request
         /// </summary>
         IRP_ARQ = 250,

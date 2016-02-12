@@ -92,12 +92,14 @@
     <Compile Include="Packets\CarHCP.cs" />
     <Compile Include="Packets\CharacterModifiers.cs" />
     <Compile Include="Packets\ContactFlags.cs" />
+    <Compile Include="Packets\CSCAction.cs" />
     <Compile Include="Packets\FlagType.cs" />
     <Compile Include="Packets\HlvcFlags.cs" />
     <Compile Include="Packets\HostType.cs" />
     <Compile Include="Packets\IS_ACR.cs" />
     <Compile Include="Packets\IS_AXM.cs" />
     <Compile Include="Packets\IS_CON.cs" />
+    <Compile Include="Packets\IS_CSC.cs" />
     <Compile Include="Packets\IS_HCP.cs" />
     <Compile Include="Packets\IS_HLV.cs" />
     <Compile Include="Packets\IS_JRR.cs" />

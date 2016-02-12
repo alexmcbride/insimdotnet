@@ -1,9 +1,9 @@
 - 2.3.0 (11th Febuary 2016)
 
-* Updated for LFS 0.6L - many new packets and changes (see lfs\docs\insim.txt for details)
+* Updated for LFS 0.6L - a very large number of new packets and changes (see lfs\docs\insim.txt for details)
 * Library now uses InSim version 7
 * InSim object no longer throws ObjectDisposed exception when being reused to connect to LFS
-* Fixed encoding bug that could cause garbled strings to be sent to LFS
+* Fixed encoding issue that occasionally caused garbled strings to be sent to LFS
 * Changed InSim.Send(IEnumerable<ISendable>) method to InSim.Send(params ISendable[]) which provides better syntax
 * Fixed missing VIEW_ANOTHER identifier to ViewIdentifiers
 * Added new StringHelpers: StripLanguage(string), Strip(string), Unescape(string), Escape(string), and PacketDump(IPacket)

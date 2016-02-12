@@ -21,6 +21,11 @@ namespace InSimDotNet.Packets {
         public byte Speed { get; private set; }
 
         /// <summary>
+        /// Gets the altitude of the car.
+        /// </summary>
+        public byte Zbyte { get; private set; }
+
+        /// <summary>
         /// Gets the X position (1 meter = 16).
         /// </summary>
         public short X { get; private set; }
