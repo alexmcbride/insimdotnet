@@ -203,17 +203,20 @@ namespace InSimDotNet {
 
         private Task<int> SendInternalAsync(byte[] buffer, int index, int count) {
             // we need to get number of bytes sent so wrap Socket.BeginSend() in a TaskCompletionSource.
-            TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
-            client.Client.BeginSend(buffer, index, count, SocketFlags.None, r => {
+            Socket socket = client.Client;
+            TaskCompletionSource<int> source = new TaskCompletionSource<int>();
+
+            socket.BeginSend(buffer, index, count, SocketFlags.None, r => {
                 try {
-                    int sent = client.Client.EndSend(r);
-                    tcs.SetResult(sent);
+                    int sent = socket.EndSend(r);
+                    source.SetResult(sent);
                 }
                 catch (Exception ex) {
-                    tcs.SetException(ex);
+                    source.SetException(ex);
                 }
             }, null);
-            return tcs.Task;
+
+            return source.Task;
         }
 
         private async void ReceiveAsync() {
