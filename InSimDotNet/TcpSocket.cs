@@ -1,5 +1,4 @@
-﻿using InSimDotNet.Packets;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Sockets;
@@ -10,7 +9,7 @@ namespace InSimDotNet {
     /// Manages a TCP connection with LFS.
     /// </summary>
     public class TcpSocket : IDisposable {
-        private const int BufferSize = 2048;
+        private const int BufferSize = 8192; // arbitary
 
         private readonly TcpClient client;
         private NetworkStream stream;

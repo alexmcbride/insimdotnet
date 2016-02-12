@@ -9,7 +9,7 @@ namespace InSimDotNet {
     /// Manages a UDP connection with LFS.
     /// </summary>
     public class UdpSocket : IDisposable {
-        private const int BufferSize = 512;
+        private const int BufferSize = 256;
 
         private readonly UdpClient client;
 
