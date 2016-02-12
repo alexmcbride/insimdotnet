@@ -15,7 +15,7 @@ namespace InSimDotNet {
         private readonly TcpClient client;
         private NetworkStream stream;
         private byte[] buffer = new byte[BufferSize];
-        private int offset;
+        private int bufferSize;
         private List<byte[]> sendBuffer = new List<byte[]>(BufferSize);
 
         /// <summary>
@@ -174,9 +174,12 @@ namespace InSimDotNet {
             ThrowIfDisposed();
             ThrowIfNotConnected();
 
+            Socket socket = client.Client;
+
+            // keep sending until whole buffer sent.
             int sent = 0;
             while (sent < buffer.Length) {
-                sent += client.Client.Send(buffer, sent, buffer.Length - sent, SocketFlags.None);
+                sent += socket.Send(buffer, sent, buffer.Length - sent, SocketFlags.None);
             }
             BytesSent += sent;
         }
@@ -194,6 +197,7 @@ namespace InSimDotNet {
             ThrowIfDisposed();
             ThrowIfNotConnected();
 
+            // keep sending until whole buffer sent.
             int sent = 0;
             while (sent < buffer.Length) {
                 sent += await SendAsyncInternal(buffer, sent, buffer.Length - sent);
@@ -219,33 +223,41 @@ namespace InSimDotNet {
             return source.Task;
         }
 
+        // This is the main TCP stream packet receive code.
         private async void ReceiveAsync() {
-            if (stream.CanRead) {
-                try {
-                    int count = await stream
-                        .ReadAsync(buffer, offset, buffer.Length - offset)
-                        .ConfigureAwait(ContinueOnCapturedContext);
+            if (!stream.CanRead) {
+                return;
+            }
 
-                    if (count == 0) {
-                        Dispose();
-                        OnConnectionLost(EventArgs.Empty);
-                    }
-                    else {
-                        BytesReceived += count;
-                        offset += count;
+            try {
+                // Read from socket into buffer.
+                int count = await stream
+                    .ReadAsync(buffer, bufferSize, buffer.Length - bufferSize)
+                    .ConfigureAwait(ContinueOnCapturedContext);
 
-                        HandlePackets();
-                        ReceiveAsync();
-                    }
-                }
-                catch (ObjectDisposedException) {
-                    // Do nothing... this gets thrown if Dispose is called while waiting for a read to complete.
-                }
-                catch (Exception ex) {
-                    Debug.WriteLine(String.Format(StringResources.TcpSocketDebugErrorMessage, ex));
+                if (count == 0) {
+                    // Connection Lost.
                     Dispose();
-                    OnSocketError(new InSimErrorEventArgs(ex));
+                    OnConnectionLost(EventArgs.Empty);
                 }
+                else {
+                    // Handle received packets.
+                    BytesReceived += count;
+                    bufferSize += count;
+
+                    HandlePackets();
+
+                    // Start receiving next batch of packets.
+                    ReceiveAsync();
+                }
+            }
+            catch (ObjectDisposedException) {
+                // Do nothing... this gets thrown if Dispose is called while waiting for a read to complete.
+            }
+            catch (Exception ex) {
+                Debug.WriteLine(String.Format(StringResources.TcpSocketDebugErrorMessage, ex));
+                Dispose();
+                OnSocketError(new InSimErrorEventArgs(ex));
             }
         }
 
@@ -253,8 +265,8 @@ namespace InSimDotNet {
             int read = 0;
 
             // Loop through all completed packets in the buffer.
-            while (offset > 0 && offset >= buffer[read]) {
-                int size = Buffer.GetByte(buffer, read);
+            while (bufferSize > 0 && bufferSize >= buffer[read]) {
+                int size = buffer[read];
 
                 // If size not multiple of four packet is corrupt.
                 if (size % 4 > 0) {
@@ -266,13 +278,13 @@ namespace InSimDotNet {
                 Buffer.BlockCopy(buffer, read, temp, 0, size);
                 OnPacketDataReceived(new PacketDataEventArgs(temp));
 
-                // Move indices to next packet.
-                offset -= size;
+                // Move to next packet.
+                bufferSize -= size;
                 read += size;
             }
 
-            // Copy leftover bytes to front of buffer.
-            if (offset > 0) {
+            // Copy any leftover bytes to front of buffer.
+            if (bufferSize > 0) {
                 Buffer.BlockCopy(
                     buffer,
                     read,
