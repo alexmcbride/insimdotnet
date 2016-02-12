@@ -181,22 +181,40 @@ namespace InSimDotNet {
             BytesSent += sent;
         }
 
-        ///// <summary>
-        ///// Sends byte data to LFS asynchronously.
-        ///// </summary>
-        ///// <param name="buffer">The data to send.</param>
-        ///// <returns>An async task object.</returns>
-        //public async Task SendAsync(byte[] buffer) {
-        //    if (buffer == null) {
-        //        throw new ArgumentNullException("buffer");
-        //    }
+        /// <summary>
+        /// Sends byte data to LFS asynchronously.
+        /// </summary>
+        /// <param name="buffer">The data to send.</param>
+        /// <returns>An async task object.</returns>
+        public async Task SendAsync(byte[] buffer) {
+            if (buffer == null) {
+                throw new ArgumentNullException("buffer");
+            }
 
-        //    ThrowIfDisposed();
-        //    ThrowIfNotConnected();
+            ThrowIfDisposed();
+            ThrowIfNotConnected();
 
-        //    await stream.WriteAsync(buffer, 0, buffer.Length);
-        //    BytesSent += buffer.Length;
-        //}
+            int sent = 0;
+            while (sent < buffer.Length) {
+                sent += await SendInternalAsync(buffer, sent, buffer.Length - sent);
+            }
+            BytesSent += sent;
+        }
+
+        private Task<int> SendInternalAsync(byte[] buffer, int index, int count) {
+            // we need to get number of bytes sent so wrap Socket.BeginSend() in a TaskCompletionSource.
+            TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
+            client.Client.BeginSend(buffer, index, count, SocketFlags.None, r => {
+                try {
+                    int sent = client.Client.EndSend(r);
+                    tcs.SetResult(sent);
+                }
+                catch (Exception ex) {
+                    tcs.SetException(ex);
+                }
+            }, null);
+            return tcs.Task;
+        }
 
         private async void ReceiveAsync() {
             if (stream.CanRead) {

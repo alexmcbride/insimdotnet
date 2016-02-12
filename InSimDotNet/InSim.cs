@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace InSimDotNet {
     /// <summary>
@@ -172,6 +173,56 @@ namespace InSimDotNet {
             }
         }
 
+        /// <summary>
+        /// Initializes the connection with LFS asynchronously.
+        /// </summary>
+        /// <param name="settings">The settings used to initialize LFS.</param>
+        /// <returns>An awaitable async task object.</returns>
+        public async Task InitializeAsync(InSimSettings settings) {
+            if (settings == null) {
+                throw new ArgumentNullException("settings");
+            }
+
+            ThrowIfDisposed();
+            ThrowIfConnected();
+
+            InitializeSockets();
+
+            Settings = new ReadOnlyInSimSettings(settings);
+
+            try {
+                if (Settings.IsRelayHost) {
+                    await TcpSocket.ConnectAsync(RelayHost, RelayPort);
+                }
+                else {
+                    await TcpSocket.ConnectAsync(Settings.Host, Settings.Port);
+
+                    await TcpSocket.SendAsync(new IS_ISI {
+                        Admin = Settings.Admin,
+                        Flags = Settings.Flags,
+                        IName = Settings.IName,
+                        Interval = Settings.Interval,
+                        Prefix = Settings.Prefix,
+                        ReqI = 1, // Request version.
+                        UDPPort = Settings.UdpPort,
+                        InSimVer = InSimVersion, // request latest InSim version
+                    }.GetBuffer());
+
+                    if (Settings.UdpPort > 0) {
+                        UdpSocket.Bind(Settings.Host, Settings.UdpPort);
+                    }
+                }
+
+                OnInitialized(new InitializeEventArgs(Settings));
+            }
+            catch (SocketException ex) {
+                if (ex.SocketErrorCode == SocketError.ConnectionRefused) {
+                    throw new InSimException(StringResources.InSimCouldNotConnectMessage, ex);
+                }
+                throw;
+            }
+        }
+
         private void InitializeSockets() {
             if (TcpSocket != null && TcpSocket.IsDisposed) {
                 TcpSocket.PacketDataReceived -= TcpSocket_PacketDataReceived;
@@ -223,6 +274,22 @@ namespace InSimDotNet {
         }
 
         /// <summary>
+        /// Sends the specified packet to LFS asynchronously.
+        /// </summary>
+        /// <param name="packet">The<see cref="ISendable"/> packet to send.</param>
+        /// <returns>An awaitable async task object.</returns>
+        public Task SendAsync(ISendable packet) {
+            if (packet == null) {
+                throw new ArgumentNullException("packet");
+            }
+
+            ThrowIfDisposed();
+            ThrowIfNotConnected();
+
+            return TcpSocket.SendAsync(packet.GetBuffer());
+        }
+
+        /// <summary>
         /// Sends the specified sequence of packets to LFS.
         /// </summary>
         /// <param name="packets">The sequence of <see cref="ISendable"/> packets to send.</param>
@@ -234,12 +301,34 @@ namespace InSimDotNet {
             ThrowIfDisposed();
             ThrowIfNotConnected();
 
-            int size = packets.Sum(p => p.Size);
-            List<byte> buffer = new List<byte>(size);
-            foreach (ISendable packet in packets) {
-                buffer.AddRange(packet.GetBuffer());
+            TcpSocket.Send(GetBufferForMultiplePackets(packets));
+        }
+
+        /// <summary>
+        /// Sends the specified sequence of packets to LFS asynchronously.
+        /// </summary>
+        /// <param name="packets">The sequence of <see cref="ISendable"/> packets to send.</param>
+        /// <returns>An awaitable async task object.</returns>
+        public Task SendAsync(params ISendable[] packets) {
+            if (packets == null) {
+                throw new ArgumentNullException("packets");
             }
-            TcpSocket.Send(buffer.ToArray());
+
+            ThrowIfDisposed();
+            ThrowIfNotConnected();
+
+            return TcpSocket.SendAsync(GetBufferForMultiplePackets(packets));
+        }
+
+        private static byte[] GetBufferForMultiplePackets(ISendable[] packets) {
+            int size = packets.Sum(p => p.Size);
+            byte[] buffer = new byte[size];
+            int offset = 0;
+            foreach (ISendable packet in packets) {
+                Buffer.BlockCopy(packet.GetBuffer(), 0, buffer, offset, packet.Size);
+                offset += packet.Size;
+            }
+            return buffer;
         }
 
         /// <summary>
@@ -248,10 +337,6 @@ namespace InSimDotNet {
         /// <param name="message">The message to send.</param>
         /// <param name="args">Arguments to format the message with.</param>
         public void Send(string message, params object[] args) {
-            const int MsxLen = 96;
-            const int MstLen = 64;
-            const string CommandPrefix = "/";
-
             if (message == null) {
                 throw new ArgumentNullException("message");
             }
@@ -259,9 +344,34 @@ namespace InSimDotNet {
             ThrowIfDisposed();
             ThrowIfNotConnected();
 
+            Send(GetMessagePacket(message, args));
+        }
+
+        /// <summary>
+        /// Sends a message or command to LFS asynchronously.
+        /// </summary>
+        /// <param name="message">The message to send.</param>
+        /// <param name="args">Arguments to format the message with.</param>
+        /// <returns>An awaitable async task object.</returns>
+        public Task SendAsync(string message, params object[] args) {
+            if (message == null) {
+                throw new ArgumentNullException("message");
+            }
+
+            ThrowIfDisposed();
+            ThrowIfNotConnected();
+
+            return SendAsync(GetMessagePacket(message, args));
+        }
+
+        private ISendable GetMessagePacket(string message, object[] args) {
+            const int MsxLen = 96;
+            const int MstLen = 64;
+            const string CommandPrefix = "/";
+
             message = String.Format(message, args);
             if (message.StartsWith(CommandPrefix, StringComparison.OrdinalIgnoreCase)) {
-                Send(new IS_MST { Msg = message }); // Send command.
+                return new IS_MST { Msg = message }; // Send command.
             }
             else {
                 // We need to know the length the string will be once converted into bytes so we 
@@ -269,10 +379,10 @@ namespace InSimDotNet {
                 byte[] buffer = new byte[MsxLen];
                 int length = LfsEncoding.Current.GetBytes(message, buffer, 0, MsxLen);
                 if (length < MstLen) {
-                    Send(new IS_MST(buffer.Take(MstLen).ToArray())); // Send normal message.
+                    return new IS_MST(buffer.Take(MstLen).ToArray()); // Send normal message.
                 }
                 else {
-                    Send(new IS_MSX(buffer)); // Send extended message.
+                    return new IS_MSX(buffer); // Send extended message.
                 }
             }
         }
@@ -285,6 +395,17 @@ namespace InSimDotNet {
         /// <param name="args">An object array containing zero or more objects to format the message with.</param>
         public void Send(byte ucid, string message, params object[] args) {
             Send(ucid, 0, message, args);
+        }
+
+        /// <summary>
+        /// Sends a message to a specific connection asynchronously.
+        /// </summary>
+        /// <param name="ucid">The ID of the connection to send the message to.</param>
+        /// <param name="message">The message to send.</param>
+        /// <param name="args">An object array containing zero or more objects to format the message with.</param>
+        /// <returns>An awaitable async task object.</returns>
+        public Task SendAsync(byte ucid, string message, params object[] args) {
+            return SendAsync(ucid, 0, message, args);
         }
 
         /// <summary>
@@ -304,6 +425,26 @@ namespace InSimDotNet {
 
             message = String.Format(message, args);
             Send(new IS_MTC { Msg = message, PLID = plid, UCID = ucid });
+        }
+
+        /// <summary>
+        /// Sends a message to a specific connection, of if the ucid is 0 to a specific player.
+        /// </summary>
+        /// <param name="ucid">The ID of the connection to send the message to.</param>
+        /// <param name="plid">The ID of the player to send the message to.</param>
+        /// <param name="message">The message to send.</param>
+        /// <param name="args">Arguments to format the message with.</param>
+        /// <returns>An awaitable async task object.</returns>
+        public Task SendAsync(byte ucid, byte plid, string message, params object[] args) {
+            if (message == null) {
+                throw new ArgumentNullException("message");
+            }
+
+            ThrowIfDisposed();
+            ThrowIfNotConnected();
+
+            message = String.Format(message, args);
+            return SendAsync(new IS_MTC { Msg = message, PLID = plid, UCID = ucid });
         }
 
         /// <summary>
