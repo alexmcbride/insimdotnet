@@ -127,6 +127,8 @@ namespace InSimDotNet {
                     return new IS_NCI(buffer);
                 case PacketType.ISP_UCO:
                     return new IS_UCO(buffer);
+                case PacketType.ISP_SLC:
+                    return new IS_SLC(buffer);
                 case PacketType.IRP_ARP:
                     return new IR_ARP(buffer);
                 case PacketType.IRP_HOS:
@@ -278,6 +280,8 @@ namespace InSimDotNet {
                 return PacketType.ISP_OCO;
             if (type == typeof(IS_TTC))
                 return PacketType.ISP_TTC;
+            if (type == typeof(IS_SLC))
+                return PacketType.ISP_SLC;
             if (type == typeof(IR_ARP))
                 return PacketType.IRP_ARP;
             if (type == typeof(IR_ARQ))

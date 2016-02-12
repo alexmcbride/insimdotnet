@@ -132,5 +132,10 @@
         /// Request all IS_AXM packets sent.
         /// </summary>
         TINY_AXM,
+
+        /// <summary>
+        /// Request IS_SLC packets for all players
+        /// </summary>
+        TINY_SLC
     }
 }

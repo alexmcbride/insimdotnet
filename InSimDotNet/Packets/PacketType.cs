@@ -314,6 +314,11 @@
         ISP_TTC,
 
         /// <summary>
+        /// Connection has selected a car
+        /// </summary>
+        ISP_SLC,
+
+        /// <summary>
         /// Admin request
         /// </summary>
         IRP_ARQ = 250,

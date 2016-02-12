@@ -105,6 +105,7 @@
     <Compile Include="Packets\IS_OBH.cs" />
     <Compile Include="Packets\IS_OCO.cs" />
     <Compile Include="Packets\IS_PLC.cs" />
+    <Compile Include="Packets\IS_SLC.cs" />
     <Compile Include="Packets\IS_TTC.cs" />
     <Compile Include="Packets\IS_UCO.cs" />
     <Compile Include="Packets\JrrAction.cs" />
