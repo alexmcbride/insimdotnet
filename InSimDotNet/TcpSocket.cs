@@ -196,12 +196,12 @@ namespace InSimDotNet {
 
             int sent = 0;
             while (sent < buffer.Length) {
-                sent += await SendInternalAsync(buffer, sent, buffer.Length - sent);
+                sent += await SendAsyncInternal(buffer, sent, buffer.Length - sent);
             }
             BytesSent += sent;
         }
 
-        private Task<int> SendInternalAsync(byte[] buffer, int index, int count) {
+        private Task<int> SendAsyncInternal(byte[] buffer, int index, int count) {
             // we need to get number of bytes sent so wrap Socket.BeginSend() in a TaskCompletionSource.
             Socket socket = client.Client;
             TaskCompletionSource<int> source = new TaskCompletionSource<int>();
@@ -252,6 +252,7 @@ namespace InSimDotNet {
         private void HandlePackets() {
             int read = 0;
 
+            // Loop through all completed packets in the buffer.
             while (offset > 0 && offset >= buffer[read]) {
                 int size = Buffer.GetByte(buffer, read);
 

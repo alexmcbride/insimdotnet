@@ -301,7 +301,7 @@ namespace InSimDotNet {
             ThrowIfDisposed();
             ThrowIfNotConnected();
 
-            TcpSocket.Send(GetBufferForMultiplePackets(packets));
+            TcpSocket.Send(GetSendBuffer(packets));
         }
 
         /// <summary>
@@ -317,10 +317,10 @@ namespace InSimDotNet {
             ThrowIfDisposed();
             ThrowIfNotConnected();
 
-            return TcpSocket.SendAsync(GetBufferForMultiplePackets(packets));
+            return TcpSocket.SendAsync(GetSendBuffer(packets));
         }
 
-        private static byte[] GetBufferForMultiplePackets(ISendable[] packets) {
+        private static byte[] GetSendBuffer(ISendable[] packets) {
             int size = packets.Sum(p => p.Size);
             byte[] buffer = new byte[size];
             int offset = 0;
@@ -379,7 +379,7 @@ namespace InSimDotNet {
                 byte[] buffer = new byte[MsxLen];
                 int length = LfsEncoding.Current.GetBytes(message, buffer, 0, MsxLen);
                 if (length < MstLen) {
-                    return new IS_MST(buffer.Take(MstLen).ToArray()); // Send normal message.
+                    return new IS_MST(buffer.Take(MstLen).ToArray()); // Send normal message (MST expects shorter array).
                 }
                 else {
                     return new IS_MSX(buffer); // Send extended message.
