@@ -4,6 +4,9 @@ namespace InSimDotNet.Packets {
     /// Flags to represent the IS_AXM PMOFlags attribute.
     /// </summary>
     public enum PMOFlags {
+        /// <summary>
+        /// Nowt.
+        /// </summary>
         NONE = 0,
 
         /// <summary>
