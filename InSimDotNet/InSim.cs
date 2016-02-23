@@ -5,13 +5,14 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace InSimDotNet {
+namespace InSimDotNet
+{
     /// <summary>
     /// Manages connecting to LFS using the InSim protocol.
     /// </summary>
     public class InSim : IDisposable {
         /// <summary>
-        /// Gets the current InSim version. This is a constant field.
+        /// Gets the current InSim version.
         /// </summary>
         public const int InSimVersion = 7;
         private const string RelayHost = "isrelay.lfs.net";
@@ -44,7 +45,7 @@ namespace InSimDotNet {
         /// Gets if LFS is connected.
         /// </summary>
         public bool IsConnected {
-            get { return TcpSocket == null ? false : TcpSocket.IsConnected; }
+            get { return TcpSocket.IsConnected; }
         }
 
         /// <summary>
@@ -146,17 +147,19 @@ namespace InSimDotNet {
                 else {
                     TcpSocket.Connect(Settings.Host, Settings.Port);
 
+                    // Initialize InSim.
                     Send(new IS_ISI {
                         Admin = Settings.Admin,
                         Flags = Settings.Flags,
                         IName = Settings.IName,
                         Interval = Settings.Interval,
                         Prefix = Settings.Prefix,
-                        ReqI = 1, // Request version.
+                        ReqI = 1, // Request IS_VER sent after connect.
                         UDPPort = Settings.UdpPort,
                         InSimVer = InSimVersion, // request latest InSim version
                     });
 
+                    // If UDP port set then init UDP connection
                     if (Settings.UdpPort > 0) {
                         UdpSocket.Bind(Settings.Host, Settings.UdpPort);
                     }
@@ -196,17 +199,19 @@ namespace InSimDotNet {
                 else {
                     await TcpSocket.ConnectAsync(Settings.Host, Settings.Port);
 
+                    // Initialize InSim.
                     await TcpSocket.SendAsync(new IS_ISI {
                         Admin = Settings.Admin,
                         Flags = Settings.Flags,
                         IName = Settings.IName,
                         Interval = Settings.Interval,
                         Prefix = Settings.Prefix,
-                        ReqI = 1, // Request version.
+                        ReqI = 1, // Request IS_VER sent after connect.
                         UDPPort = Settings.UdpPort,
                         InSimVer = InSimVersion, // request latest InSim version
                     }.GetBuffer());
 
+                    // If UDP port set then init UDP connection
                     if (Settings.UdpPort > 0) {
                         UdpSocket.Bind(Settings.Host, Settings.UdpPort);
                     }

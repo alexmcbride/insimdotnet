@@ -5,7 +5,7 @@ using System.Text;
 
 namespace InSimDotNet {
     /// <summary>
-    /// An update method of handling unicode strings that is not fully tested. This should provide better 
+    /// An updated method of handling unicode strings that is not fully tested. This should provide better 
     /// compatibility and ease of use but may have some bugs.
     /// </summary>
     public class LfsUnicodeEncoding2 : LfsEncoding {
