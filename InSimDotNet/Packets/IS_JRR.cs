@@ -36,7 +36,7 @@
         /// <summary>
         /// Gets the ObjectInfo object used to specify start point. 0 : use default start point / Flags = 0x80 : set start point
         /// </summary>
-        public ObjectInfo StartPos { get; private set; }
+        public ObjectInfo StartPos { get; set; }
 
         /// <summary>
         /// Creates a new IS_JRR object.

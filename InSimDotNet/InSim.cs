@@ -5,8 +5,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace InSimDotNet
-{
+namespace InSimDotNet {
     /// <summary>
     /// Manages connecting to LFS using the InSim protocol.
     /// </summary>
@@ -124,21 +123,8 @@ namespace InSimDotNet
             }
         }
 
-        /// <summary>
-        /// Initializes the connection with LFS.
-        /// </summary>
-        /// <param name="settings">A <see cref="InSimSettings"/> object containing information to initialize the connection with.</param>
         public void Initialize(InSimSettings settings) {
-            if (settings == null) {
-                throw new ArgumentNullException("settings");
-            }
-
-            ThrowIfDisposed();
-            ThrowIfConnected();
-
-            InitializeSockets();
-
-            Settings = new ReadOnlyInSimSettings(settings);
+            PreInitialize(settings);
 
             try {
                 if (Settings.IsRelayHost) {
@@ -148,21 +134,9 @@ namespace InSimDotNet
                     TcpSocket.Connect(Settings.Host, Settings.Port);
 
                     // Initialize InSim.
-                    Send(new IS_ISI {
-                        Admin = Settings.Admin,
-                        Flags = Settings.Flags,
-                        IName = Settings.IName,
-                        Interval = Settings.Interval,
-                        Prefix = Settings.Prefix,
-                        ReqI = 1, // Request IS_VER sent after connect.
-                        UDPPort = Settings.UdpPort,
-                        InSimVer = InSimVersion, // request latest InSim version
-                    });
+                    Send(GetInSimInitPacket());
 
-                    // If UDP port set then init UDP connection
-                    if (Settings.UdpPort > 0) {
-                        UdpSocket.Bind(Settings.Host, Settings.UdpPort);
-                    }
+                    PostInitialize();
                 }
 
                 OnInitialized(new InitializeEventArgs(Settings));
@@ -175,22 +149,8 @@ namespace InSimDotNet
             }
         }
 
-        /// <summary>
-        /// Initializes the connection with LFS asynchronously.
-        /// </summary>
-        /// <param name="settings">The settings used to initialize LFS.</param>
-        /// <returns>An awaitable async task object.</returns>
         public async Task InitializeAsync(InSimSettings settings) {
-            if (settings == null) {
-                throw new ArgumentNullException("settings");
-            }
-
-            ThrowIfDisposed();
-            ThrowIfConnected();
-
-            InitializeSockets();
-
-            Settings = new ReadOnlyInSimSettings(settings);
+            PreInitialize(settings);
 
             try {
                 if (Settings.IsRelayHost) {
@@ -200,21 +160,9 @@ namespace InSimDotNet
                     await TcpSocket.ConnectAsync(Settings.Host, Settings.Port);
 
                     // Initialize InSim.
-                    await TcpSocket.SendAsync(new IS_ISI {
-                        Admin = Settings.Admin,
-                        Flags = Settings.Flags,
-                        IName = Settings.IName,
-                        Interval = Settings.Interval,
-                        Prefix = Settings.Prefix,
-                        ReqI = 1, // Request IS_VER sent after connect.
-                        UDPPort = Settings.UdpPort,
-                        InSimVer = InSimVersion, // request latest InSim version
-                    }.GetBuffer());
+                    await SendAsync(GetInSimInitPacket());
 
-                    // If UDP port set then init UDP connection
-                    if (Settings.UdpPort > 0) {
-                        UdpSocket.Bind(Settings.Host, Settings.UdpPort);
-                    }
+                    PostInitialize();
                 }
 
                 OnInitialized(new InitializeEventArgs(Settings));
@@ -225,6 +173,39 @@ namespace InSimDotNet
                 }
                 throw;
             }
+        }
+
+        private void PreInitialize(InSimSettings settings) {
+            if (settings == null) {
+                throw new ArgumentNullException("settings");
+            }
+
+            ThrowIfDisposed();
+            ThrowIfConnected();
+
+            InitializeSockets();
+
+            Settings = new ReadOnlyInSimSettings(settings);
+        }
+
+        private void PostInitialize() {
+            // If UDP port set then init UDP connection
+            if (Settings.UdpPort > 0) {
+                UdpSocket.Bind(Settings.Host, Settings.UdpPort);
+            }
+        }
+
+        private IS_ISI GetInSimInitPacket() {
+            return new IS_ISI {
+                Admin = Settings.Admin,
+                Flags = Settings.Flags,
+                IName = Settings.IName,
+                Interval = Settings.Interval,
+                Prefix = Settings.Prefix,
+                ReqI = 1, // Request IS_VER sent after connect.
+                UDPPort = Settings.UdpPort,
+                InSimVer = InSimVersion, // request latest InSim version
+            };
         }
 
         private void InitializeSockets() {
