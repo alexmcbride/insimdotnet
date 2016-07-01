@@ -123,6 +123,10 @@ namespace InSimDotNet {
             }
         }
 
+        /// <summary>
+        /// Initialize InSim.
+        /// </summary>
+        /// <param name="settings">The InSim settings.</param>
         public void Initialize(InSimSettings settings) {
             PreInitialize(settings);
 
@@ -149,6 +153,11 @@ namespace InSimDotNet {
             }
         }
 
+        /// <summary>
+        /// Initialize InSim asynchronously.
+        /// </summary>
+        /// <param name="settings">The InSim settings.</param>
+        /// <returns>A task object.</returns>
         public async Task InitializeAsync(InSimSettings settings) {
             PreInitialize(settings);
 
