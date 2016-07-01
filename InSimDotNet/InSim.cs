@@ -230,8 +230,8 @@ namespace InSimDotNet {
             TcpSocket.SocketError += TcpSocket_SocketError;
 
             if (UdpSocket != null && UdpSocket.IsDisposed) {
-                TcpSocket.PacketDataReceived -= UdpSocket_PacketDataReceived;
-                TcpSocket.SocketError -= UdpSocket_SocketError;
+                UdpSocket.PacketDataReceived -= UdpSocket_PacketDataReceived;
+                UdpSocket.SocketError -= UdpSocket_SocketError;
             }
 
             UdpSocket = new UdpSocket();
