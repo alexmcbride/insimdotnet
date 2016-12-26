@@ -76,7 +76,8 @@ insim.Send(new IS_TINY {
 To save bandwidth send multiple packets in a single call using the `InSim.Send(params ISendable[])` method.
 
 ```csharp
-insim.Send(new IS_TINY {
+insim.Send(
+    new IS_TINY {
         SubT = TinyType.TINY_NCN
     },
     new IS_SMALL {
