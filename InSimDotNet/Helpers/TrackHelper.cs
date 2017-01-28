@@ -23,8 +23,9 @@ namespace InSimDotNet.Helpers {
         private static readonly Dictionary<string, Track> TrackMap = new Dictionary<string, Track>()
         {
             { "BL1", new Track("Blackwood Grand Prix", true) },
-            { "BL2", new Track("Blackwood Rallycross", true) },
-            { "BL3", new Track("Blackwood Car Park") },
+            { "BL2", new Track("Blackwood Historic", true) },
+            { "BL3", new Track("Blackwood Rallycross", true) },
+            { "BL4", new Track("Blackwood Car Park") },
             { "SO1", new Track("South City Classic", true) },
             { "SO2", new Track("South City Sprint 1", true) },
             { "SO3", new Track("South City Sprint 2", true) },
