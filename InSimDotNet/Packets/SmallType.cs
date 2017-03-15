@@ -6,51 +6,51 @@
         /// <summary>
         /// Not used
         /// </summary>
-        SMALL_NONE,
+        SMALL_NONE = 0,
 
         /// <summary>
         /// Start sending positions
         /// </summary>
-        SMALL_SSP,
+        SMALL_SSP = 1,
 
         /// <summary>
         /// Start sending gauges
         /// </summary>
-        SMALL_SSG,
+        SMALL_SSG = 2,
 
         /// <summary>
         /// Vote action
         /// </summary>
-        SMALL_VTA,
+        SMALL_VTA = 3,
 
         /// <summary>
         /// Time stop
         /// </summary>
-        SMALL_TMS,
+        SMALL_TMS = 4,
 
         /// <summary>
         /// Time step
         /// </summary>
-        SMALL_STP,
+        SMALL_STP = 5,
 
         /// <summary>
         /// Race time packet (reply to GTH)
         /// </summary>
-        SMALL_RTP,
+        SMALL_RTP = 6,
 
         /// <summary>
         /// Set node lap interval
         /// </summary>
-        SMALL_NLI,
+        SMALL_NLI = 7,
 
         /// <summary>
         /// Set allowed cars (use TINY_ALC to request)
         /// </summary>
-        SMALL_ALC,
+        SMALL_ALC = 8,
 
         /// <summary>
-        /// Set local car switches (lights, horn, siren)
+        /// Set local car switches (lights, horn, siren). Use <see cref="LocalCarSwitches"/> for options.
         /// </summary>
-        SMALL_LCS
+        SMALL_LCS = 9
     }
 }

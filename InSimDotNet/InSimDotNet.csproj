@@ -112,6 +112,7 @@
     <Compile Include="Packets\IS_UCO.cs" />
     <Compile Include="Packets\JrrAction.cs" />
     <Compile Include="Packets\LfsLanguage.cs" />
+    <Compile Include="Packets\LocalCarSwitches.cs" />
     <Compile Include="Packets\ObjectFlags.cs" />
     <Compile Include="Packets\ObjectInfo.cs" />
     <Compile Include="Packets\OCOAction.cs" />
