@@ -46,6 +46,11 @@
         /// <summary>
         /// Set allowed cars (use TINY_ALC to request)
         /// </summary>
-        SMALL_ALC
+        SMALL_ALC,
+
+        /// <summary>
+        /// Set local car switches (lights, horn, siren)
+        /// </summary>
+        SMALL_LCS
     }
 }

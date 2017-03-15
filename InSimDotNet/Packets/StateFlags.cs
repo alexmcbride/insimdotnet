@@ -27,9 +27,9 @@ namespace InSimDotNet.Packets {
         ISS_SHIFTU = 8,
 
         /// <summary>
-        /// Unused.
+        /// In a dialog.
         /// </summary>
-        ISS_16 = 16,
+        ISS_DIALOG = 16,
 
         /// <summary>
         /// Following car.
@@ -80,5 +80,10 @@ namespace InSimDotNet.Packets {
         /// InSim buttons visible.
         /// </summary>
         ISS_VISIBLE = 16384,
+
+        /// <summary>
+        /// In a text entry dialog
+        /// </summary>
+        ISS_TEXT_ENTRY = 32768
     }
 }
