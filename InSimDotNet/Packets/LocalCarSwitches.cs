@@ -50,7 +50,9 @@
         /// </summary>
         public const int LCS_SIGNALS_HAZARD = LCS_SET_SIGNALS + 512 + 256;
 
-        // Flash lights off
+        /// <summary>
+        /// Flash lights off
+        /// </summary>
         public const int LCS_FLASH_OFF = LCS_SET_FLASH;
 
         /// <summary>
