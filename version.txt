@@ -1,3 +1,8 @@
+- 2.3.2 (16th March 2017)
+
+* Added SMALL_LCS option for IS_SMALL packet
+* Added ISS_DIALOG and ISS_TEXT_ENTRY to StateFlags enum
+
 - 2.3.1 (28th January 2017)
 
 * Added new Blackwood configurations to TrackHelper (thanks to FlameCZE)
