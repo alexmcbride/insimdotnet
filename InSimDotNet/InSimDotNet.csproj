@@ -94,10 +94,12 @@
     <Compile Include="Packets\ContactFlags.cs" />
     <Compile Include="Packets\CSCAction.cs" />
     <Compile Include="Packets\FlagType.cs" />
+    <Compile Include="Packets\GarageSubMode.cs" />
     <Compile Include="Packets\HlvcFlags.cs" />
     <Compile Include="Packets\HostType.cs" />
     <Compile Include="Packets\IS_ACR.cs" />
     <Compile Include="Packets\IS_AXM.cs" />
+    <Compile Include="Packets\IS_CIM.cs" />
     <Compile Include="Packets\IS_CON.cs" />
     <Compile Include="Packets\IS_CSC.cs" />
     <Compile Include="Packets\IS_HCP.cs" />
@@ -113,6 +115,8 @@
     <Compile Include="Packets\JrrAction.cs" />
     <Compile Include="Packets\LfsLanguage.cs" />
     <Compile Include="Packets\LocalCarSwitches.cs" />
+    <Compile Include="Packets\MarshallObjectType.cs" />
+    <Compile Include="Packets\ModeIdentifier.cs" />
     <Compile Include="Packets\ObjectFlags.cs" />
     <Compile Include="Packets\ObjectInfo.cs" />
     <Compile Include="Packets\OCOAction.cs" />
@@ -120,6 +124,8 @@
     <Compile Include="Packets\PlayerTypes.cs" />
     <Compile Include="Packets\PMOFlags.cs" />
     <Compile Include="Packets\ReplayMode.cs" />
+    <Compile Include="Packets\NormalSubMode.cs" />
+    <Compile Include="Packets\ShiftUSubMode.cs" />
     <Compile Include="Packets\TtcType.cs" />
     <Compile Include="Packets\Tyres.cs" />
     <Compile Include="Packets\UCOAction.cs" />
