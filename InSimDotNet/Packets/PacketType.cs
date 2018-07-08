@@ -324,6 +324,11 @@
         ISP_CSC,
 
         /// <summary>
+        /// Connection's interface mode.
+        /// </summary>
+        ISP_CIM,
+
+        /// <summary>
         /// Admin request
         /// </summary>
         IRP_ARQ = 250,
