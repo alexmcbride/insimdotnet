@@ -131,6 +131,8 @@ namespace InSimDotNet {
                     return new IS_SLC(buffer);
                 case PacketType.ISP_CSC:
                     return new IS_CSC(buffer);
+                case PacketType.ISP_CIM:
+                    return new IS_CIM(buffer);
                 case PacketType.IRP_ARP:
                     return new IR_ARP(buffer);
                 case PacketType.IRP_HOS:

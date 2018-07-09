@@ -37,5 +37,15 @@
         /// Set the current editor selection.
         /// </summary>
         PMO_SELECTION,
+
+        /// <summary>
+        /// User pressed O without anything selected
+        /// </summary>
+        PMO_POSITION,
+
+        /// <summary>
+        /// Request Z values / reply with Z values
+        /// </summary>
+        PMO_GET_Z
     }
 }
