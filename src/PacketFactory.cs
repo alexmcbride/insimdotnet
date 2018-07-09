@@ -288,6 +288,8 @@ namespace InSimDotNet {
                 return PacketType.ISP_SLC;
             if (type == typeof(IS_CSC))
                 return PacketType.ISP_CSC;
+            if (type == typeof(IS_CIM))
+                return PacketType.ISP_CIM;
             if (type == typeof(IR_ARP))
                 return PacketType.IRP_ARP;
             if (type == typeof(IR_ARQ))
