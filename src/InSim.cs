@@ -533,12 +533,6 @@ namespace InSimDotNet {
             if (IsPacketEventNeeded(type)) {
                 IPacket packet = PacketFactory.BuildPacket(buffer);
 
-                if (packet.Type == PacketType.ISP_MSO)
-                {
-                    string output = string.Join(", ", buffer);
-                    Debug.WriteLine("MSO: " + output);
-                }
-
                 if (packet != null) {
                     RaisePacketEvent(packet);
                 }
