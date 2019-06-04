@@ -104,7 +104,7 @@ namespace InSimDotNet.Packets {
 
             // Need to decode string first so we know how big to make the packet.
             byte[] buffer = new byte[240];
-            int length = LfsEncoding.Instance.GetBytes(text, buffer, 0, 240);
+            int length = LfsEncoding.GetBytes(text, buffer, 0, 240);
 
             // Get packet size.
             Size = (byte)(12 + Math.Min(length + (4 - (length % 4)), 240));

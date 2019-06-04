@@ -3,7 +3,7 @@ using System;
 
 namespace InSimDotNet {
     /// <summary>
-    /// Provides initialization settings for the <see cref="InSim"/> connection with LFS.
+    /// Provides initialization settings for the <see cref="InSimClient"/> connection with LFS.
     /// </summary>
     public class InSimSettings {
         /// <summary>

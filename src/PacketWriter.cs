@@ -132,7 +132,7 @@ namespace InSimDotNet {
                 throw new ArgumentNullException("value");
             }
 
-            LfsEncoding.Instance.GetBytes(value, buffer, position, length);
+            LfsEncoding.GetBytes(value, buffer, position, length);
             position += length;
         }
 

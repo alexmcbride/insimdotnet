@@ -185,10 +185,7 @@ namespace InSimDotNet {
         /// </summary>
         /// <param name="e">The <see cref="PacketDataEventArgs"/> object containing the event data</param>
         protected virtual void OnPacketDataReceived(PacketDataEventArgs e) {
-            EventHandler<PacketDataEventArgs> temp = PacketDataReceived;
-            if (temp != null) {
-                temp(this, e);
-            }
+            PacketDataReceived?.Invoke(this, e);
         }
 
         /// <summary>
@@ -196,10 +193,7 @@ namespace InSimDotNet {
         /// </summary>
         /// <param name="e">The <see cref="EventArgs"/> object containing the event data</param>
         protected virtual void OnConnectionLost(EventArgs e) {
-            EventHandler temp = ConnectionLost;
-            if (temp != null) {
-                temp(this, e);
-            }
+            ConnectionLost?.Invoke(this, e);
         }
 
         /// <summary>
@@ -207,10 +201,7 @@ namespace InSimDotNet {
         /// </summary>
         /// <param name="e">The <see cref="InSimErrorEventArgs"/> object containing the event data</param>
         protected virtual void OnSocketError(InSimErrorEventArgs e) {
-            EventHandler<InSimErrorEventArgs> temp = SocketError;
-            if (temp != null) {
-                temp(this, e);
-            }
+            SocketError?.Invoke(this, e);
         }
     }
 }

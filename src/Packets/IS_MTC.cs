@@ -59,7 +59,7 @@ namespace InSimDotNet.Packets {
         public byte[] GetBuffer() {
             // Encode string first so we can figure out the packet size.
             byte[] buffer = new byte[128];
-            int length = LfsEncoding.Instance.GetBytes(Msg, buffer, 0, 128);
+            int length = LfsEncoding.GetBytes(Msg, buffer, 0, 128);
 
             // Get the packet size (MTC needs trailing zero).
             Size = (byte)(8 + Math.Min(length + (4 - (length % 4)), 128));

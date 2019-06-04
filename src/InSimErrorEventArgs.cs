@@ -2,7 +2,7 @@
 
 namespace InSimDotNet {
     /// <summary>
-    /// Provides data for the <see cref="InSim"/> InSimError event.
+    /// Provides data for the <see cref="InSimClient"/> InSimError event.
     /// </summary>
     public class InSimErrorEventArgs : EventArgs {
         /// <summary>

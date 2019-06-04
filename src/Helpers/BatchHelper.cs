@@ -10,7 +10,7 @@ namespace InSimDotNet.Helpers {
     /// Experimental - don't use.
     /// </summary>
     internal class BatchHelper {
-        private InSim insim;
+        private InSimClient insim;
         private List<ISendable> packets = new List<ISendable>();
         private bool isSending;
 
@@ -21,7 +21,7 @@ namespace InSimDotNet.Helpers {
             get { return insim.IsConnected; }
         }
 
-        public BatchHelper(InSim insim) {
+        public BatchHelper(InSimClient insim) {
             if (insim == null) {
                 throw new ArgumentNullException("insim");
             }
@@ -63,7 +63,7 @@ namespace InSimDotNet.Helpers {
             while (true) {
                 var packets = GetPacketBatch();
 
-                insim.Send(packets.ToArray());
+                await insim.SendAsync(packets.ToArray());
 
                 // wait and see if any more packets added.
                 await Task.Delay(BatchDelay);
