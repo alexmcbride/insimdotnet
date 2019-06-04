@@ -1,3 +1,7 @@
+- 2.3.3 (4th June 2019)
+
+* Updated to LFS 0.6T
+
 - 2.3.2 (16th March 2017)
 
 * Added SMALL_LCS option for IS_SMALL packet

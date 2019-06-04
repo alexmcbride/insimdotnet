@@ -10,9 +10,9 @@ using System.Resources;
 [assembly: AssemblyTitle("InSim.NET")]
 [assembly: AssemblyDescription("A light-weight .NET InSim library")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Alex McBride")]
 [assembly: AssemblyProduct("InSim.NET")]
-[assembly: AssemblyCopyright("Copyright © Alex McBride 2010 - 2017")]
+[assembly: AssemblyCopyright("Copyright © Alex McBride 2010 - 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(true)]
@@ -35,6 +35,6 @@ using System.Resources;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.3.2.0")]
-[assembly: AssemblyFileVersion("2.3.2.0")]
+[assembly: AssemblyVersion("2.3.3.0")]
+[assembly: AssemblyFileVersion("2.3.3.0")]
 [assembly: NeutralResourcesLanguageAttribute("en")]
