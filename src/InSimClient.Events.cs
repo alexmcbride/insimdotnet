@@ -8,54 +8,249 @@ namespace InSimDotNet
     /// </summary>
     public partial class InSimClient : IDisposable
     {
+        /// <summary>
+        /// version info
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_VER>> IS_VER;
+
+        /// <summary>
+        /// : multi purpose
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_TINY>> IS_TINY;
+
+        /// <summary>
+        /// : multi purpose
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_SMALL>> IS_SMALL;
+
+        /// <summary>
+        /// state info
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_STA>> IS_STA;
+
+        /// <summary>
+        /// : cam pos pack
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_CPP>> IS_CPP;
+
+        /// <summary>
+        /// start multiplayer
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_ISM>> IS_ISM;
+
+        /// <summary>
+        /// message out
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_MSO>> IS_MSO;
+
+        /// <summary>
+        /// hidden /i message
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_III>> IS_III;
+
+        /// <summary>
+        /// vote notification
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_VTN>> IS_VTN;
+
+        /// <summary>
+        /// race start
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_RST>> IS_RST;
+
+        /// <summary>
+        /// new connection
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_NCN>> IS_NCN;
+
+        /// <summary>
+        /// connection left
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_CNL>> IS_CNL;
+
+        /// <summary>
+        /// connection renamed
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_CPR>> IS_CPR;
+
+        /// <summary>
+        /// new player (joined race)
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_NPL>> IS_NPL;
+
+        /// <summary>
+        /// player pit (keeps slot in race)
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_PLP>> IS_PLP;
+
+        /// <summary>
+        /// player leave (spectate - loses slot)
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_PLL>> IS_PLL;
+
+        /// <summary>
+        /// lap time
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_LAP>> IS_LAP;
+
+        /// <summary>
+        /// split x time
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_SPX>> IS_SPX;
+
+        /// <summary>
+        /// pit stop start
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_PIT>> IS_PIT;
+
+        /// <summary>
+        /// pit stop finish
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_PSF>> IS_PSF;
+
+        /// <summary>
+        /// pit lane enter / leave
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_PLA>> IS_PLA;
+
+        /// <summary>
+        /// camera changed
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_CCH>> IS_CCH;
+
+        /// <summary>
+        /// penalty given or cleared
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_PEN>> IS_PEN;
+
+        /// <summary>
+        /// take over car
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_TOC>> IS_TOC;
+
+        /// <summary>
+        /// flag (yellow or blue)
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_FLG>> IS_FLG;
+
+        /// <summary>
+        /// player flags (help flags)
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_PFL>> IS_PFL;
+
+        /// <summary>
+        /// finished race
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_FIN>> IS_FIN;
+
+        /// <summary>
+        /// result confirmed
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_RES>> IS_RES;
+
+        /// <summary>
+        /// : reorder (info or instruction)
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_REO>> IS_REO;
+
+        /// <summary>
+        /// node and lap packet
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_NLP>> IS_NLP;
+
+        /// <summary>
+        /// multi car info
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_MCI>> IS_MCI;
+
+        /// <summary>
+        /// car reset
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_CRS>> IS_CRS;
+
+        /// <summary>
+        /// : delete buttons / receive button requests
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_BFN>> IS_BFN;
+
+        /// <summary>
+        /// autocross layout information
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_AXI>> IS_AXI;
+
+        /// <summary>
+        /// hit an autocross object
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_AXO>> IS_AXO;
+
+        /// <summary>
+        /// sent when a user clicks a button
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_BTC>> IS_BTC;
+
+        /// <summary>
+        /// sent after typing into a button
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_BTT>> IS_BTT;
+
+        /// <summary>
+        /// : replay information packet
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_RIP>> IS_RIP;
+
+        /// <summary>
+        /// : screenshot
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_SSH>> IS_SSH;
+
+        /// <summary>
+        /// contact between cars (collision report)
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_CON>> IS_CON;
+
+        /// <summary>
+        /// contact car + object (collision report)
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_OBH>> IS_OBH;
+
+        /// <summary>
+        /// report incidents that would violate HLVC
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_HLV>> IS_HLV;
+
+        /// <summary>
+        /// : autocross multiple objects
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_AXM>> IS_AXM;
+
+        /// <summary>
+        /// admin command report
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_ACR>> IS_ACR;
+
+        /// <summary>
+        /// new connection - extra info for host
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_NCI>> IS_NCI;
+
+        /// <summary>
+        /// report InSim checkpoint / InSim circle
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_UCO>> IS_UCO;
+
+        /// <summary>
+        /// connection selected a car
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_SLC>> IS_SLC;
+
+        /// <summary>
+        /// car state changed
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_CSC>> IS_CSC;
+
+        /// <summary>
+        /// connection's interface mode
+        /// </summary>
         public event EventHandler<PacketEventArgs<IS_CIM>> IS_CIM;
 
         private static PacketType GetPacketType(byte[] buffer)

@@ -16,21 +16,21 @@ namespace InSimDotNet {
         // ExceptionFallback is only used by Mono code path, otherwise we want ReplacementFallback everywhere.
         // These codepages don't translate perfectly to LFS but the best we can do in .NET.
         private static readonly Dictionary<char, Encoding> EncodingMap = new Dictionary<char, Encoding> {
-            { 'L', Encoding.GetEncoding(1252, EncoderFallback, DecoderExceptionFallback.ReplacementFallback) },
-            { 'G', Encoding.GetEncoding(1253, EncoderFallback, DecoderExceptionFallback.ReplacementFallback) },
-            { 'C', Encoding.GetEncoding(1251, EncoderFallback, DecoderExceptionFallback.ReplacementFallback) },
-            { 'J', Encoding.GetEncoding(932, EncoderFallback, DecoderExceptionFallback.ReplacementFallback) },
-            { 'E', Encoding.GetEncoding(1250, EncoderFallback, DecoderExceptionFallback.ReplacementFallback) },
-            { 'T', Encoding.GetEncoding(1254, EncoderFallback, DecoderExceptionFallback.ReplacementFallback) },
-            { 'B', Encoding.GetEncoding(1257, EncoderFallback, DecoderExceptionFallback.ReplacementFallback) },
-            { 'H', Encoding.GetEncoding(950, EncoderFallback, DecoderExceptionFallback.ReplacementFallback) },
-            { 'S', Encoding.GetEncoding(936, EncoderFallback, DecoderExceptionFallback.ReplacementFallback) },
-            { 'K', Encoding.GetEncoding(949, EncoderFallback, DecoderExceptionFallback.ReplacementFallback) },
+            { 'L', Encoding.GetEncoding(1252, EncoderFallback, DecoderFallback.ReplacementFallback) },
+            { 'G', Encoding.GetEncoding(1253, EncoderFallback, DecoderFallback.ReplacementFallback) },
+            { 'C', Encoding.GetEncoding(1251, EncoderFallback, DecoderFallback.ReplacementFallback) },
+            { 'J', Encoding.GetEncoding(932, EncoderFallback, DecoderFallback.ReplacementFallback) },
+            { 'E', Encoding.GetEncoding(1250, EncoderFallback, DecoderFallback.ReplacementFallback) },
+            { 'T', Encoding.GetEncoding(1254, EncoderFallback, DecoderFallback.ReplacementFallback) },
+            { 'B', Encoding.GetEncoding(1257, EncoderFallback, DecoderFallback.ReplacementFallback) },
+            { 'H', Encoding.GetEncoding(950, EncoderFallback, DecoderFallback.ReplacementFallback) },
+            { 'S', Encoding.GetEncoding(936, EncoderFallback, DecoderFallback.ReplacementFallback) },
+            { 'K', Encoding.GetEncoding(949, EncoderFallback, DecoderFallback.ReplacementFallback) },
         };
 
         private static readonly Encoding DefaultEncoding = EncodingMap['L'];
 
-        static LfsEncoding()
+        public static void Initialize()
         {
             // Need to register provider to make code pages available on .NET Core.
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);

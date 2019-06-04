@@ -100,6 +100,8 @@ namespace InSimDotNet
         /// </summary>
         public InSimClient()
         {
+            InitializeSockets();
+            LfsEncoding.Initialize();
             IS_TINY += InSimClient_IS_TINY;
         }
 
@@ -126,8 +128,15 @@ namespace InSimDotNet
             {
                 isDisposed = true;
 
-                TcpSocket.Dispose();
-                UdpSocket.Dispose();
+                if (TcpSocket != null)
+                {
+                    TcpSocket.Dispose();
+                }
+
+                if (UdpSocket != null)
+                {
+                    UdpSocket.Dispose();
+                }
             }
         }
 

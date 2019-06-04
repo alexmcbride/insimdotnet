@@ -17,7 +17,7 @@ namespace InSimTest
             using (var client = new InSimClient())
             {
                 client.IS_VER += Client_IS_VER;
-                client.IS_MSO += Client_IS_MSO; ;
+                client.IS_MSO += Client_IS_MSO;
 
                 await client.InitializeAsync(new InSimSettings
                 {
