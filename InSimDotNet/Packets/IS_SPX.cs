@@ -54,6 +54,11 @@ namespace InSimDotNet.Packets {
         public byte NumStops { get; private set; }
 
         /// <summary>
+        /// /showfuel yes: double fuel percent / no: 255
+        /// </summary>
+        public byte Fuel200 { get; }
+
+        /// <summary>
         /// Creates a new split time packet.
         /// </summary>
         public IS_SPX() {
@@ -77,6 +82,7 @@ namespace InSimDotNet.Packets {
             Split = reader.ReadByte();
             Penalty = (PenaltyValue)reader.ReadByte();
             NumStops = reader.ReadByte();
+            Fuel200 = reader.ReadByte();
         }
     }
 }

@@ -91,6 +91,16 @@ namespace InSimDotNet.Packets {
         public PassengerFlags Pass { get; private set; }
 
         /// <summary>
+        /// Low 4 bits: tyre width reduction (rear)
+        /// </summary>
+        public byte RWAdj { get; }
+
+        /// <summary>
+        /// Low 4 bits: tyre width reduction (front)
+        /// </summary>
+        public byte FWAdj { get; }
+
+        /// <summary>
         /// Gets the setup flags.
         /// </summary>
         public SetupFlags SetF { get; private set; }
@@ -99,6 +109,18 @@ namespace InSimDotNet.Packets {
         /// Gets the number of player in the race. ZERO if this is a join request.
         /// </summary>
         public byte NumP { get; private set; }
+
+        /// <summary>
+        /// Configuration:
+        /// UF1 / LX4 / LX6 : 0 = DEFAULT / 1 = OPEN ROOF
+        /// XRR / FZR / FXR : 0 = DEFAULT / 1 = ALTERNATE
+        /// </summary>
+        public byte Config { get; }
+
+        /// <summary>
+        /// /showfuel yes: fuel added percent / no: 255
+        /// </summary>
+        public byte Fuel { get; }
 
         /// <summary>
         /// Creates a new new player packet.
@@ -139,9 +161,13 @@ namespace InSimDotNet.Packets {
             H_TRes = reader.ReadByte();
             Model = reader.ReadByte();
             Pass = (PassengerFlags)reader.ReadByte();
-            reader.Skip(1);
+            RWAdj = reader.ReadByte();
+            FWAdj = reader.ReadByte();
+            reader.Skip(2);
             SetF = (SetupFlags)reader.ReadByte();
             NumP = reader.ReadByte();
+            Config = reader.ReadByte();
+            Fuel = reader.ReadByte();
         }
     }
 }

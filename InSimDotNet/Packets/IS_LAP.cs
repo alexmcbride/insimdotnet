@@ -59,6 +59,11 @@ namespace InSimDotNet.Packets {
         public byte NumStops { get; private set; }
 
         /// <summary>
+        /// /showfuel yes: double fuel percent / no: 255
+        /// </summary>
+        public byte Fuel200 { get; }
+
+        /// <summary>
         /// Creates a new lap time packet.
         /// </summary>
         public IS_LAP() {
@@ -84,6 +89,7 @@ namespace InSimDotNet.Packets {
             reader.Skip(1);
             Penalty = (PenaltyValue)reader.ReadByte();
             NumStops = reader.ReadByte();
+            Fuel200 = reader.ReadByte();
         }
     }
 }

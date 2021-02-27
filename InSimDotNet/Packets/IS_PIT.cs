@@ -40,6 +40,11 @@ namespace InSimDotNet.Packets {
         public PlayerFlags Flags { get; private set; }
 
         /// <summary>
+        /// /showfuel yes: fuel added percent / no: 255
+        /// </summary>
+        public byte FuelAdd { get; }
+
+        /// <summary>
         /// Gets the players current penalty value.
         /// </summary>
         public PenaltyValue Penalty { get; private set; }
@@ -80,7 +85,7 @@ namespace InSimDotNet.Packets {
             PLID = reader.ReadByte();
             LapsDone = reader.ReadUInt16();
             Flags = (PlayerFlags)reader.ReadUInt16();
-            reader.Skip(1);
+            FuelAdd = reader.ReadByte();
             Penalty = (PenaltyValue)reader.ReadByte();
             NumStops = reader.ReadByte();
             reader.Skip(1);
