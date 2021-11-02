@@ -12,6 +12,9 @@
     <PackageTags>LFS InSim .NET</PackageTags>
     <PackageProjectUrl>https://github.com/xspeedasx/insimdotnet</PackageProjectUrl>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/xspeedasx/insimdotnet</RepositoryUrl>
+    <PackageId>InSimDotNet.Net5</PackageId>
+    <Product>InSimDotNet.Net5</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
