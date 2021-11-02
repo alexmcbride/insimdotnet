@@ -2,14 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyVersion>5.0.1.0</AssemblyVersion>
-    <FileVersion>5.0.1.0</FileVersion>
-    <Description>GV-MOD A light-weight InSim library for .NET 5 supports LFS 0.6V</Description>
-    <Version>5.0.1</Version>
+    <AssemblyVersion>5.0.2.0</AssemblyVersion>
+    <FileVersion>5.0.2.0</FileVersion>
+    <Description>A light-weight InSim library for .NET 5 supports LFS 0.6V - updated by GV</Description>
+    <Version>5.0.2</Version>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Company>Alex McBride+GV</Company>
     <Authors>Alex McBride+GV</Authors>
     <PackageTags>LFS InSim .NET</PackageTags>
+    <PackageProjectUrl>https://github.com/xspeedasx/insimdotnet</PackageProjectUrl>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -19,6 +21,13 @@
   <ItemGroup>
     <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\license.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
   
 </Project>
