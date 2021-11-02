@@ -1,15 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <AssemblyVersion>3.0.0.0</AssemblyVersion>
-    <FileVersion>3.5.0.0</FileVersion>
-    <Description>A light-weight InSim library for .NET Core</Description>
-    <Version>3.0.0</Version>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyVersion>5.0.1.0</AssemblyVersion>
+    <FileVersion>5.0.1.0</FileVersion>
+    <Description>GV-MOD A light-weight InSim library for .NET 5 supports LFS 0.6V</Description>
+    <Version>5.0.1</Version>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Company>Alex McBride</Company>
-    <Authors>Alex McBride</Authors>
+    <Company>Alex McBride+GV</Company>
+    <Authors>Alex McBride+GV</Authors>
     <PackageTags>LFS InSim .NET</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>

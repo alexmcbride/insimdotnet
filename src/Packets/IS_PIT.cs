@@ -1,14 +1,16 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace InSimDotNet.Packets {
+namespace InSimDotNet.Packets
+{
     /// <summary>
     /// Pit stop packet.
     /// </summary>
     /// <remarks>
     /// Sent when player completes a pit stop.
     /// </remarks>
-    public class IS_PIT : IPacket {
+    public class IS_PIT : IPacket
+    {
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
@@ -40,6 +42,11 @@ namespace InSimDotNet.Packets {
         public PlayerFlags Flags { get; private set; }
 
         /// <summary>
+        /// /showfuel yes: fuel added percent / no: 255
+        /// </summary>
+        public byte FuelAdd { get; }
+
+        /// <summary>
         /// Gets the players current penalty value.
         /// </summary>
         public PenaltyValue Penalty { get; private set; }
@@ -62,7 +69,8 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Creates a new pit stop packet.
         /// </summary>
-        public IS_PIT() {
+        public IS_PIT()
+        {
             Size = 24;
             Type = PacketType.ISP_PIT;
         }
@@ -72,7 +80,8 @@ namespace InSimDotNet.Packets {
         /// </summary>
         /// <param name="buffer">A buffer contaning the packet data.</param>
         public IS_PIT(byte[] buffer)
-            : this() {
+            : this()
+        {
             PacketReader reader = new PacketReader(buffer);
             Size = reader.ReadByte();
             Type = (PacketType)reader.ReadByte();
@@ -80,7 +89,7 @@ namespace InSimDotNet.Packets {
             PLID = reader.ReadByte();
             LapsDone = reader.ReadUInt16();
             Flags = (PlayerFlags)reader.ReadUInt16();
-            reader.Skip(1);
+            FuelAdd = reader.ReadByte();
             Penalty = (PenaltyValue)reader.ReadByte();
             NumStops = reader.ReadByte();
             reader.Skip(1);

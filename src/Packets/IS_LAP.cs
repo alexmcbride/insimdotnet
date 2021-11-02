@@ -1,13 +1,15 @@
 using System;
 
-namespace InSimDotNet.Packets {
+namespace InSimDotNet.Packets
+{
     /// <summary>
     /// Lap time packet.
     /// </summary>
     /// <remarks>
     /// Sent when a player completes a lap.
     /// </remarks>
-    public class IS_LAP : IPacket {
+    public class IS_LAP : IPacket
+    {
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
@@ -59,9 +61,15 @@ namespace InSimDotNet.Packets {
         public byte NumStops { get; private set; }
 
         /// <summary>
+        /// /showfuel yes: double fuel percent / no: 255
+        /// </summary>
+        public byte Fuel200 { get; }
+
+        /// <summary>
         /// Creates a new lap time packet.
         /// </summary>
-        public IS_LAP() {
+        public IS_LAP()
+        {
             Size = 20;
             Type = PacketType.ISP_LAP;
         }
@@ -71,7 +79,8 @@ namespace InSimDotNet.Packets {
         /// </summary>
         /// <param name="buffer">A buffer contaning the packet data.</param>
         public IS_LAP(byte[] buffer)
-            : this() {
+            : this()
+        {
             PacketReader reader = new PacketReader(buffer);
             Size = reader.ReadByte();
             Type = (PacketType)reader.ReadByte();
@@ -84,6 +93,7 @@ namespace InSimDotNet.Packets {
             reader.Skip(1);
             Penalty = (PenaltyValue)reader.ReadByte();
             NumStops = reader.ReadByte();
+            Fuel200 = reader.ReadByte();
         }
     }
 }
