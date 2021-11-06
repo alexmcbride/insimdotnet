@@ -1,14 +1,15 @@
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System;
 
-namespace InSimDotNet.Packets {
+namespace InSimDotNet.Packets
+{
     /// <summary>
-    /// Pit stop packet.
+    /// Lap time packet.
     /// </summary>
     /// <remarks>
-    /// Sent when player completes a pit stop.
+    /// Sent when a player completes a lap.
     /// </remarks>
-    public class IS_PIT : IPacket {
+    public class IS_LAP : IPacket
+    {
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
@@ -20,27 +21,37 @@ namespace InSimDotNet.Packets {
         public PacketType Type { get; private set; }
 
         /// <summary>
-        /// Gets the packet request ID.
+        /// Gets the request ID.
         /// </summary>
         public byte ReqI { get; private set; }
 
         /// <summary>
-        /// Gets the unique ID of the player.
+        /// Gets the unique ID of the player who completed the lap.
         /// </summary>
         public byte PLID { get; private set; }
 
         /// <summary>
-        /// Gets the laps completed by the player.
+        /// Gets the lap time of the player.
+        /// </summary>
+        public TimeSpan LTime { get; private set; }
+
+        /// <summary>
+        /// Gets the total elapsed race time of the player.
+        /// </summary>
+        public TimeSpan ETime { get; private set; }
+
+        /// <summary>
+        /// Gets the number of laps this player has done.
         /// </summary>
         public int LapsDone { get; private set; }
 
         /// <summary>
-        /// Gets the player flags.
+        /// Gets the flags for this player.
         /// </summary>
         public PlayerFlags Flags { get; private set; }
 
         /// <summary>
-        /// Gets the players current penalty value.
+        /// Gets the current penalty of the player.
         /// </summary>
         public PenaltyValue Penalty { get; private set; }
 
@@ -50,46 +61,39 @@ namespace InSimDotNet.Packets {
         public byte NumStops { get; private set; }
 
         /// <summary>
-        /// Gets the tyres changed during the pit stop.
+        /// /showfuel yes: double fuel percent / no: 255
         /// </summary>
-        public Tyres Tyres { get; private set; }
+        public byte Fuel200 { get; }
 
         /// <summary>
-        /// Gets the work completed during the pit stop.
+        /// Creates a new lap time packet.
         /// </summary>
-        public PitWorkFlags Work { get; private set; }
-
-        /// <summary>
-        /// Creates a new pit stop packet.
-        /// </summary>
-        public IS_PIT() {
-            Size = 24;
-            Type = PacketType.ISP_PIT;
+        public IS_LAP()
+        {
+            Size = 20;
+            Type = PacketType.ISP_LAP;
         }
 
         /// <summary>
-        /// Creates a new pit stop packet.
+        /// Creates a new lap time packet.
         /// </summary>
         /// <param name="buffer">A buffer contaning the packet data.</param>
-        public IS_PIT(byte[] buffer)
-            : this() {
+        public IS_LAP(byte[] buffer)
+            : this()
+        {
             PacketReader reader = new PacketReader(buffer);
             Size = reader.ReadByte();
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             PLID = reader.ReadByte();
+            LTime = TimeSpan.FromMilliseconds(reader.ReadUInt32()); ;
+            ETime = TimeSpan.FromMilliseconds(reader.ReadUInt32());
             LapsDone = reader.ReadUInt16();
             Flags = (PlayerFlags)reader.ReadUInt16();
             reader.Skip(1);
             Penalty = (PenaltyValue)reader.ReadByte();
             NumStops = reader.ReadByte();
-            reader.Skip(1);
-            Tyres = new Tyres(
-                (TyreCompound)reader.ReadByte(),
-                (TyreCompound)reader.ReadByte(),
-                (TyreCompound)reader.ReadByte(),
-                (TyreCompound)reader.ReadByte());
-            Work = (PitWorkFlags)reader.ReadUInt32();
+            Fuel200 = reader.ReadByte();
         }
     }
 }

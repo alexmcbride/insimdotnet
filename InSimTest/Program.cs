@@ -22,8 +22,7 @@ namespace InSimTest
                 await client.InitializeAsync(new InSimSettings
                 {
                     Host = "127.0.0.1",
-                    Port = 29999,
-
+                    Port = 29999
                 });
 
                 Console.ReadKey(true);

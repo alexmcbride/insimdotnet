@@ -40,10 +40,7 @@ namespace InSimDotNet
         /// <summary>
         /// Gets if LFS is connected.
         /// </summary>
-        public bool IsConnected
-        {
-            get { return TcpSocket.IsConnected; }
-        }
+        public bool IsConnected => TcpSocket.IsConnected;
 
         /// <summary>
         /// Gets a read-only version of the <see cref="InSimSettings"/> used to initialize the 
@@ -59,18 +56,12 @@ namespace InSimDotNet
         /// <summary>
         /// Gets the total number of bytes sent to LFS.
         /// </summary>
-        public long BytesSent
-        {
-            get { return TcpSocket.BytesSent + UdpSocket.BytesSent; }
-        }
+        public long BytesSent => TcpSocket.BytesSent + UdpSocket.BytesSent;
 
         /// <summary>
         /// Gets the total number of bytes received from LFS.
         /// </summary>
-        public long BytesReceived
-        {
-            get { return TcpSocket.BytesReceived + UdpSocket.BytesReceived; }
-        }
+        public long BytesReceived => TcpSocket.BytesReceived + UdpSocket.BytesReceived;
 
         /// <summary>
         /// Gets the underlying TcpSocket used to communicate with LFS.
@@ -87,7 +78,7 @@ namespace InSimDotNet
         /// </summary>
         public bool ContinueOnCapturedContext
         {
-            get { return TcpSocket.ContinueOnCapturedContext && UdpSocket.ContinueOnCapturedContext; }
+            get => TcpSocket.ContinueOnCapturedContext && UdpSocket.ContinueOnCapturedContext;
             set
             {
                 TcpSocket.ContinueOnCapturedContext = value;
@@ -199,7 +190,7 @@ namespace InSimDotNet
         
         private void InitializeSockets()
         {
-            if (TcpSocket != null && TcpSocket.IsDisposed)
+            if (TcpSocket is {IsDisposed: true})
             {
                 // Cleanup old socket.
                 TcpSocket.PacketDataReceived -= Socket_PacketDataReceived;
@@ -212,7 +203,7 @@ namespace InSimDotNet
             TcpSocket.ConnectionLost += TcpSocket_ConnectionLost;
             TcpSocket.SocketError += TcpSocket_SocketError;
 
-            if (UdpSocket != null && UdpSocket.IsDisposed)
+            if (UdpSocket is {IsDisposed: true})
             {
                 // Cleanup of old socket.
                 UdpSocket.PacketDataReceived -= Socket_PacketDataReceived;
@@ -320,7 +311,7 @@ namespace InSimDotNet
                 // We need to know the length the string will be once converted into bytes so we 
                 // know which packet to send, so we just convert it here.
                 byte[] buffer = new byte[MsxLen];
-                int length = LfsEncoding.GetBytes(message, buffer, 0, MsxLen);
+                int length = LfsEncoding.Current.GetBytes(message, buffer, 0, MsxLen);
                 if (length < MstLen)
                 {
                     return new IS_MST(buffer.Take(MstLen).ToArray()); // Send normal message (MST expects shorter array).

@@ -1,3 +1,19 @@
+- 5.0.4 (11th November 2021)
+* Scrapped master branch update on net5 branch
+* Reverted back to Core 3.1 update to .Net 5
+
+- 5.0.3 (10th November 2021)
+* Updated master branch (.Net 4.5 version) to .Net 5
+
+- 5.0.2 (2021 November)
+* Forked project and created .Net5 branch and NuGet package entry
+
+- 5.0.1 (sometime in 2021)
+* Adapted to 0.6V
+
+- 5.0.0 (sometime in 2019)
+* Converted project to .NET 5
+
 - 2.3.2 (16th March 2017)
 
 * Added SMALL_LCS option for IS_SMALL packet

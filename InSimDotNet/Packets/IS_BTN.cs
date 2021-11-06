@@ -1,14 +1,16 @@
 using System;
 using System.Globalization;
 
-namespace InSimDotNet.Packets {
+namespace InSimDotNet.Packets
+{
     /// <summary>
     /// InSim Button packet.
     /// </summary>
     /// <remarks>
     /// Used to send a button to InSim.
     /// </remarks>
-    public class IS_BTN : IPacket, ISendable {
+    public class IS_BTN : IPacket, ISendable
+    {
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
@@ -83,7 +85,8 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Creates a new button packet.
         /// </summary>
-        public IS_BTN() {
+        public IS_BTN()
+        {
             Size = 12;
             Type = PacketType.ISP_BTN;
             Text = String.Empty;
@@ -94,17 +97,19 @@ namespace InSimDotNet.Packets {
         /// Returns the packet data.
         /// </summary>
         /// <returns>The packet data.</returns>
-        public byte[] GetBuffer() {
+        public byte[] GetBuffer()
+        {
             string text = Text;
 
             // Add button caption if set.
-            if (!String.IsNullOrEmpty(Caption) && TypeIn > 0) {
+            if (!String.IsNullOrEmpty(Caption) && TypeIn > 0)
+            {
                 text = String.Format("{0}{1}{0}{2}", Char.MinValue, Caption, text);
             }
 
             // Need to decode string first so we know how big to make the packet.
             byte[] buffer = new byte[240];
-            int length = LfsEncoding.GetBytes(text, buffer, 0, 240);
+            int length = LfsEncoding.Current.GetBytes(text, buffer, 0, 240);
 
             // Get packet size.
             Size = (byte)(12 + Math.Min(length + (4 - (length % 4)), 240));
