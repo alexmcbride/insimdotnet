@@ -46,7 +46,7 @@ namespace InSimDotNet.Packets {
         /// <param name="buffer"></param>
         public IS_CSC(byte[] buffer) {
             var reader = new PacketReader(buffer);
-            Size = reader.ReadByte() * 4;
+            Size = reader.ReadSize();
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             PLID = reader.ReadByte();

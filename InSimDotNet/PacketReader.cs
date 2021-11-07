@@ -34,6 +34,15 @@ namespace InSimDotNet
         }
 
         /// <summary>
+        /// Reads packet size (multiplies it by 4) from the buffer.
+        /// </summary>
+        /// <returns>Actual packet size in bytes</returns>
+        public int ReadSize()
+        {
+            return buffer[position++] * 4;
+        }
+
+        /// <summary>
         /// Reads a byte from the buffer.
         /// </summary>
         /// <returns>A single byte.</returns>

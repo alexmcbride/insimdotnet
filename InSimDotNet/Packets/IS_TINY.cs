@@ -40,7 +40,7 @@ namespace InSimDotNet.Packets {
         public IS_TINY(byte[] buffer)
             : this() {
             PacketReader reader = new PacketReader(buffer);
-            Size = reader.ReadByte() * 4;
+            Size = reader.ReadSize();
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             SubT = (TinyType)reader.ReadByte();
