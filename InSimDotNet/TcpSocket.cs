@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using InSimDotNet.Packets;
 
 namespace InSimDotNet
 {
@@ -207,7 +206,6 @@ namespace InSimDotNet
             // Loop through all completed packets in the buffer.
             while (bufferBytes > 0 && bufferBytes >= buffer[read] * 4) {
                 var size = buffer[read] * 4;
-                Console.WriteLine($"Packet {(PacketType)buffer[read+1]}, size: {size}");
                 
                 // Raise packet event.
                 byte[] temp = new byte[size];
