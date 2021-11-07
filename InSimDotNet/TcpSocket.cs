@@ -203,10 +203,9 @@ namespace InSimDotNet
 
         private void HandlePackets() {
             int read = 0;
-
             // Loop through all completed packets in the buffer.
-            while (bufferBytes > 0 && bufferBytes >= buffer[read]) {
-                int size = buffer[read] * 4;
+            while (bufferBytes > 0 && bufferBytes >= buffer[read] * 4) {
+                var size = buffer[read] * 4;
                 
                 // Raise packet event.
                 byte[] temp = new byte[size];
