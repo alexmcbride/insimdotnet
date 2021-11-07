@@ -34,7 +34,7 @@
         /// <param name="buffer">A buffer containing the packet byte data.</param>
         public IS_SLC(byte[] buffer) {
             PacketReader reader = new PacketReader(buffer);
-            Size = reader.ReadByte() * 4;
+            Size = reader.ReadSize();
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             UCID = reader.ReadByte();

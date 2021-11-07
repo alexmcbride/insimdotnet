@@ -61,7 +61,7 @@
             : this()
         {
             PacketReader reader = new PacketReader(buffer);
-            Size = reader.ReadByte() * 4;
+            Size = reader.ReadSize();
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             SubT = (TtcType)reader.ReadByte();

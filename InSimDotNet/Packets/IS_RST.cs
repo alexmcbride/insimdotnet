@@ -105,7 +105,7 @@ namespace InSimDotNet.Packets {
         public IS_RST(byte[] buffer)
             : this() {
             PacketReader reader = new PacketReader(buffer);
-            Size = reader.ReadByte() * 4;
+            Size = reader.ReadSize();
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             reader.Skip(1);

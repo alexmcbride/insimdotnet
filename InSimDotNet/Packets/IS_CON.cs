@@ -54,7 +54,7 @@ namespace InSimDotNet.Packets {
         /// <param name="buffer">A buffer containing the packet data.</param>
         public IS_CON(byte[] buffer) {
             PacketReader reader = new PacketReader(buffer);
-            Size = reader.ReadByte() * 4;
+            Size = reader.ReadSize();
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             reader.Skip(1);

@@ -34,7 +34,7 @@ namespace InSimDotNet.Packets {
         /// <param name="buffer">A buffer contaning the packet data.</param>
         public IR_ERR(byte[] buffer) {
             PacketReader reader = new PacketReader(buffer);
-            Size = reader.ReadByte() * 4;
+            Size = reader.ReadSize();
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             ErrNo = (RelayError)reader.ReadByte();
