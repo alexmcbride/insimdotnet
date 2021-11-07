@@ -12,7 +12,7 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
-        public byte Size { get; private set; }
+        public int Size { get; private set; }
 
         /// <summary>
         /// Gets the type of the packet.
@@ -113,14 +113,14 @@ namespace InSimDotNet.Packets {
         public IS_RES(byte[] buffer)
             : this() {
             PacketReader reader = new PacketReader(buffer);
-            Size = reader.ReadByte();
+            Size = reader.ReadByte() * 4;
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             PLID = reader.ReadByte();
             UName = reader.ReadString(24);
             PName = reader.ReadString(24);
             Plate = reader.ReadString(8);
-            CName = reader.ReadString(4);
+            CName = reader.ReadCNameString(4);
             TTime = TimeSpan.FromMilliseconds(reader.ReadUInt32());
             BTime = TimeSpan.FromMilliseconds(reader.ReadUInt32());
             reader.Skip(1);

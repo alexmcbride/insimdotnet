@@ -6,7 +6,7 @@
         /// <summary>
         /// Gets the size of the packet
         /// </summary>
-        public byte Size { get; private set; }
+        public int Size { get; private set; }
 
         /// <summary>
         /// Gets the type of the packet.
@@ -53,7 +53,7 @@
         /// <returns>The buffer.</returns>
         public byte[] GetBuffer() {
             var writer = new PacketWriter(Size);
-            writer.Write(Size);
+            writer.WriteSize(Size);
             writer.Write((byte)Type);
             writer.Write(ReqI);
             writer.Write(PLID);

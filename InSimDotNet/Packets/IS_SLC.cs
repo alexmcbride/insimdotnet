@@ -6,7 +6,7 @@
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
-        public byte Size { get; private set; }
+        public int Size { get; private set; }
 
         /// <summary>
         /// Gets the size of the packet.
@@ -34,11 +34,11 @@
         /// <param name="buffer">A buffer containing the packet byte data.</param>
         public IS_SLC(byte[] buffer) {
             PacketReader reader = new PacketReader(buffer);
-            Size = reader.ReadByte();
+            Size = reader.ReadByte() * 4;
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             UCID = reader.ReadByte();
-            CName = reader.ReadString(4);
+            CName = reader.ReadCNameString(4);
         }
     }
 }

@@ -8,7 +8,8 @@ namespace InSimDotNet
     /// <summary>
     /// Manages a TCP connection with LFS.
     /// </summary>
-    public class TcpSocket : IDisposable {
+    public class TcpSocket : IDisposable
+    {
         private const int BufferSize = 8192;
 
         private readonly TcpClient client;
@@ -78,7 +79,8 @@ namespace InSimDotNet
         /// <summary>
         /// Creates a new instance of the <see cref="TcpSocket"/> class.
         /// </summary>
-        public TcpSocket() {
+        public TcpSocket()
+        {
             client = new TcpClient();
             client.NoDelay = true; // Disable Nagle algorithm, which increases bandwidth but lowers latency.
 
@@ -204,13 +206,8 @@ namespace InSimDotNet
 
             // Loop through all completed packets in the buffer.
             while (bufferBytes > 0 && bufferBytes >= buffer[read]) {
-                int size = buffer[read];
-
-                // If size not multiple of four packet is corrupt.
-                if (size % 4 > 0) {
-                    throw new InSimException("Packet size was not a multiple of four");
-                }
-
+                int size = buffer[read] * 4;
+                
                 // Raise packet event.
                 byte[] temp = new byte[size];
                 Buffer.BlockCopy(buffer, read, temp, 0, size);
