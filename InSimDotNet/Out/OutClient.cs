@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Timers;
+using System.Threading;
 
 namespace InSimDotNet.Out {
     /// <summary>
@@ -8,7 +8,7 @@ namespace InSimDotNet.Out {
     /// </summary>
     public abstract class OutClient : IDisposable {
         private readonly UdpSocket udpSocket;
-        private readonly Timer timeoutTimer;
+        private Timer timeoutTimer;
         private bool isDisposed;
 
         /// <summary>
@@ -24,8 +24,9 @@ namespace InSimDotNet.Out {
         /// <summary>
         /// Gets if the socket is connected.
         /// </summary>
-        public bool IsConnected {
-            get { return timeoutTimer == null ? true : timeoutTimer.Enabled; }
+        public bool IsConnected
+        {
+            get { return timeoutTimer != null; }
         }
 
         /// <summary>
@@ -64,12 +65,6 @@ namespace InSimDotNet.Out {
             udpSocket.SocketError += new EventHandler<InSimErrorEventArgs>(udpSocket_SocketError);
 
             Timeout = timeout;
-            if (timeout > TimeSpan.Zero) {
-                timeoutTimer = new Timer();
-                timeoutTimer.Interval = timeout.TotalMilliseconds;
-                timeoutTimer.AutoReset = false;
-                timeoutTimer.Elapsed += new ElapsedEventHandler(timeoutTimer_Elapsed);
-            }
         }
 
         /// <summary>
@@ -82,8 +77,14 @@ namespace InSimDotNet.Out {
 
             udpSocket.Bind(host, port);
 
-            if (timeoutTimer != null) {
-                timeoutTimer.Start();
+            if (Timeout > TimeSpan.Zero)
+            {
+                if (timeoutTimer != null)
+                {
+                    timeoutTimer.Dispose();
+                }
+
+                timeoutTimer = new Timer(TimerElasped, null, TimeSpan.Zero, Timeout);
             }
         }
 
@@ -95,9 +96,7 @@ namespace InSimDotNet.Out {
 
             udpSocket.Disconnect();
 
-            if (timeoutTimer != null) {
-                timeoutTimer.Stop();
-            }
+            Dispose();
         }
 
         /// <summary>
@@ -122,9 +121,10 @@ namespace InSimDotNet.Out {
                 udpSocket.PacketDataReceived -= udpSocket_PacketDataReceived;
                 udpSocket.SocketError -= udpSocket_SocketError;
 
-                if (timeoutTimer != null) {
+                if (timeoutTimer != null)
+                {
                     timeoutTimer.Dispose();
-                    timeoutTimer.Elapsed -= timeoutTimer_Elapsed;
+                    timeoutTimer = null;
                 }
             }
         }
@@ -132,10 +132,10 @@ namespace InSimDotNet.Out {
         private void udpSocket_PacketDataReceived(object sender, PacketDataEventArgs e) {
             HandlePacket(e.GetBuffer());
 
-            if (timeoutTimer != null) {
+            if (timeoutTimer != null)
+            {
                 // Reset timer.
-                timeoutTimer.Stop();
-                timeoutTimer.Start();
+                timeoutTimer.Change(TimeSpan.Zero, Timeout);
             }
         }
 
@@ -144,10 +144,10 @@ namespace InSimDotNet.Out {
             OnOutError(new OutErrorEventArgs(e.Exception));
         }
 
-        private void timeoutTimer_Elapsed(object sender, ElapsedEventArgs e) {
+        private void TimerElasped(object state) {
             Disconnect();
 
-            OnTimedOut(e);
+            OnTimedOut(EventArgs.Empty);
         }
 
         /// <summary>

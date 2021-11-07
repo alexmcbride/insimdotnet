@@ -1,14 +1,16 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace InSimDotNet.Packets {
+namespace InSimDotNet.Packets
+{
     /// <summary>
     /// Pit stop packet.
     /// </summary>
     /// <remarks>
     /// Sent when player completes a pit stop.
     /// </remarks>
-    public class IS_PIT : IPacket {
+    public class IS_PIT : IPacket
+    {
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
@@ -67,7 +69,8 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Creates a new pit stop packet.
         /// </summary>
-        public IS_PIT() {
+        public IS_PIT()
+        {
             Size = 24;
             Type = PacketType.ISP_PIT;
         }
@@ -77,7 +80,8 @@ namespace InSimDotNet.Packets {
         /// </summary>
         /// <param name="buffer">A buffer contaning the packet data.</param>
         public IS_PIT(byte[] buffer)
-            : this() {
+            : this()
+        {
             PacketReader reader = new PacketReader(buffer);
             Size = reader.ReadByte();
             Type = (PacketType)reader.ReadByte();

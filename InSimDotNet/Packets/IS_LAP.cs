@@ -1,13 +1,15 @@
 using System;
 
-namespace InSimDotNet.Packets {
+namespace InSimDotNet.Packets
+{
     /// <summary>
     /// Lap time packet.
     /// </summary>
     /// <remarks>
     /// Sent when a player completes a lap.
     /// </remarks>
-    public class IS_LAP : IPacket {
+    public class IS_LAP : IPacket
+    {
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
@@ -66,7 +68,8 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Creates a new lap time packet.
         /// </summary>
-        public IS_LAP() {
+        public IS_LAP()
+        {
             Size = 20;
             Type = PacketType.ISP_LAP;
         }
@@ -76,7 +79,8 @@ namespace InSimDotNet.Packets {
         /// </summary>
         /// <param name="buffer">A buffer contaning the packet data.</param>
         public IS_LAP(byte[] buffer)
-            : this() {
+            : this()
+        {
             PacketReader reader = new PacketReader(buffer);
             Size = reader.ReadByte();
             Type = (PacketType)reader.ReadByte();

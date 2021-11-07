@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using InSimDotNet.Packets;
 
-namespace InSimDotNet.Helpers {
+namespace InSimDotNet.Helpers
+{
     /// <summary>
     /// Static class to help with car names.
     /// </summary>
@@ -67,7 +67,7 @@ namespace InSimDotNet.Helpers {
                 throw new ArgumentNullException("shortCarName");
             }
 
-            shortCarName = shortCarName.ToUpper(CultureInfo.InvariantCulture);
+            shortCarName = CultureInfo.CurrentCulture.TextInfo.ToUpper(shortCarName);
 
             string car;
             if (CarMap.TryGetValue(shortCarName, out car)) {

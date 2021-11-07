@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 
-namespace InSimDotNet.Helpers {
+namespace InSimDotNet.Helpers
+{
     /// <summary>
     /// Static class to help with track names.
     /// </summary>
@@ -100,7 +102,7 @@ namespace InSimDotNet.Helpers {
                 throw new ArgumentNullException("shortTrackName");
             }
 
-            shortTrackName = shortTrackName.ToUpper();
+            shortTrackName = CultureInfo.CurrentCulture.TextInfo.ToUpper(shortTrackName);
 
             char config = shortTrackName.LastOrDefault();
             if (config == 'R' || config == 'X' || config == 'Y') {

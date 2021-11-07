@@ -2,14 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace InSimDotNet.Packets {
+namespace InSimDotNet.Packets
+{
     /// <summary>
     /// New player packet.
     /// </summary>
     /// <remarks>
     /// Sent when a player joins the race (or leaving pits if PLID already exists).
     /// </remarks>
-    public class IS_NPL : IPacket {
+    public class IS_NPL : IPacket
+    {
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
@@ -125,7 +127,8 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Creates a new new player packet.
         /// </summary>
-        public IS_NPL() {
+        public IS_NPL()
+        {
             Size = 76;
             Type = PacketType.ISP_NPL;
             PName = String.Empty;
@@ -139,7 +142,8 @@ namespace InSimDotNet.Packets {
         /// </summary>
         /// <param name="buffer">A buffer contaning the packet data.</param>
         public IS_NPL(byte[] buffer)
-            : this() {
+            : this()
+        {
             PacketReader reader = new PacketReader(buffer);
             Size = reader.ReadByte();
             Type = (PacketType)reader.ReadByte();

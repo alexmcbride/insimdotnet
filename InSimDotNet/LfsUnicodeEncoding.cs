@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace InSimDotNet {
+namespace InSimDotNet
+{
     /// <summary>
     /// Handles converting strings from LFS encoding into unicode and vice versa.
     /// </summary>
-    public class LfsUnicodeEncoding : LfsEncoding {
+    public class LfsUnicodeEncoding : LfsEncoding
+    {
         private const char ControlChar = '^';
         private const char FallbackChar = '?';
         private static readonly bool IsRunningOnMono = (Type.GetType("Mono.Runtime") != null);
@@ -49,41 +51,49 @@ namespace InSimDotNet {
         /// <param name="index">The index that the string starts in the packet data.</param>
         /// <param name="length">The length of the string.</param>
         /// <returns>The resulting unicode string.</returns>
-        public override string GetString(byte[] buffer, int index, int length) {
+        public override string GetString(byte[] buffer, int index, int length)
+        {
             StringBuilder output = new StringBuilder(length);
             Encoding encoding = DefaultEncoding;
             Encoding nextEncoding;
             int i = 0, start = index;
             char escape;
 
-            for (i = index; i < index + length; i++) {
+            for (i = index; i < index + length; i++)
+            {
                 char control = (char)buffer[i];
 
                 // Check for null terminator.
-                if (control == Char.MinValue) {
+                if (control == Char.MinValue)
+                {
                     break;
                 }
 
                 // If not control character then ignore.
-                if (control != ControlChar) {
+                if (control != ControlChar)
+                {
                     continue;
                 }
 
                 // Found control character so encode everything up to this point.
-                if (i - start > 0) {
+                if (i - start > 0)
+                {
                     output.Append(encoding.GetString(buffer, start, (i - start)));
                 }
                 start = (i + 2); // skip control chars.
 
                 // Process control character.
                 char next = (char)buffer[++i];
-                if (EncodingMap.TryGetValue(next, out nextEncoding)) {
+                if (EncodingMap.TryGetValue(next, out nextEncoding))
+                {
                     encoding = nextEncoding; // Switch encoding.
                 }
-                else if (EscapeMap.TryGetValue(next, out escape)) {
+                else if (EscapeMap.TryGetValue(next, out escape))
+                {
                     output.Append(escape); // Escape character.
                 }
-                else {
+                else
+                {
                     // Character not codepage switch or escape, so just ignore it.
                     output.Append(control);
                     output.Append(next);
@@ -91,7 +101,8 @@ namespace InSimDotNet {
             }
 
             // End of string reached so encode up all to this point.
-            if (i - start > 0) {
+            if (i - start > 0)
+            {
                 output.Append(encoding.GetString(buffer, start, (i - start)));
             }
 
@@ -106,18 +117,22 @@ namespace InSimDotNet {
         /// <param name="index">The index in the packet buffer to start writing bytes.</param>
         /// <param name="length">The maximum number of bytes to write.</param>
         /// <returns>The number of bytes written during the operation.</returns>
-        public override int GetBytes(string value, byte[] buffer, int index, int length) {
+        public override int GetBytes(string value, byte[] buffer, int index, int length)
+        {
             Encoding encoding = DefaultEncoding;
             byte[] tempBytes = new byte[2];
             int tempCount;
             int start = index;
             int totalLength = index + (length - 1);
 
-            for (int i = 0; i < value.Length && index < totalLength; i++) {
+            for (int i = 0; i < value.Length && index < totalLength; i++)
+            {
                 // Remove any existing language tags from the string.
                 int next = i + 1;
-                if (value[i] == '^' && next < value.Length) {
-                    switch (value[next]) {
+                if (value[i] == '^' && next < value.Length)
+                {
+                    switch (value[next])
+                    {
                         case 'L':
                         case 'G':
                         case 'C':
@@ -133,24 +148,30 @@ namespace InSimDotNet {
                     }
                 }
 
-                if (value[i] <= 127) {
+                if (value[i] <= 127)
+                {
                     // All codepages share ASCII values.
                     buffer[index++] = (byte)value[i];
                 }
-                else if (TryGetBytes(encoding, value[i], tempBytes, out tempCount)) {
+                else if (TryGetBytes(encoding, value[i], tempBytes, out tempCount))
+                {
                     // Character exists in current codepage.
                     Buffer.BlockCopy(tempBytes, 0, buffer, index, tempCount);
                     index += tempCount;
                 }
-                else {
+                else
+                {
                     // Search for new codepage.
                     bool found = false;
-                    foreach (KeyValuePair<char, Encoding> map in EncodingMap) {
-                        if (map.Value == encoding) {
+                    foreach (KeyValuePair<char, Encoding> map in EncodingMap)
+                    {
+                        if (map.Value == encoding)
+                        {
                             continue; // Skip current as we've already searched it.
                         }
 
-                        if (TryGetBytes(map.Value, value[i], tempBytes, out tempCount)) {
+                        if (TryGetBytes(map.Value, value[i], tempBytes, out tempCount))
+                        {
                             // Switch codepage.
                             encoding = map.Value;
 
@@ -168,7 +189,8 @@ namespace InSimDotNet {
                     }
 
                     // If not found in any codepage then add fallback character.
-                    if (!found) {
+                    if (!found)
+                    {
                         buffer[index++] = (byte)FallbackChar;
                     }
                 }
@@ -186,39 +208,55 @@ namespace InSimDotNet {
         /// <param name="count">The number of bytes that the character was encoded into.</param>
         /// <returns>Returns true if the conversion was successful or false if otherwise.</returns>
         [DebuggerStepThrough]
-        private static bool TryGetBytes(Encoding encoding, char value, byte[] bytes, out int count) {
+        private static bool TryGetBytes(Encoding encoding, char value, byte[] bytes, out int count)
+        {
             // We use WideCharToMultiByte on Windows as it's very fast, but that's not 
             // available on Mono so we revert to trying to convert a character and then 
             // catching the exception generated when it fails. This is very slow as the 
             // callstack may potentionally need to be unwound for every character in the 
             // string.
-            if (IsRunningOnMono) {
+            if (IsRunningOnMono)
+            {
                 return TryGetBytesMono(encoding, value, bytes, out count);
             }
 
             return TryGetBytesDotNet(encoding, value, bytes, out count);
         }
 
-        private static bool TryGetBytesDotNet(Encoding encoding, char value, byte[] bytes, out int count) {
-            bool usedDefault = false;
-            count = NativeMethods.WideCharToMultiByte(
-                (uint)encoding.CodePage,
-                NativeMethods.WC_NO_BEST_FIT_CHARS,
-                value.ToString(),
-                1,
-                bytes,
-                2,
-                IntPtr.Zero,
-                out usedDefault);
-            return !usedDefault;
-        }
-
-        private static bool TryGetBytesMono(Encoding encoding, char value, byte[] bytes, out int count) {
-            try {
+        private static bool TryGetBytesDotNet(Encoding encoding, char value, byte[] bytes, out int count)
+        {
+            //bool usedDefault = false;
+            //count = NativeMethods.WideCharToMultiByte(
+            //    (uint)encoding.CodePage,
+            //    NativeMethods.WC_NO_BEST_FIT_CHARS,
+            //    value.ToString(),
+            //    1,
+            //    bytes,
+            //    2,
+            //    IntPtr.Zero,
+            //    out usedDefault);
+            //return !usedDefault;
+            try
+            {
                 count = encoding.GetBytes(value.ToString(), 0, 1, bytes, 0);
                 return true;
             }
-            catch (EncoderFallbackException) {
+            catch (EncoderFallbackException)
+            {
+                count = 0;
+                return false;
+            }
+        }
+
+        private static bool TryGetBytesMono(Encoding encoding, char value, byte[] bytes, out int count)
+        {
+            try
+            {
+                count = encoding.GetBytes(value.ToString(), 0, 1, bytes, 0);
+                return true;
+            }
+            catch (EncoderFallbackException)
+            {
                 count = 0;
                 return false;
             }

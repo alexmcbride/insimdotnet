@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace InSimDotNet {
+namespace InSimDotNet
+{
     /// <summary>
     /// Manages a TCP connection with LFS.
     /// </summary>
@@ -109,26 +109,8 @@ namespace InSimDotNet {
                     stream.Dispose();
                 }
 
-                client.Close();
+                client.Dispose();
             }
-        }
-
-        /// <summary>
-        /// Establishes the TCP connection with LFS.
-        /// </summary>
-        /// <param name="host">The host to connect to.</param>
-        /// <param name="port">The port to connect to the host through.</param>
-        public void Connect(string host, int port) {
-            ThrowIfDisposed();
-            ThrowIfConnected();
-
-            Host = host;
-            Port = port;
-
-            client.Connect(host, port);
-            stream = client.GetStream();
-
-            ReceiveAsync(); // Start receiving packets.
         }
 
         /// <summary>
@@ -160,27 +142,6 @@ namespace InSimDotNet {
             Dispose();
         }
 
-        /// <summary>
-        /// Sends byte data to LFS.
-        /// </summary>
-        /// <param name="buffer">The data to send.</param>
-        public void Send(byte[] buffer) {
-            if (buffer == null) {
-                throw new ArgumentNullException("buffer");
-            }
-
-            ThrowIfDisposed();
-            ThrowIfNotConnected();
-
-            Socket socket = client.Client;
-
-            // Keep sending until whole buffer sent.
-            int sent = 0;
-            while (sent < buffer.Length) {
-                sent += socket.Send(buffer, sent, buffer.Length - sent, SocketFlags.None);
-            }
-            BytesSent += sent;
-        }
 
         /// <summary>
         /// Sends byte data to LFS asynchronously.
@@ -196,27 +157,8 @@ namespace InSimDotNet {
             ThrowIfNotConnected();
 
             // Keep sending until whole buffer sent.
-            int sent = 0;
-            while (sent < buffer.Length) {
-                sent += await SendAsyncInternal(buffer, sent, buffer.Length - sent);
-            }
-            BytesSent += sent;
-        }
-
-        private Task<int> SendAsyncInternal(byte[] buffer, int index, int count) {
-            // NetworkStream doesn't give number of bytes sent, so wrap Socket async stuff in a TaskCompletionSource.
-            Socket socket = client.Client;
-            TaskCompletionSource<int> source = new TaskCompletionSource<int>();
-            socket.BeginSend(buffer, index, count, SocketFlags.None, r => {
-                try {
-                    int sent = socket.EndSend(r);
-                    source.SetResult(sent);
-                }
-                catch (Exception ex) {
-                    source.SetException(ex);
-                }
-            }, null);
-            return source.Task;
+            await stream.WriteAsync(buffer, 0, buffer.Length);
+            BytesSent += buffer.Length;
         }
 
         // This is the main TCP receive code. TCP data arrives as a steam.
@@ -251,7 +193,7 @@ namespace InSimDotNet {
                 // Do nothing... this gets thrown if Dispose is called while waiting for a read to complete.
             }
             catch (Exception ex) {
-                Debug.WriteLine(String.Format(StringResources.TcpSocketDebugErrorMessage, ex));
+                Debug.WriteLine(String.Format("TCP Receive Error: {0}", ex));
                 Dispose();
                 OnSocketError(new InSimErrorEventArgs(ex));
             }
@@ -266,7 +208,7 @@ namespace InSimDotNet {
 
                 // If size not multiple of four packet is corrupt.
                 if (size % 4 > 0) {
-                    throw new InSimException(StringResources.PacketSizeErrorMessage);
+                    throw new InSimException("Packet size was not a multiple of four");
                 }
 
                 // Raise packet event.
@@ -300,14 +242,14 @@ namespace InSimDotNet {
         [DebuggerStepThrough]
         private void ThrowIfConnected() {
             if (IsConnected) {
-                throw new InSimException(StringResources.InSimConnectedMessage);
+                throw new InSimException("InSim is already connected");
             }
         }
 
         [DebuggerStepThrough]
         private void ThrowIfNotConnected() {
             if (!IsConnected) {
-                throw new InSimException(StringResources.InSimNotConnectedMessage);
+                throw new InSimException("InSim is not connected");
             }
         }
 
@@ -316,10 +258,7 @@ namespace InSimDotNet {
         /// </summary>
         /// <param name="e">The <see cref="PacketDataEventArgs"/> object containing the event data</param>
         protected virtual void OnPacketDataReceived(PacketDataEventArgs e) {
-            EventHandler<PacketDataEventArgs> temp = PacketDataReceived;
-            if (temp != null) {
-                temp(this, e);
-            }
+            PacketDataReceived?.Invoke(this, e);
         }
 
         /// <summary>
@@ -327,10 +266,7 @@ namespace InSimDotNet {
         /// </summary>
         /// <param name="e">The <see cref="EventArgs"/> object containing the event data</param>
         protected virtual void OnConnectionLost(EventArgs e) {
-            EventHandler temp = ConnectionLost;
-            if (temp != null) {
-                temp(this, e);
-            }
+            ConnectionLost?.Invoke(this, e);
         }
 
         /// <summary>
@@ -338,10 +274,7 @@ namespace InSimDotNet {
         /// </summary>
         /// <param name="e">The <see cref="InSimErrorEventArgs"/> object containing the event data</param>
         protected virtual void OnSocketError(InSimErrorEventArgs e) {
-            EventHandler<InSimErrorEventArgs> temp = SocketError;
-            if (temp != null) {
-                temp(this, e);
-            }
+            SocketError?.Invoke(this, e);
         }
     }
 }

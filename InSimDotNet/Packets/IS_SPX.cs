@@ -1,13 +1,15 @@
 using System;
 
-namespace InSimDotNet.Packets {
+namespace InSimDotNet.Packets
+{
     /// <summary>
     /// Split time packet.
     /// </summary>
     /// <remarks>
     /// Sent when a player completes a split.
     /// </remarks>
-    public class IS_SPX : IPacket {
+    public class IS_SPX : IPacket
+    {
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
@@ -61,7 +63,8 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Creates a new split time packet.
         /// </summary>
-        public IS_SPX() {
+        public IS_SPX()
+        {
             Size = 16;
             Type = PacketType.ISP_SPX;
         }
@@ -71,7 +74,8 @@ namespace InSimDotNet.Packets {
         /// </summary>
         /// <param name="buffer">A buffer contaning the packet data.</param>
         public IS_SPX(byte[] buffer)
-            : this() {
+            : this()
+        {
             PacketReader reader = new PacketReader(buffer);
             Size = reader.ReadByte();
             Type = (PacketType)reader.ReadByte();

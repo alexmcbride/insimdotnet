@@ -1,7 +1,6 @@
 ﻿using System;
 
-namespace InSimDotNet.Packets
-{
+namespace InSimDotNet.Packets {
     /// <summary>
     /// Represents the <see cref="IS_SCH"/> flags.
     /// </summary>

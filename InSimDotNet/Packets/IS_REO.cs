@@ -76,7 +76,7 @@ namespace InSimDotNet.Packets {
         /// <returns>The packet data.</returns>
         public byte[] GetBuffer() {
             if (PLID.Count > MaxDrivers) {
-                throw new InvalidOperationException(StringResources.IsReoPlidErrorMessage);
+                throw new InvalidOperationException("IS_REO too many PLIDs set");
             }
 
             PacketWriter writer = new PacketWriter(Size);

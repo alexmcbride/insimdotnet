@@ -60,7 +60,6 @@ namespace InSimDotNet {
         /// Reads a word from the buffer.
         /// </summary>
         /// <returns>A 2-byte unsigned integer.</returns>
-        [CLSCompliant(false)]
         public ushort ReadUInt16() {
             position += 2;
             return BitConverter.ToUInt16(buffer, position - 2);
@@ -79,7 +78,6 @@ namespace InSimDotNet {
         /// Reads a unsigned from the buffer.
         /// </summary>
         /// <returns>A 4-byte unsigned integer</returns>
-        [CLSCompliant(false)]
         public uint ReadUInt32() {
             position += 4;
             return BitConverter.ToUInt32(buffer, position - 4);
@@ -125,7 +123,6 @@ namespace InSimDotNet {
         /// Reads a signed byte from the buffer.
         /// </summary>
         /// <returns>An signed byte.</returns>
-        [CLSCompliant(false)]
         public sbyte ReadSByte() {
             return (sbyte)ReadByte();
         }

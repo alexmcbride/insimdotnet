@@ -2,7 +2,7 @@
 
 namespace InSimDotNet {
     /// <summary>
-    /// Provides data for the <see cref="InSim"/> Disconnected event.
+    /// Provides data for the <see cref="InSimClient"/> Disconnected event.
     /// </summary>
     public class DisconnectedEventArgs : EventArgs {
         /// <summary>

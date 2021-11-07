@@ -44,7 +44,6 @@ namespace InSimDotNet {
         /// Writes the specified value to the buffer.
         /// </summary>
         /// <param name="value">A single signed byte.</param>
-        [CLSCompliant(false)]
         public void Write(sbyte value) {
             buffer[position++] = (byte)value;
         }
@@ -79,7 +78,6 @@ namespace InSimDotNet {
         /// Writes the specified value to the buffer.
         /// </summary>
         /// <param name="value">A 2-byte unsigned short.</param>
-        [CLSCompliant(false)]
         public void Write(ushort value) {
             Write(BitConverter.GetBytes(value));
         }
@@ -96,7 +94,6 @@ namespace InSimDotNet {
         /// Writes the specified value to the buffer.
         /// </summary>
         /// <param name="value">A 4-byte unsigned integer.</param>
-        [CLSCompliant(false)]
         public void Write(uint value) {
             Write(BitConverter.GetBytes(value));
         }

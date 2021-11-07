@@ -100,7 +100,7 @@ namespace InSimDotNet {
                 IsConnected = false;
                 IsDisposed = true;
 
-                client.Close();
+                client.Dispose();
             }
         }
 
@@ -129,29 +129,6 @@ namespace InSimDotNet {
             Dispose();
         }
 
-        /// <summary>
-        /// Sends byte data to LFS.
-        /// </summary>
-        /// <param name="buffer">The data to send.</param>
-        public void Send(byte[] buffer) {
-            ThrowIfDisposed();
-
-            client.Send(buffer, buffer.Length);
-            BytesSent += buffer.Length;
-        }
-
-        /// <summary>
-        /// Sends byte data to LFS asynchronously.
-        /// </summary>
-        /// <param name="buffer">The data to send.</param>
-        /// <returns>An async task object.</returns>
-        public async Task SendAsync(byte[] buffer) {
-            ThrowIfDisposed();
-
-            await client.SendAsync(buffer, buffer.Length);
-            BytesSent += buffer.Length;
-        }
-
         private async void ReceiveAsync() {
             if (IsConnected) {
                 try {
@@ -173,7 +150,7 @@ namespace InSimDotNet {
                     // Do nothing... this gets thrown if Dispose is called while waiting for a read to complete.
                 }
                 catch (Exception ex) {
-                    Debug.WriteLine(String.Format(StringResources.UdpSocketDebugErrorMessage, ex));
+                    Debug.WriteLine(String.Format("UDP Receive Error: {0}", ex));
                     Dispose();
                     OnSocketError(new InSimErrorEventArgs(ex));
                 }
@@ -183,7 +160,7 @@ namespace InSimDotNet {
         private void HandlePacket(byte[] buffer) {
             // If size not multiple of four, packet is corrupt.
             if (buffer.Length % 4 > 0) {
-                throw new InSimException(StringResources.PacketSizeErrorMessage);
+                throw new InSimException("Packet size was not a multiple of four");
             }
 
             OnPacketDataReceived(new PacketDataEventArgs(buffer));
@@ -199,7 +176,7 @@ namespace InSimDotNet {
         [DebuggerStepThrough]
         private void ThrowIfConnected() {
             if (IsConnected) {
-                throw new InSimException(StringResources.InSimConnectedMessage);
+                throw new InSimException("InSim is already connected");
             }
         }
 
@@ -208,10 +185,7 @@ namespace InSimDotNet {
         /// </summary>
         /// <param name="e">The <see cref="PacketDataEventArgs"/> object containing the event data</param>
         protected virtual void OnPacketDataReceived(PacketDataEventArgs e) {
-            EventHandler<PacketDataEventArgs> temp = PacketDataReceived;
-            if (temp != null) {
-                temp(this, e);
-            }
+            PacketDataReceived?.Invoke(this, e);
         }
 
         /// <summary>
@@ -219,10 +193,7 @@ namespace InSimDotNet {
         /// </summary>
         /// <param name="e">The <see cref="EventArgs"/> object containing the event data</param>
         protected virtual void OnConnectionLost(EventArgs e) {
-            EventHandler temp = ConnectionLost;
-            if (temp != null) {
-                temp(this, e);
-            }
+            ConnectionLost?.Invoke(this, e);
         }
 
         /// <summary>
@@ -230,10 +201,7 @@ namespace InSimDotNet {
         /// </summary>
         /// <param name="e">The <see cref="InSimErrorEventArgs"/> object containing the event data</param>
         protected virtual void OnSocketError(InSimErrorEventArgs e) {
-            EventHandler<InSimErrorEventArgs> temp = SocketError;
-            if (temp != null) {
-                temp(this, e);
-            }
+            SocketError?.Invoke(this, e);
         }
     }
 }

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
-using System.Linq;
-using InSimDotNet.Packets;
-using System.Collections;
-using System.Collections.ObjectModel;
 
-namespace InSimDotNet.Helpers {
+namespace InSimDotNet.Helpers
+{
     /// <summary>
     /// Static class to help with LFS related string operations.
     /// </summary>

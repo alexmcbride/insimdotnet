@@ -96,7 +96,7 @@ namespace InSimDotNet.Packets {
         /// <returns>An array containing the packet data.</returns>
         public byte[] GetBuffer() {
             if (Info.Count > 30) {
-                throw new InvalidOperationException(StringResources.IsAxmInfoErrorMessage);
+                throw new InvalidOperationException("IS_AXM too many objects set");
             }
 
             Size = (byte)(8 + (Info.Count * 8));
