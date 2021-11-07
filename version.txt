@@ -1,8 +1,12 @@
-- 5.0.4 (11th November 2021)
+- 5.0.5 (7th November 2021)
+* Fixed packet sizes parsing/writing to sockets
+* Added mod vehicle name parsing to CName string
+
+- 5.0.4 (6th November 2021)
 * Scrapped master branch update on net5 branch
 * Reverted back to Core 3.1 update to .Net 5
 
-- 5.0.3 (10th November 2021)
+- 5.0.3 (5th November 2021)
 * Updated master branch (.Net 4.5 version) to .Net 5
 
 - 5.0.2 (2021 November)

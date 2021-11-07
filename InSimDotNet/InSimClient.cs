@@ -16,7 +16,7 @@ namespace InSimDotNet
         /// <summary>
         /// Gets the current InSim version.
         /// </summary>
-        public const int InSimVersion = 8;
+        public byte InSimVersion = 9;
         private const string RelayHost = "isrelay.lfs.net";
         private const int RelayPort = 47474;
 
@@ -187,10 +187,10 @@ namespace InSimDotNet
                 throw;
             }
         }
-        
+
         private void InitializeSockets()
         {
-            if (TcpSocket is {IsDisposed: true})
+            if (TcpSocket is { IsDisposed: true })
             {
                 // Cleanup old socket.
                 TcpSocket.PacketDataReceived -= Socket_PacketDataReceived;
@@ -203,7 +203,7 @@ namespace InSimDotNet
             TcpSocket.ConnectionLost += TcpSocket_ConnectionLost;
             TcpSocket.SocketError += TcpSocket_SocketError;
 
-            if (UdpSocket is {IsDisposed: true})
+            if (UdpSocket is { IsDisposed: true })
             {
                 // Cleanup of old socket.
                 UdpSocket.PacketDataReceived -= Socket_PacketDataReceived;

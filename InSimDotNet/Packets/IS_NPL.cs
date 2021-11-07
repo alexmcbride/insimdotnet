@@ -15,7 +15,7 @@ namespace InSimDotNet.Packets
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
-        public byte Size { get; private set; }
+        public int Size { get; private set; }
 
         /// <summary>
         /// Gets the type of the packet.
@@ -145,7 +145,7 @@ namespace InSimDotNet.Packets
             : this()
         {
             PacketReader reader = new PacketReader(buffer);
-            Size = reader.ReadByte();
+            Size = reader.ReadByte() * 4;
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             PLID = reader.ReadByte();
@@ -154,7 +154,7 @@ namespace InSimDotNet.Packets
             Flags = (PlayerFlags)reader.ReadUInt16();
             PName = reader.ReadString(24);
             Plate = reader.ReadString(8);
-            CName = reader.ReadString(4);
+            CName = reader.ReadCNameString(4);
             SName = reader.ReadString(16);
             Tyres = new Tyres(
                 (TyreCompound)reader.ReadByte(),

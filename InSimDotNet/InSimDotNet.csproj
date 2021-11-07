@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyVersion>5.0.4.0</AssemblyVersion>
-    <FileVersion>5.0.4.0</FileVersion>
-    <Description>A light-weight InSim library for .NET 5</Description>
-    <Version>5.0.4</Version>
+    <AssemblyVersion>5.0.5.0</AssemblyVersion>
+    <FileVersion>5.0.5.0</FileVersion>
+    <Description>A light-weight InSim library for .NET 5 (min. LFS version: 0.6W)</Description>
+    <Version>5.0.5</Version>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Company>Alex McBride</Company>
     <Authors>Alex McBride</Authors>

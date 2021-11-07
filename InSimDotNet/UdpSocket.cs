@@ -8,7 +8,8 @@ namespace InSimDotNet {
     /// <summary>
     /// Manages a UDP connection with LFS.
     /// </summary>
-    public class UdpSocket : IDisposable {
+    public class UdpSocket : IDisposable
+    {
         private const int BufferSize = 256;
 
         private readonly UdpClient client;
@@ -73,7 +74,8 @@ namespace InSimDotNet {
         /// <summary>
         /// Creates a new instance of the <see cref="UdpSocket"/> class.
         /// </summary>
-        public UdpSocket() {
+        public UdpSocket()
+        {
             client = new UdpClient(); 
             
             BytesSent = 0;
@@ -157,12 +159,8 @@ namespace InSimDotNet {
             }
         }
 
-        private void HandlePacket(byte[] buffer) {
-            // If size not multiple of four, packet is corrupt.
-            if (buffer.Length % 4 > 0) {
-                throw new InSimException("Packet size was not a multiple of four");
-            }
-
+        private void HandlePacket(byte[] buffer)
+        {
             OnPacketDataReceived(new PacketDataEventArgs(buffer));
         }
 

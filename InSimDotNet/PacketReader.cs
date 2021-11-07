@@ -1,10 +1,12 @@
 ﻿using System;
 
-namespace InSimDotNet {
+namespace InSimDotNet
+{
     /// <summary>
     /// Class to handle reading a packet.
     /// </summary>
-    public class PacketReader {
+    public class PacketReader
+    {
         private readonly byte[] buffer;
         private int position;
 
@@ -12,8 +14,10 @@ namespace InSimDotNet {
         /// Creates a new instance of the <see cref="PacketReader"/> class.
         /// </summary>
         /// <param name="buffer">An array of bytes containing the packet data.</param>
-        public PacketReader(byte[] buffer) {
-            if (buffer == null) {
+        public PacketReader(byte[] buffer)
+        {
+            if (buffer == null)
+            {
                 throw new ArgumentNullException("buffer");
             }
 
@@ -24,7 +28,8 @@ namespace InSimDotNet {
         /// Skips the specified bytes.
         /// </summary>
         /// <param name="count">The number of bytes to skip.</param>
-        public void Skip(int count) {
+        public void Skip(int count)
+        {
             position += count;
         }
 
@@ -32,7 +37,8 @@ namespace InSimDotNet {
         /// Reads a byte from the buffer.
         /// </summary>
         /// <returns>A single byte.</returns>
-        public byte ReadByte() {
+        public byte ReadByte()
+        {
             return buffer[position++];
         }
 
@@ -40,7 +46,8 @@ namespace InSimDotNet {
         /// Reads a char from the buffer.
         /// </summary>
         /// <returns>A single char.</returns>
-        public char ReadChar() {
+        public char ReadChar()
+        {
             return (char)ReadByte();
         }
 
@@ -49,7 +56,8 @@ namespace InSimDotNet {
         /// </summary>
         /// <param name="count">The number of bytes to read.</param>
         /// <returns>An array of bytes.</returns>
-        public byte[] ReadBytes(int count) {
+        public byte[] ReadBytes(int count)
+        {
             byte[] value = new byte[count];
             Buffer.BlockCopy(buffer, position, value, 0, count);
             position += count;
@@ -60,7 +68,8 @@ namespace InSimDotNet {
         /// Reads a word from the buffer.
         /// </summary>
         /// <returns>A 2-byte unsigned integer.</returns>
-        public ushort ReadUInt16() {
+        public ushort ReadUInt16()
+        {
             position += 2;
             return BitConverter.ToUInt16(buffer, position - 2);
         }
@@ -69,7 +78,8 @@ namespace InSimDotNet {
         /// Reads a short from the buffer.
         /// </summary>
         /// <returns>A 2-byte signed integer</returns>
-        public short ReadInt16() {
+        public short ReadInt16()
+        {
             position += 2;
             return BitConverter.ToInt16(buffer, position - 2);
         }
@@ -78,7 +88,8 @@ namespace InSimDotNet {
         /// Reads a unsigned from the buffer.
         /// </summary>
         /// <returns>A 4-byte unsigned integer</returns>
-        public uint ReadUInt32() {
+        public uint ReadUInt32()
+        {
             position += 4;
             return BitConverter.ToUInt32(buffer, position - 4);
         }
@@ -87,7 +98,8 @@ namespace InSimDotNet {
         /// Reads an integer from the buffer.
         /// </summary>
         /// <returns>A 4-byte signed integer</returns>
-        public int ReadInt32() {
+        public int ReadInt32()
+        {
             position += 4;
             return BitConverter.ToInt32(buffer, position - 4);
         }
@@ -96,9 +108,37 @@ namespace InSimDotNet {
         /// Reads a float from the buffer.
         /// </summary>
         /// <returns>A 4-byte floating point number</returns>
-        public float ReadSingle() {
+        public float ReadSingle()
+        {
             position += 4;
             return BitConverter.ToSingle(buffer, position - 4);
+        }
+
+        /// <summary>
+        /// Reads a LFS Car name or modded car skinID (as of 0.6W)
+        /// </summary>
+        /// <param name="count">The number of bytes to read.</param>
+        /// <returns>A Unicode string.</returns>
+        public string ReadCNameString(int count)
+        {
+            position += count;
+            //return LfsEncoding.Current.GetString(buffer, position - count, count);
+            var buf = buffer[(position - count)..position];
+
+            if (isAlphaNumeric(buf[0]) && isAlphaNumeric(buf[1]) && isAlphaNumeric(buf[2]))
+            {
+                return LfsEncoding.Current.GetString(buffer, position - count, count);
+            }
+
+            return buf[2].ToString("X2") + buf[1].ToString("X2") + buf[0].ToString("X2");
+
+            bool isAlphaNumeric(byte b)
+            {
+                if (b >= '0' && b <= '9') return true;
+                if (b >= 'A' && b <= 'Z') return true;
+                if (b >= 'a' && b <= 'z') return true;
+                return false;
+            }
         }
 
         /// <summary>
@@ -106,7 +146,8 @@ namespace InSimDotNet {
         /// </summary>
         /// <param name="count">The number of bytes to read.</param>
         /// <returns>A Unicode string.</returns>
-        public string ReadString(int count) {
+        public string ReadString(int count)
+        {
             position += count;
             return LfsEncoding.Current.GetString(buffer, position - count, count);
         }
@@ -115,7 +156,8 @@ namespace InSimDotNet {
         /// Reads a Boolean from the buffer.
         /// </summary>
         /// <returns>A Boolean.</returns>
-        public bool ReadBoolean() {
+        public bool ReadBoolean()
+        {
             return ReadByte() > 0;
         }
 
@@ -123,7 +165,8 @@ namespace InSimDotNet {
         /// Reads a signed byte from the buffer.
         /// </summary>
         /// <returns>An signed byte.</returns>
-        public sbyte ReadSByte() {
+        public sbyte ReadSByte()
+        {
             return (sbyte)ReadByte();
         }
     }
