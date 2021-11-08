@@ -33,6 +33,15 @@ namespace InSimDotNet {
         }
 
         /// <summary>
+        /// Writes the packet size (divided by 4) to the buffer.
+        /// </summary>
+        /// <param name="size">Actual packet size.</param>
+        public void WriteSize(int size)
+        {
+            buffer[position++] = (byte)(size / 4);
+        }
+
+        /// <summary>
         /// Writes the specified value to the buffer.
         /// </summary>
         /// <param name="value">A single byte.</param>

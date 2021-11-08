@@ -11,7 +11,7 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Gets the packet size.
         /// </summary>
-        public byte Size { get; private set; }
+        public int Size { get; private set; }
 
         /// <summary>
         /// Gets the packet type.
@@ -55,7 +55,7 @@ namespace InSimDotNet.Packets {
         public IS_VER(byte[] buffer)
             : this() {
             PacketReader reader = new PacketReader(buffer);
-            Size = reader.ReadByte();
+            Size = reader.ReadSize();
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             reader.Skip(1);

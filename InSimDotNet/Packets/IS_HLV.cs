@@ -11,7 +11,7 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Gets the packet size.
         /// </summary>
-        public byte Size { get; private set; }
+        public int Size { get; private set; }
 
         /// <summary>
         /// Gets the packet type.
@@ -49,7 +49,7 @@ namespace InSimDotNet.Packets {
         /// <param name="buffer">The data to populate the packet with.</param>
         public IS_HLV(byte[] buffer) {
             PacketReader reader = new PacketReader(buffer);
-            Size = reader.ReadByte();
+            Size = reader.ReadSize();
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             PLID = reader.ReadByte();

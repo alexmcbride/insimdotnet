@@ -261,14 +261,9 @@ namespace InSimDotNet {
             int read = 0;
 
             // Loop through all completed packets in the buffer.
-            while (bufferBytes > 0 && bufferBytes >= buffer[read]) {
-                int size = buffer[read];
-
-                // If size not multiple of four packet is corrupt.
-                if (size % 4 > 0) {
-                    throw new InSimException(StringResources.PacketSizeErrorMessage);
-                }
-
+            while (bufferBytes > 0 && bufferBytes >= buffer[read] * 4) {
+                var size = buffer[read] * 4;
+                
                 // Raise packet event.
                 byte[] temp = new byte[size];
                 Buffer.BlockCopy(buffer, read, temp, 0, size);

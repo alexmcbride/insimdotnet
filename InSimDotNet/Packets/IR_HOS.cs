@@ -13,7 +13,7 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
-        public byte Size { get; private set; }
+        public int Size { get; private set; }
 
         /// <summary>
         /// Gets the type of the packet.
@@ -42,7 +42,7 @@ namespace InSimDotNet.Packets {
         /// <param name="buffer">A buffer contaning the packet data.</param>
         public IR_HOS(byte[] buffer) {
             PacketReader reader = new PacketReader(buffer);
-            Size = reader.ReadByte();
+            Size = reader.ReadSize();
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             NumHosts = reader.ReadByte();

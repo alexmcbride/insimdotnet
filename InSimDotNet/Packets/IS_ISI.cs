@@ -11,7 +11,7 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
-        public byte Size { get; private set; }
+        public int Size { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="PacketType"/>.
@@ -74,7 +74,7 @@ namespace InSimDotNet.Packets {
         /// <returns>The packet data.</returns>
         public byte[] GetBuffer() {
             PacketWriter writer = new PacketWriter(Size);
-            writer.Write(Size);
+            writer.WriteSize(Size);
             writer.Write((byte)Type);
             writer.Write(ReqI);
             writer.Skip(1);

@@ -12,7 +12,7 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
-        public byte Size { get; private set; }
+        public int Size { get; private set; }
 
         /// <summary>
         /// Gets the type of the packet.
@@ -110,7 +110,7 @@ namespace InSimDotNet.Packets {
             Size = (byte)(12 + Math.Min(length + (4 - (length % 4)), 240));
 
             PacketWriter writer = new PacketWriter(Size);
-            writer.Write((byte)Size);
+            writer.WriteSize(Size);
             writer.Write((byte)Type);
             writer.Write(ReqI);
             writer.Write(UCID);
