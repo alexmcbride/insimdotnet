@@ -14,7 +14,7 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
-        public byte Size { get; private set; }
+        public int Size { get; private set; }
 
         /// <summary>
         /// Gets the type of the packet.
@@ -75,7 +75,7 @@ namespace InSimDotNet.Packets {
         /// <param name="buffer">The packet data.</param>
         public IS_AXM(byte[] buffer) {
             PacketReader reader = new PacketReader(buffer);
-            Size = reader.ReadByte();
+            Size = reader.ReadSize();
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             NumO = reader.ReadByte();
@@ -99,9 +99,9 @@ namespace InSimDotNet.Packets {
                 throw new InvalidOperationException(StringResources.IsAxmInfoErrorMessage);
             }
 
-            Size = (byte)(8 + (Info.Count * 8));
+            Size = (8 + (Info.Count * 8));
             PacketWriter writer = new PacketWriter(Size);
-            writer.Write(Size);
+            writer.WriteSize(Size);
             writer.Write((byte)Type);
             writer.Write(ReqI);
             writer.Write((byte)Info.Count);

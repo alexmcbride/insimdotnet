@@ -11,7 +11,7 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
-        public byte Size { get; private set; }
+        public int Size { get; private set; }
 
         /// <summary>
         /// Gets the type of the packet.
@@ -74,7 +74,7 @@ namespace InSimDotNet.Packets {
         public IS_RIP(byte[] buffer)
             : this() {
             PacketReader reader = new PacketReader(buffer);
-            Size = reader.ReadByte();
+            Size = reader.ReadSize();
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             Error = (ReplayError)reader.ReadByte();
@@ -96,7 +96,7 @@ namespace InSimDotNet.Packets {
         /// <returns>The packet data.</returns>
         public byte[] GetBuffer() {
             PacketWriter writer = new PacketWriter(Size);
-            writer.Write(Size);
+            writer.WriteSize(Size);
             writer.Write((byte)Type);
             writer.Write(ReqI);
             writer.Write((byte)Error);

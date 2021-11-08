@@ -8,7 +8,7 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Gets the packet size.
         /// </summary>
-        public byte Size { get; private set; }
+        public int Size { get; private set; }
 
         /// <summary>
         /// Gets the packet type.
@@ -40,7 +40,7 @@ namespace InSimDotNet.Packets {
         public IS_TINY(byte[] buffer)
             : this() {
             PacketReader reader = new PacketReader(buffer);
-            Size = reader.ReadByte();
+            Size = reader.ReadSize();
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             SubT = (TinyType)reader.ReadByte();
@@ -52,7 +52,7 @@ namespace InSimDotNet.Packets {
         /// <returns>The packet data.</returns>
         public byte[] GetBuffer() {
             PacketWriter writer = new PacketWriter(Size);
-            writer.Write(Size);
+            writer.WriteSize(Size);
             writer.Write((byte)Type);
             writer.Write(ReqI);
             writer.Write((byte)SubT);

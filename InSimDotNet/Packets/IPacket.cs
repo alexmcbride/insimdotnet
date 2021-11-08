@@ -6,7 +6,7 @@
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
-        byte Size { get; }
+        int Size { get; }
 
         /// <summary>
         /// Gets the type of the packet.

@@ -29,6 +29,15 @@ namespace InSimDotNet {
         }
 
         /// <summary>
+        /// Reads packet size (multiplies it by 4) from the buffer.
+        /// </summary>
+        /// <returns>Actual packet size in bytes</returns>
+        public int ReadSize()
+        {
+            return buffer[position++] * 4;
+        }
+
+        /// <summary>
         /// Reads a byte from the buffer.
         /// </summary>
         /// <returns>A single byte.</returns>
@@ -101,6 +110,34 @@ namespace InSimDotNet {
         public float ReadSingle() {
             position += 4;
             return BitConverter.ToSingle(buffer, position - 4);
+        }
+
+        /// <summary>
+        /// Reads a LFS Car name or modded car skinID (as of 0.6W)
+        /// </summary>
+        /// <param name="count">The number of bytes to read.</param>
+        /// <returns>A Unicode string.</returns>
+        public string ReadCNameString(int count = 4)
+        {
+            position += count;
+
+            var buf = new byte[4];
+            Array.Copy(buffer, position - count, buf, 0, count);
+
+            if (IsAlphaNumeric(buf[0]) && IsAlphaNumeric(buf[1]) && IsAlphaNumeric(buf[2]))
+            {
+                return LfsEncoding.Current.GetString(buffer, position - count, count);
+            }
+
+            return buf[2].ToString("X2") + buf[1].ToString("X2") + buf[0].ToString("X2");
+
+            bool IsAlphaNumeric(byte b)
+            {
+                if (b >= '0' && b <= '9') return true;
+                if (b >= 'A' && b <= 'Z') return true;
+                if (b >= 'a' && b <= 'z') return true;
+                return false;
+            }
         }
 
         /// <summary>
