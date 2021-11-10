@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyVersion>5.0.5.0</AssemblyVersion>
     <FileVersion>5.0.5.0</FileVersion>
     <Description>A light-weight InSim library for .NET 5 (min. LFS version: 0.6W)</Description>
