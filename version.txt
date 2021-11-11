@@ -1,3 +1,7 @@
+- 6.0.0 (10th November 2021)
+* Moved to .NET 6 because it has LTS
+* Virtualized and changed access to some send/receive methods for external debugging/overwriting capability
+
 - 5.0.5 (7th November 2021)
 * Fixed packet sizes parsing/writing to sockets
 * Added mod vehicle name parsing to CName string
