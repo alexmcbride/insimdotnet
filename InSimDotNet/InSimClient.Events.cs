@@ -253,7 +253,7 @@ namespace InSimDotNet
         /// </summary>
         public event EventHandler<PacketEventArgs<IS_CIM>> IS_CIM;
 
-        private static PacketType GetPacketType(byte[] buffer)
+        public static PacketType GetPacketType(byte[] buffer)
         {
             if (buffer.Length >= 4)
             {
@@ -265,7 +265,7 @@ namespace InSimDotNet
             }
         }
 
-        private void HandlePacketEvent(byte[] packet)
+        protected virtual void HandlePacketEvent(byte[] packet)
         {
             var packetType = GetPacketType(packet);
             switch(packetType)

@@ -234,7 +234,7 @@ namespace InSimDotNet
         /// </summary>
         /// <param name="packet">The<see cref="ISendable"/> packet to send.</param>
         /// <returns>An awaitable async task object.</returns>
-        public Task SendAsync(ISendable packet)
+        public virtual Task SendAsync(ISendable packet)
         {
             if (packet == null)
             {
@@ -252,7 +252,7 @@ namespace InSimDotNet
         /// </summary>
         /// <param name="packets">The sequence of <see cref="ISendable"/> packets to send.</param>
         /// <returns>An awaitable async task object.</returns>
-        public Task SendAsync(params ISendable[] packets)
+        public virtual Task SendAsync(params ISendable[] packets)
         {
             if (packets == null)
             {
@@ -282,7 +282,7 @@ namespace InSimDotNet
         /// <param name="message">The message to send.</param>
         /// <param name="args">Arguments to format the message with.</param>
         /// <returns>An awaitable async task object.</returns>
-        public Task SendAsync(string message, params object[] args)
+        public virtual Task SendAsync(string message, params object[] args)
         {
             if (message == null)
             {
@@ -330,7 +330,7 @@ namespace InSimDotNet
         /// <param name="message">The message to send.</param>
         /// <param name="args">An object array containing zero or more objects to format the message with.</param>
         /// <returns>An awaitable async task object.</returns>
-        public Task SendAsync(byte ucid, string message, params object[] args)
+        public virtual Task SendAsync(byte ucid, string message, params object[] args)
         {
             return SendAsync(ucid, 0, message, args);
         }
@@ -343,7 +343,7 @@ namespace InSimDotNet
         /// <param name="message">The message to send.</param>
         /// <param name="args">Arguments to format the message with.</param>
         /// <returns>An awaitable async task object.</returns>
-        public Task SendAsync(byte ucid, byte plid, string message, params object[] args)
+        public virtual Task SendAsync(byte ucid, byte plid, string message, params object[] args)
         {
             if (message == null)
             {
