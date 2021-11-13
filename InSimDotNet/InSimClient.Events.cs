@@ -253,6 +253,11 @@ namespace InSimDotNet
         /// </summary>
         public event EventHandler<PacketEventArgs<IS_CIM>> IS_CIM;
 
+        /// <summary>
+        /// set mods allowed
+        /// </summary>
+        public event EventHandler<PacketEventArgs<IS_MAL>> IS_MAL;
+
         public static PacketType GetPacketType(byte[] buffer)
         {
             if (buffer.Length >= 4)
@@ -416,6 +421,9 @@ namespace InSimDotNet
                     break;
                 case PacketType.ISP_CIM:
                     OnIS_CIM(new PacketEventArgs<IS_CIM>(new IS_CIM(packet)));
+                    break;
+                case PacketType.ISP_MAL:
+                    OnIS_MAL(new PacketEventArgs<IS_MAL>(new IS_MAL(packet)));
                     break;
             }
         }
@@ -663,6 +671,11 @@ namespace InSimDotNet
         protected virtual void OnIS_CIM(PacketEventArgs<IS_CIM> e)
         {
             IS_CIM?.Invoke(this, e);
+        }
+
+        protected virtual void OnIS_MAL(PacketEventArgs<IS_MAL> e)
+        {
+            IS_MAL?.Invoke(this, e);
         }
     }
 }

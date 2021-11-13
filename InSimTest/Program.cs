@@ -1,6 +1,7 @@
 ﻿using InSimDotNet;
 using InSimDotNet.Packets;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace InSimTest
@@ -18,6 +19,8 @@ namespace InSimTest
             {
                 client.IS_VER += Client_IS_VER;
                 client.IS_MSO += Client_IS_MSO;
+                client.IS_NPL += async (o, e) => { await Client_IS_NPL(o, e); };
+                client.IS_MAL += async (o,e) => { await Client_IS_MAL(o, e); };
 
                 await client.InitializeAsync(new InSimSettings
                 {
@@ -25,7 +28,37 @@ namespace InSimTest
                     Port = 29999
                 });
 
+                await client.SendAsync(new IS_MAL(
+                    new List<string>
+                    {
+                        //"3118BF",
+                        //"953A1B"
+                    }));
+                await client.SendAsync(TinyType.TINY_MAL);
+
                 Console.ReadKey(true);
+            }
+        }
+        
+        private async Task Client_IS_NPL(object o, PacketEventArgs<IS_NPL> e)
+        {
+            var insim = (InSimClient)o;
+            var npl = e.Packet;
+            await insim.SendAsync($"^7Player is joining with ^3{npl}");
+        }
+
+        private async Task Client_IS_MAL(object sender, PacketEventArgs<IS_MAL> e)
+        {
+            var insim = (InSimClient)sender;
+            var mal = e.Packet;
+
+            if (mal.NumM == 0) await insim.SendAsync("^7Host allows ^3ALL ^7mods");
+            else
+            {
+                foreach (var skinID in mal.SkinIDs) 
+                {
+                    await insim.SendAsync($"^7Host allows: ^3{skinID.StringForm}");
+                }
             }
         }
 
