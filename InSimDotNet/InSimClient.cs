@@ -186,6 +186,7 @@ namespace InSimDotNet
                 }
                 throw;
             }
+            OnInitialized(new InitializeEventArgs(settings));
         }
 
         private void InitializeSockets()
@@ -355,6 +356,25 @@ namespace InSimDotNet
 
             message = string.Format(message, args);
             return SendAsync(new IS_MTC { Msg = message, PLID = plid, UCID = ucid });
+        }
+
+        /// <summary>
+        /// Sends an IS_TINY packet with specified packetType as SubT to LFS asynchronously.
+        /// </summary>
+        /// <param name="tinyType">The<see cref="TinyType"/> SubT in IS_TINY to send.</param>
+        /// <returns>An awaitable async task object.</returns>
+        public virtual Task SendAsync(TinyType tinyType)
+        {
+            if (tinyType == TinyType.TINY_NONE)
+            {
+                throw new ArgumentNullException("tinyType");
+            }
+
+            ThrowIfDisposed();
+            ThrowIfNotConnected();
+
+            var buf = new IS_TINY { SubT = tinyType, ReqI = 1 }.GetBuffer();
+            return TcpSocket.SendAsync(buf);
         }
 
         private void Socket_PacketDataReceived(object sender, PacketDataEventArgs e)

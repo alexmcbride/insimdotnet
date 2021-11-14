@@ -329,6 +329,11 @@
         ISP_CIM,
 
         /// <summary>
+        /// Set mods allowed.
+        /// </summary>
+        ISP_MAL,
+
+        /// <summary>
         /// Admin request
         /// </summary>
         IRP_ARQ = 250,

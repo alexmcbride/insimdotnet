@@ -1,3 +1,9 @@
+- 6.0.1 (13th November 2021)
+* Update to LFS 0.6W45
+* added IS_MAL, TINY_MAL support
+* skinID parsing from string, uint, byte array
+* added missing InSim.Initialized event raise
+
 - 6.0.0 (10th November 2021)
 * Moved to .NET 6 because it has LTS
 * Virtualized and changed access to some send/receive methods for external debugging/overwriting capability

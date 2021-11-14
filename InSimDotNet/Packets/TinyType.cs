@@ -136,6 +136,11 @@
         /// <summary>
         /// Request IS_SLC packets for all players
         /// </summary>
-        TINY_SLC
+        TINY_SLC,
+
+        /// <summary>
+        /// Request IS_MAL listing the currently allowed mods
+        /// </summary>
+        TINY_MAL
     }
 }
