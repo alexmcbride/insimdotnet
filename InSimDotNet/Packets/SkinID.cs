@@ -18,9 +18,9 @@ namespace InSimDotNet.Packets
             }
             
             CompressedForm = reader.ReadUInt32();
-            StringForm = ((byte)(CompressedForm >> 24)).ToString("X2")
-                       + ((byte)(CompressedForm >> 16)).ToString("X2")
-                       + ((byte)(CompressedForm >> 8)).ToString("X2");
+            StringForm = ((byte)(CompressedForm >> 16)).ToString("X2")
+                       + ((byte)(CompressedForm >> 8)).ToString("X2")
+                       + ((byte)(CompressedForm)).ToString("X2");
         }
 
         public SkinID(string stringForm)
