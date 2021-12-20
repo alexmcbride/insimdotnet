@@ -99,7 +99,7 @@ namespace InSimDotNet.Packets {
                 throw new InvalidOperationException("IS_AXM too many objects set");
             }
 
-            Size = (byte)(8 + (Info.Count * 8));
+            Size = 8 + (Info.Count * 8);
             PacketWriter writer = new PacketWriter(Size);
             writer.WriteSize(Size);
             writer.Write((byte)Type);

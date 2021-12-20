@@ -119,7 +119,7 @@ namespace InSimDotNet.Packets
                 throw new InvalidOperationException("IS_MAL too many objects set");
             }
 
-            Size = (byte)(8 + (SkinIDs.Count * 4));
+            Size = (8 + (SkinIDs.Count * 4));
             PacketWriter writer = new PacketWriter(Size);
             writer.WriteSize(Size);
             writer.Write((byte)Type);
