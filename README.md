@@ -2,7 +2,7 @@ InSim.NET
 =========
 
 *For a .NET Core version of the library go [here](https://github.com/alexmcbride/insimdotnet/tree/core).*
-*For a .NET 5 version of the library go [here](https://github.com/alexmcbride/insimdotnet/tree/net5).*
+*For a .NET 6 version of the library go [here](https://github.com/alexmcbride/insimdotnet/tree/net6).*
 
 
 InSim.NET is a .NET InSim library for the online racing simulator [Live for Speed](http://www.lfs.net/). It allows you to connect to the game and share packets of data. These packets can be used to control Live for Speed, send commands, handle requests and receive car telemetry data. 
