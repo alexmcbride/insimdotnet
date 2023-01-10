@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <AssemblyVersion>6.0.2.0</AssemblyVersion>
-    <FileVersion>6.0.2.0</FileVersion>
+    <AssemblyVersion>6.0.2.2</AssemblyVersion>
+    <FileVersion>6.0.2.2</FileVersion>
     <Description>A light-weight InSim library for .NET 6 (min. LFS version: 0.6W)</Description>
-    <Version>6.0.2.0</Version>
+    <Version>6.0.2.2</Version>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Company>Alex McBride</Company>
     <Authors>Alex McBride</Authors>
