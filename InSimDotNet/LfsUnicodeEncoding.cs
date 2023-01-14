@@ -31,17 +31,17 @@ namespace InSimDotNet
 
         private static readonly Encoding DefaultEncoding = EncodingMap['L'];
 
-        private static readonly Dictionary<char, char> EscapeMap = new Dictionary<char, char> {
-            { 'v', '|' },
-            { 'a', '*' },
-            { 'c', ':' },
-            { 'd', '\\' },
-            { 's', '/' },
-            { 'q', '?' },
-            { 't', '"' },
-            { 'l', '<' },
-            { 'r', '>' },
-            { '^', '^' },
+        private static readonly Dictionary<char, string> EscapeMap = new Dictionary<char, string> {
+            { 'v', "|" },
+            { 'a', "*" },
+            { 'c', ":" },
+            { 'd', "\\" },
+            { 's', "/" },
+            { 'q', "?" },
+            { 't', "\"" },
+            { 'l', "<" },
+            { 'r', ">" },
+            { '^', "^^" }
         };
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace InSimDotNet
             Encoding encoding = DefaultEncoding;
             Encoding nextEncoding;
             int i = 0, start = index;
-            char escape;
+            string escape;
 
             for (i = index; i < index + length; i++)
             {
