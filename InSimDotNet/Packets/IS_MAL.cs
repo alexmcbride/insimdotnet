@@ -5,11 +5,14 @@ using System.Collections.Generic;
 namespace InSimDotNet.Packets
 {
     /// <summary>
-    /// Multi car information packet.
+    /// Mod list information
     /// </summary>
     /// <remarks>
-    /// Contains information about cars currently on-track. To enable these 
-    /// packets see the Flags and Interval properties when initializing InSim.
+
+    // Allowed Mods
+
+    // You can set a list of up to 120 mods that are allowed to be used on a host
+    // Send zero to clear the list and allow all mods to be used
     /// </remarks>
     public class IS_MAL : IPacket
     {
@@ -29,11 +32,27 @@ namespace InSimDotNet.Packets
         public byte ReqI { get; private set; }
 
         /// <summary>
-        /// Gets the number of cars in the packet.
+        /// Gets the number of mods in the packet.
         /// </summary>
         public byte NumM { get; private set; }
 
-        public byte UCID { get; }
+        /// <summary>
+        /// Gets the unique ID of the connnection that  updated the list
+        /// </summary>
+        public byte UCID { get; private set; }
+
+        /// <summary>
+        /// No description provided by lfs.
+        /// </summary>
+        public byte Flags { get; private set; }
+        /// <summary>
+        /// No description provided by lfs.
+        /// </summary>
+        public byte Sp2 { get; private set; }
+        /// <summary>
+        /// No description provided by lfs.
+        /// </summary>
+        public byte Sp3 { get; private set; }
 
         public IS_MAL()
         {
@@ -41,10 +60,6 @@ namespace InSimDotNet.Packets
             Type = PacketType.ISP_MAL;
         }
 
-        /// <summary>
-        /// Creates a new multi car information packet.
-        /// </summary>
-        /// <param name="buffer">A buffer contaning the packet data.</param>
         public IS_MAL(byte[] buffer)
             : this()
         {
@@ -54,6 +69,9 @@ namespace InSimDotNet.Packets
             ReqI = reader.ReadByte();
             NumM = reader.ReadByte();
             UCID = reader.ReadByte();
+            Flags = reader.ReadByte();
+            Sp2 = reader.ReadByte();
+            Sp3 = reader.ReadByte();
         }
     }
 }
