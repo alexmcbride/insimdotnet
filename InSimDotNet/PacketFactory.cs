@@ -35,6 +35,11 @@ namespace InSimDotNet {
 
             PacketType packetType = GetPacketType(buffer);
             switch (packetType) {
+                /*
+                New packets 7A
+                */
+                case PacketType.ISP_MAL:
+                    return new IS_MAL(buffer);
                 case PacketType.ISP_AXI:
                     return new IS_AXI(buffer);
                 case PacketType.ISP_AXO:

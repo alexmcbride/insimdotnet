@@ -299,6 +299,11 @@
         ISP_JRR,
 
         /// <summary>
+        /// get mods
+        /// </summary>
+        ISP_MAL,
+
+        /// <summary>
         /// report InSim checkpoint / InSim circle
         /// </summary>
         ISP_UCO,
@@ -357,5 +362,6 @@
         /// Error
         /// </summary>
         IRP_ERR = 255,
+
     }
 }
