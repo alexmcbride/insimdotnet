@@ -57,7 +57,7 @@ namespace InSimDotNet.Packets {
         public IS_AXM() {
             Size = 8;
             Type = PacketType.ISP_AXM;
-            Info = new List<ObjectInfo>(30);
+            Info = new List<ObjectInfo>(60);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace InSimDotNet.Packets {
         /// </summary>
         /// <returns>An array containing the packet data.</returns>
         public byte[] GetBuffer() {
-            if (Info.Count > 30) {
+            if (Info.Count > 60) {
                 throw new InvalidOperationException(StringResources.IsAxmInfoErrorMessage);
             }
 
