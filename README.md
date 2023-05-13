@@ -1,6 +1,8 @@
 InSim.NET
 =========
 
+* THIS IS A VERSION WITH A NEWER PACKET (IS_MAL) FROM THIS REPOSITORY > https://github.com/alexmcbride/insimdotnet*
+
 *For a .NET Core version of the library go [here](https://github.com/alexmcbride/insimdotnet/tree/core).*
 *For a .NET 6 version of the library go [here](https://github.com/alexmcbride/insimdotnet/tree/net6).*
 
