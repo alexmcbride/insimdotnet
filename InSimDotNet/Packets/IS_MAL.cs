@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 
@@ -8,11 +8,10 @@ namespace InSimDotNet.Packets
     /// Mod list information
     /// </summary>
     /// <remarks>
-
-    // Allowed Mods
-
-    // You can set a list of up to 120 mods that are allowed to be used on a host
-    // Send zero to clear the list and allow all mods to be used
+    /// Allowed Mods
+    ///
+    /// You can set a list of up to 120 mods that are allowed to be used on a host
+    /// Send zero to clear the list and allow all mods to be used
     /// </remarks>
     public class IS_MAL : IPacket
     {
@@ -37,7 +36,7 @@ namespace InSimDotNet.Packets
         public byte NumM { get; private set; }
 
         /// <summary>
-        /// Gets the unique ID of the connnection that  updated the list
+        /// Gets the unique ID of the connnection that updated the list
         /// </summary>
         public byte UCID { get; private set; }
 
@@ -54,12 +53,19 @@ namespace InSimDotNet.Packets
         /// </summary>
         public byte Sp3 { get; private set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IS_MAL"/> class.
+        /// </summary>
         public IS_MAL()
         {
             Size = 28;
             Type = PacketType.ISP_MAL;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IS_MAL"/> class from a byte array.
+        /// </summary>
+        /// <param name="buffer">The byte array to initialize from.</param>
         public IS_MAL(byte[] buffer)
             : this()
         {
