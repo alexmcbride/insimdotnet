@@ -68,6 +68,8 @@ namespace InSimDotNet.Helpers {
             { "RO9", new Track("Rockingham Historic Short") },
             { "RO10", new Track("Rockingham International Long") },
             { "RO11", new Track("Rockingham Sportscar") },
+            { "LA1", new Track("Layout Square Long Grid") },
+            { "LA2", new Track("Layout Square Wide Grid") },
         };
 
         /// <summary>
