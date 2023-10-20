@@ -299,11 +299,6 @@
         ISP_JRR,
 
         /// <summary>
-        /// get mods
-        /// </summary>
-        ISP_MAL,
-
-        /// <summary>
         /// report InSim checkpoint / InSim circle
         /// </summary>
         ISP_UCO,
@@ -332,6 +327,11 @@
         /// Connection's interface mode.
         /// </summary>
         ISP_CIM,
+
+        /// <summary>
+        /// get mods
+        /// </summary>
+        ISP_MAL,
 
         /// <summary>
         /// Admin request
