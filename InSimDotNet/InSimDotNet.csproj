@@ -114,6 +114,7 @@
     <Compile Include="Packets\IS_TTC.cs" />
     <Compile Include="Packets\IS_UCO.cs" />
     <Compile Include="Packets\JrrAction.cs" />
+    <Compile Include="Packets\LfsLicense.cs" />
     <Compile Include="Packets\LfsLanguage.cs" />
     <Compile Include="Packets\LocalCarSwitches.cs" />
     <Compile Include="Packets\MarshallObjectType.cs" />
