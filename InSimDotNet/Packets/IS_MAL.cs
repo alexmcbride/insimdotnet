@@ -26,7 +26,7 @@ namespace InSimDotNet.Packets
         public PacketType Type { get; private set; }
 
         /// <summary>
-        /// Gets the request ID.
+        /// Gets the request ID - 0 unless this is a reply to a TINY_MAL request
         /// </summary>
         public byte ReqI { get; private set; }
 
