@@ -171,6 +171,8 @@ namespace InSimDotNet {
         public static PacketType PacketLookup(Type type) {
             if (type == typeof(IS_ISI))
                 return PacketType.ISP_ISI;
+            if (type == typeof(IS_MAL))
+                return PacketType.ISP_MAL;
             if (type == typeof(IS_VER))
                 return PacketType.ISP_VER;
             if (type == typeof(IS_TINY))
