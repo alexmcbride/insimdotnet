@@ -14,7 +14,7 @@ namespace InSimDotNet.Packets
     /// </remarks>
     public class IS_MAL : IPacket, ISendable
     {
-        public static int MAX_MAL_MODS = 120;
+        public const int MAX_MAL_MODS = 120;
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
