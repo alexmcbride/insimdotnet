@@ -1,4 +1,6 @@
-﻿namespace InSimDotNet.Packets
+﻿using System;
+
+namespace InSimDotNet.Packets
 {
     /// <summary>
     /// Switches for <see cref="IS_SMALL"/> SMALL_LCS
@@ -33,21 +35,25 @@
         /// <summary>
         /// Turn signals off
         /// </summary>
+        [Obsolete("Should now use SMALL_LCL")]
         public const int LCS_SIGNALS_OFF = LCS_SET_SIGNALS;
 
         /// <summary>
         /// Turn signal left
         /// </summary>
+        [Obsolete("Should now use SMALL_LCL")]
         public const int LCS_SIGNALS_LEFT = (1 << 8) | LCS_SET_SIGNALS;
 
         /// <summary>
         /// Turn signal right
         /// </summary>
+        [Obsolete("Should now use SMALL_LCL")]
         public const int LCS_SIGNALS_RIGHT = (2 << 8) | LCS_SET_SIGNALS;
 
         /// <summary>
         /// Turn signal hazard
         /// </summary>
+        [Obsolete("Should now use SMALL_LCL")]
         public const int LCS_SIGNALS_HAZARD = (3 << 8) | LCS_SET_SIGNALS;
 
         /// <summary>
@@ -63,11 +69,13 @@
         /// <summary>
         /// Headlights off
         /// </summary>
+        [Obsolete("Should now use SMALL_LCL")]
         public const int LCS_HEADLIGHTS_OFF = LCS_SET_HEADLIGHTS;
 
         /// <summary>
         /// Headlights on
         /// </summary>
+        [Obsolete("Should now use SMALL_LCL")]
         public const int LCS_HEADLIGHTS_ON = (1 << 11) | LCS_SET_HEADLIGHTS;
 
         /// <summary>
