@@ -7,7 +7,7 @@ namespace InSimDotNet.Packets {
     [Flags]
     public enum HlvcFlags {
         /// <summary>
-        /// Car has hit the groud.
+        /// Car drove off-track.
         /// </summary>
         Ground = 0,
 
