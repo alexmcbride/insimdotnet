@@ -51,6 +51,11 @@
         /// <summary>
         /// Set local car switches (lights, horn, siren). Use <see cref="LocalCarSwitches"/> for options.
         /// </summary>
-        SMALL_LCS = 9
+        SMALL_LCS = 9,
+
+        /// <summary>
+        /// Set local car lights. Use <see cref="LocalCarLights"/> for options.
+        /// </summary>
+        SMALL_LCL = 10,
     }
 }
