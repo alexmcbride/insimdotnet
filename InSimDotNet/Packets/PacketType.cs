@@ -334,6 +334,11 @@
         ISP_MAL,
 
         /// <summary>
+        /// set player handicaps
+        /// </summary>
+        ISP_PLH,
+
+        /// <summary>
         /// Admin request
         /// </summary>
         IRP_ARQ = 250,

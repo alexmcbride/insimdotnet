@@ -89,6 +89,9 @@
     <Compile Include="Packets\CarContact.cs" />
     <Compile Include="Packets\CarContOBJ.cs" />
     <Compile Include="Packets\CarFlags.cs" />
+    <Compile Include="Packets\LocalCarLights.cs" />
+    <Compile Include="Packets\PLHFlags.cs" />
+    <Compile Include="Packets\PlayerHCap.cs" />
     <Compile Include="Packets\CarHCP.cs" />
     <Compile Include="Packets\CharacterModifiers.cs" />
     <Compile Include="Packets\ContactFlags.cs" />
@@ -105,6 +108,7 @@
     <Compile Include="Packets\IS_HCP.cs" />
     <Compile Include="Packets\IS_HLV.cs" />
     <Compile Include="Packets\IS_JRR.cs" />
+    <Compile Include="Packets\IS_PLH.cs" />
     <Compile Include="Packets\IS_MAL.cs" />
     <Compile Include="Packets\IS_NCI.cs" />
     <Compile Include="Packets\IS_OBH.cs" />
@@ -114,6 +118,7 @@
     <Compile Include="Packets\IS_TTC.cs" />
     <Compile Include="Packets\IS_UCO.cs" />
     <Compile Include="Packets\JrrAction.cs" />
+    <Compile Include="Packets\LfsLicense.cs" />
     <Compile Include="Packets\LfsLanguage.cs" />
     <Compile Include="Packets\LocalCarSwitches.cs" />
     <Compile Include="Packets\MarshallObjectType.cs" />

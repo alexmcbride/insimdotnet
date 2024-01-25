@@ -136,6 +136,16 @@
         /// <summary>
         /// Request IS_SLC packets for all players
         /// </summary>
-        TINY_SLC
+        TINY_SLC,
+
+        /// <summary>
+        /// Request IS_MAL for the currently allowed mods
+        /// </summary>
+        TINY_MAL,
+
+        /// <summary>
+        /// Request IS_PLH for listing player handicaps
+        /// </summary>
+        TINY_PLH,
     }
 }

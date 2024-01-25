@@ -38,6 +38,8 @@ namespace InSimDotNet {
                 /*
                 New packets 7A
                 */
+                case PacketType.ISP_PLH:
+                    return new IS_PLH(buffer);
                 case PacketType.ISP_MAL:
                     return new IS_MAL(buffer);
                 case PacketType.ISP_AXI:
@@ -171,6 +173,10 @@ namespace InSimDotNet {
         public static PacketType PacketLookup(Type type) {
             if (type == typeof(IS_ISI))
                 return PacketType.ISP_ISI;
+            if (type == typeof(IS_MAL))
+                return PacketType.ISP_MAL;
+            if (type == typeof(IS_PLH))
+                return PacketType.ISP_PLH;
             if (type == typeof(IS_VER))
                 return PacketType.ISP_VER;
             if (type == typeof(IS_TINY))
