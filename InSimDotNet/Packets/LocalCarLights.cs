@@ -48,17 +48,17 @@
         /// <summary>
         /// Turn signal left
         /// </summary>
-        public const int LCL_SIGNALS_LEFT = (1 << 16) + LCL_SET_SIGNALS;
+        public const int LCL_SIGNALS_LEFT = (1 << 16) | LCL_SET_SIGNALS;
 
         /// <summary>
         /// Turn signal right
         /// </summary>
-        public const int LCL_SIGNALS_RIGHT = (2 << 16) + LCL_SET_SIGNALS;
+        public const int LCL_SIGNALS_RIGHT = (2 << 16) | LCL_SET_SIGNALS;
 
         /// <summary>
         /// Turn signal hazard
         /// </summary>
-        public const int LCL_SIGNALS_HAZARD = (3 << 16) + LCL_SET_SIGNALS;
+        public const int LCL_SIGNALS_HAZARD = (3 << 16) | LCL_SET_SIGNALS;
 
         /// <summary>
         /// Lights off
@@ -68,17 +68,17 @@
         /// <summary>
         /// Side lights on
         /// </summary>
-        public const int LCL_SIDE_ON = (1 << 18) + LCL_SET_LIGHTS;
+        public const int LCL_SIDE_ON = (1 << 18) | LCL_SET_LIGHTS;
         
         /// <summary>
         /// Low lights on
         /// </summary>
-        public const int LCL_LOW_ON = (2 << 18) + LCL_SET_LIGHTS;
+        public const int LCL_LOW_ON = (2 << 18) | LCL_SET_LIGHTS;
 
         /// <summary>
         /// High lights on
         /// </summary>
-        public const int LCL_HIGH_ON = (3 << 18) + LCL_SET_LIGHTS;
+        public const int LCL_HIGH_ON = (3 << 18) | LCL_SET_LIGHTS;
 
         /// <summary>
         /// Fog rear off
@@ -88,7 +88,7 @@
         /// <summary>
         /// Fog rear on
         /// </summary>
-        public const int LCL_FOG_REAR_ON = (1 << 20) + LCL_SET_FOG_REAR;
+        public const int LCL_FOG_REAR_ON = (1 << 20) | LCL_SET_FOG_REAR;
 
         /// <summary>
         /// Fog front off
@@ -98,7 +98,7 @@
         /// <summary>
         /// Fog front on
         /// </summary>
-        public const int LCL_FOG_FRONT_ON = (1 << 21) + LCL_SET_FOG_FRONT;
+        public const int LCL_FOG_FRONT_ON = (1 << 21) | LCL_SET_FOG_FRONT;
 
         /// <summary>
         /// Extra Light off
@@ -108,6 +108,6 @@
         /// <summary>
         /// Extra Light on
         /// </summary>
-        public const int LCL_EXTRA_ON = (1 << 22) + LCL_SET_EXTRA;
+        public const int LCL_EXTRA_ON = (1 << 22) | LCL_SET_EXTRA;
     }
 }
