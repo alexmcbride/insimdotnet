@@ -32,9 +32,9 @@ namespace InSimDotNet.Packets {
         /// Gets the language.
         /// </summary>
         public LfsLanguage Language { get; private set; }
-        
+
         /// <summary>
-        /// Gets the language.
+        /// Gets the license.
         /// </summary>
         public LfsLicense License { get; private set; }
 
