@@ -24,6 +24,10 @@ namespace InSimDotNet.Packets {
         /// </summary>
         public byte H_TRes { get; set; }
 
+        /// <summary>
+        /// Gets the packet data.
+        /// </summary>
+        /// <returns>An array containing the packet data.</returns>
         public PlayerHCap(PacketReader reader)
         {
             if (reader == null)

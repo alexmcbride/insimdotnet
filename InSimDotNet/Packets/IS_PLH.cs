@@ -10,11 +10,14 @@ namespace InSimDotNet.Packets
     /// Player handicaps
     ///
     /// Set handicaps per player.  These handicaps will remain until the player spectates or rejoins 
-    //  after returning from pits or garage (an IS_NPL will be sent in that case).
-    // 
+    ///  after returning from pits or garage (an IS_NPL will be sent in that case).
+    /// 
     /// </remarks>
     public class IS_PLH : IPacket, ISendable
     {
+        /// <summary>
+        /// Maximum number of players that you can set handicap to.
+        /// </summary>
         public const int PLH_MAX_PLAYERS = 40;
         /// <summary>
         /// Gets the size of the packet.
@@ -36,6 +39,9 @@ namespace InSimDotNet.Packets
         /// </summary>
         public byte NumP { get; private set; }
 
+        /// <summary>
+        /// Gets a collection with <see cref="PlayerHCap"/> the player handicaps information.
+        /// </summary>
         public IList<PlayerHCap> HCaps { get; private set; }
 
         /// <summary>
@@ -51,7 +57,7 @@ namespace InSimDotNet.Packets
         /// <summary>
         /// Creates a new IS_PLH packet.
         /// </summary>
-        /// <param name="plid">A collection of CarSkins.</param>
+        /// <param name="hCaps">A collection of CarSkins.</param>
         public IS_PLH(IEnumerable<PlayerHCap> hCaps)
             : this()
         {
@@ -79,6 +85,10 @@ namespace InSimDotNet.Packets
             HCaps = info.ToArray();
         }
 
+        /// <summary>
+        /// Gets the packet data.
+        /// </summary>
+        /// <returns>An array contaning the packet data.</returns>
         public byte[] GetBuffer()
         {
             if (HCaps.Count > PLH_MAX_PLAYERS)
