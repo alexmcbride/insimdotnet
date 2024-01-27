@@ -14,6 +14,9 @@ namespace InSimDotNet.Packets
     /// </remarks>
     public class IS_MAL : IPacket, ISendable
     {
+        /// <summary>
+        /// Maximum number of mods allowed in the packet
+        /// </summary>
         public const int MAX_MAL_MODS = 120;
         /// <summary>
         /// Gets the size of the packet.
@@ -53,6 +56,9 @@ namespace InSimDotNet.Packets
         /// </summary>
         public byte Sp3 { get; private set; }
 
+        /// <summary>
+        /// Gets a collection with the carSkins information as string.
+        /// </summary>
         public IList<string> SkinIDs { get; set; }
 
         /// <summary>
@@ -100,6 +106,10 @@ namespace InSimDotNet.Packets
             SkinIDs = info;
         }
 
+        /// <summary>
+        /// Gets the packet data.
+        /// </summary>
+        /// <returns>An array contaning the packet data.</returns>
         public byte[] GetBuffer()
         {
             if (SkinIDs.Count > MAX_MAL_MODS)
