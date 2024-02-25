@@ -9,6 +9,11 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Choose a standard interface color.
         /// </summary>
+        ISB_C0 = 0,
+
+        /// <summary>
+        /// Choose a standard interface color.
+        /// </summary>
         ISB_C1 = 1,
 
         /// <summary>
@@ -19,7 +24,32 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Choose a standard interface color.
         /// </summary>
+        ISB_C3 = 3,
+
+        /// <summary>
+        /// Choose a standard interface color.
+        /// </summary>
         ISB_C4 = 4,
+
+        /// <summary>
+        /// Choose a standard interface color.
+        /// </summary>
+        ISB_C5 = 5,
+
+        /// <summary>
+        /// Choose a standard interface color.
+        /// </summary>
+        ISB_C6 = 6,
+
+        /// <summary>
+        /// Choose a standard interface color.
+        /// </summary>
+        ISB_C7 = 7,
+
+        /// <summary>
+        /// Choose a standard interface color.
+        /// </summary>
+        ISB_C8 = 8,
 
         /// <summary>
         /// When clicked this button will send a <see cref="IS_BTC"/> packet.
