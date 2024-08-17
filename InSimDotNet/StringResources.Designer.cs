@@ -124,6 +124,15 @@ namespace InSimDotNet {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IS_IPB too many ip bans set.
+        /// </summary>
+        internal static string IsIPBInfoErrorMessage {
+            get {
+                return ResourceManager.GetString("IsIPBInfoErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IS_MAL too many mods set.
         /// </summary>
         internal static string IsMalInfoErrorMessage {
