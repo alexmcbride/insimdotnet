@@ -56,7 +56,7 @@ namespace InSimDotNet.Packets
         public byte Sp3 { get; private set; }
 
         /// <summary>
-        /// Gets a collection with the carSkins information as string.
+        /// Gets a collection with the banned IP addresses
         /// </summary>
         public IList<IPAddress> BanIps { get; set; }
 
@@ -73,7 +73,7 @@ namespace InSimDotNet.Packets
         /// <summary>
         /// Creates a new IS_IPB packet.
         /// </summary>
-        /// <param name="banIps">A collection of CarSkins.</param>
+        /// <param name="banIps">A collection of IP addresses.</param>
         public IS_IPB(IEnumerable<IPAddress> banIps)
             : this()
         {
