@@ -1,4 +1,3 @@
-using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 
@@ -32,10 +31,10 @@ namespace InSimDotNet.Packets {
         public byte NumC { get; private set; }
 
         /// <summary>
-        /// Gets a collection of up to eight <see cref="CompCar"/> packets.
+        /// Gets a collection of up to sixteen <see cref="CompCar"/> packets.
         /// </summary>
         /// <remarks>
-        /// If there are more than eight cars in the race then more than one 
+        /// If there are more than sixteen cars in the race then more than one 
         /// <see cref="IS_MCI"/> packet is sent.
         /// </remarks>
         public ReadOnlyCollection<CompCar> Info { get; private set; }

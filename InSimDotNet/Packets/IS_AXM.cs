@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
 
 namespace InSimDotNet.Packets {
@@ -11,6 +10,10 @@ namespace InSimDotNet.Packets {
     /// Set the ISF_AXM_EDIT flag in the IS_ISI for info about objects edited by user or InSim.
     /// </remarks>
     public class IS_AXM : IPacket, ISendable {
+        /// <summary>
+        /// Maximum number of objects allowed in the packet
+        /// </summary>
+        public const int MAX_AXM_OBJECTS = 60;
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
@@ -57,7 +60,7 @@ namespace InSimDotNet.Packets {
         public IS_AXM() {
             Size = 8;
             Type = PacketType.ISP_AXM;
-            Info = new List<ObjectInfo>(60);
+            Info = new List<ObjectInfo>(MAX_AXM_OBJECTS);
         }
 
         /// <summary>
@@ -95,7 +98,7 @@ namespace InSimDotNet.Packets {
         /// </summary>
         /// <returns>An array containing the packet data.</returns>
         public byte[] GetBuffer() {
-            if (Info.Count > 60) {
+            if (Info.Count > MAX_AXM_OBJECTS) {
                 throw new InvalidOperationException(StringResources.IsAxmInfoErrorMessage);
             }
 

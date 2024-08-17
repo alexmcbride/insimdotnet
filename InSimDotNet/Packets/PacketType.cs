@@ -339,6 +339,11 @@
         ISP_PLH,
 
         /// <summary>
+        /// set IP bans
+        /// </summary>
+        ISP_IPB,
+
+        /// <summary>
         /// Admin request
         /// </summary>
         IRP_ARQ = 250,

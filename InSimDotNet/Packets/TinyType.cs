@@ -147,5 +147,10 @@
         /// Request IS_PLH for listing player handicaps
         /// </summary>
         TINY_PLH,
+
+        /// <summary>
+        /// Request IS_IPB for listing the IP bans
+        /// </summary>
+        TINY_IPB,
     }
 }

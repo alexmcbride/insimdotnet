@@ -138,6 +138,9 @@
   <data name="IsAxmInfoErrorMessage" xml:space="preserve">
     <value>IS_AXM too many objects set</value>
   </data>
+  <data name="IsIPBInfoErrorMessage" xml:space="preserve">
+    <value>IS_IPB too many ip bans set</value>
+  </data>
   <data name="IsMalInfoErrorMessage" xml:space="preserve">
     <value>IS_MAL too many mods set</value>
   </data>
