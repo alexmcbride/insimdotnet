@@ -25,9 +25,9 @@ namespace InSimDotNet.Packets
         public byte ReqI { get; set; }
 
         /// <summary>
-        /// Gets the number of players in this packet
+        /// Gets the number of players in this packet. This value is filled in automatically when sending handicaps.
         /// </summary>
-        public byte NumP { get; set; }
+        public byte NumP { get; private set; }
 
         /// <summary>
         /// Gets a collection of <see cref="PlayerHCap"/> sub-packets.
@@ -87,7 +87,7 @@ namespace InSimDotNet.Packets
             writer.WriteSize(Size);
             writer.Write((byte)Type);
             writer.Write(ReqI);
-            writer.Write(NumP);
+            writer.Write((byte)HCaps.Count);
             foreach (PlayerHCap hcap in HCaps)
             {
                 hcap.GetBuffer(writer);
