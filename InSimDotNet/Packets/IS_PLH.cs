@@ -52,9 +52,6 @@ namespace InSimDotNet.Packets
             : this()
         {
             HCaps = new List<PlayerHCap>(hcap);
-            Console.WriteLine(HCaps.Count);
-            NumP = (byte)HCaps.Count;
-            Size = 4 + (NumP * 4);
         }
 
         /// <summary>
@@ -86,7 +83,6 @@ namespace InSimDotNet.Packets
                 throw new InvalidOperationException("IS_PLH too many player handicaps set");
 
             Size = 4 + (HCaps.Count * 4);
-            Console.WriteLine($"Size set to {Size} with {HCaps.Count}");
             PacketWriter writer = new PacketWriter(Size);
             writer.WriteSize(Size);
             writer.Write((byte)Type);
@@ -97,7 +93,6 @@ namespace InSimDotNet.Packets
                 hcap.GetBuffer(writer);
             }
             var output = writer.GetBuffer();
-            Console.WriteLine($"Actual Size was {output.Length} and the size byte was {output[0]}");
             return output;
         }
     }
