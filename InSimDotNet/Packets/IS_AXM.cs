@@ -11,6 +11,7 @@ namespace InSimDotNet.Packets {
     /// Set the ISF_AXM_EDIT flag in the IS_ISI for info about objects edited by user or InSim.
     /// </remarks>
     public class IS_AXM : IPacket, ISendable {
+        private const int MAX_AXM_OBJ = 60;
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
@@ -57,7 +58,7 @@ namespace InSimDotNet.Packets {
         public IS_AXM() {
             Size = 8;
             Type = PacketType.ISP_AXM;
-            Info = new List<ObjectInfo>(30);
+            Info = new List<ObjectInfo>(MAX_AXM_OBJ);
         }
 
         /// <summary>
@@ -95,7 +96,7 @@ namespace InSimDotNet.Packets {
         /// </summary>
         /// <returns>An array containing the packet data.</returns>
         public byte[] GetBuffer() {
-            if (Info.Count > 30) {
+            if (Info.Count > MAX_AXM_OBJ) {
                 throw new InvalidOperationException("IS_AXM too many objects set");
             }
 
