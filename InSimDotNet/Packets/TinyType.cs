@@ -141,6 +141,16 @@
         /// <summary>
         /// Request IS_MAL listing the currently allowed mods
         /// </summary>
-        TINY_MAL
+        TINY_MAL,
+
+        /// <summary>
+        /// Request IS_PLH listing the handicaps of all players
+        /// </summary>
+        TINY_PLH,
+
+        /// <summary>
+        /// Request IS_IPB listing the IP bans
+        /// </summary>
+        TINY_IPB,
     }
 }

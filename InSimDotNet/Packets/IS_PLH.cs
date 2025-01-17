@@ -20,7 +20,7 @@ namespace InSimDotNet.Packets
         /// Gets the request ID.
         /// </summary>
         /// <remarks>
-        /// 0 unless this is a reply to a TINY_PLH request
+        /// 0 unless this is a reply to a TINY_PLH request.
         /// </remarks>
         public byte ReqI { get; set; }
 
@@ -47,7 +47,7 @@ namespace InSimDotNet.Packets
         /// <summary>
         /// Creates a new <see cref="IS_PLH"/> object.
         /// </summary>
-        /// <param name="hcap">A collection of <see cref="PlayerHCap"/> sub-packets</param>
+        /// <param name="hcap">A collection of <see cref="PlayerHCap"/> sub-packets.</param>
         public IS_PLH(IEnumerable<PlayerHCap> hcap)
             : this()
         {
@@ -88,12 +88,13 @@ namespace InSimDotNet.Packets
             writer.Write((byte)Type);
             writer.Write(ReqI);
             writer.Write((byte)HCaps.Count);
+            
             foreach (PlayerHCap hcap in HCaps)
             {
                 hcap.GetBuffer(writer);
             }
-            var output = writer.GetBuffer();
-            return output;
+
+            return writer.GetBuffer();
         }
     }
 }
