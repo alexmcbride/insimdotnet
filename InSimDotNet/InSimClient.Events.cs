@@ -258,6 +258,16 @@ namespace InSimDotNet
         /// </summary>
         public event EventHandler<PacketEventArgs<IS_MAL>> IS_MAL;
 
+        /// <summary>
+        /// set player handicaps
+        /// </summary>
+        public event EventHandler<PacketEventArgs<IS_PLH>> IS_PLH;
+
+        /// <summary>
+        /// set ip bans
+        /// </summary>
+        public event EventHandler<PacketEventArgs<IS_IPB>> IS_IPB;
+
         public static PacketType GetPacketType(byte[] buffer)
         {
             if (buffer.Length >= 4)
@@ -424,6 +434,12 @@ namespace InSimDotNet
                     break;
                 case PacketType.ISP_MAL:
                     OnIS_MAL(new PacketEventArgs<IS_MAL>(new IS_MAL(packet)));
+                    break;
+                case PacketType.ISP_PLH:
+                    OnIS_PLH(new PacketEventArgs<IS_PLH>(new IS_PLH(packet)));
+                    break;
+                case PacketType.ISP_IPB:
+                    OnIS_IPB(new PacketEventArgs<IS_IPB>(new IS_IPB(packet)));
                     break;
             }
         }
@@ -676,6 +692,16 @@ namespace InSimDotNet
         protected virtual void OnIS_MAL(PacketEventArgs<IS_MAL> e)
         {
             IS_MAL?.Invoke(this, e);
+        }
+
+        protected virtual void OnIS_PLH(PacketEventArgs<IS_PLH> e)
+        {
+            IS_PLH?.Invoke(this, e);
+        }
+
+        protected virtual void OnIS_IPB(PacketEventArgs<IS_IPB> e)
+        {
+            IS_IPB?.Invoke(this, e);
         }
     }
 }
