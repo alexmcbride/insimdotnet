@@ -35,9 +35,10 @@ namespace InSimDotNet {
 
             PacketType packetType = GetPacketType(buffer);
             switch (packetType) {
-                /*
-                New packets 7A
-                */
+                case PacketType.ISP_AIC:
+                    return new IS_AIC(buffer);
+                case PacketType.ISP_AII:
+                    return new IS_AII(buffer);
                 case PacketType.ISP_PLH:
                     return new IS_PLH(buffer);
                 case PacketType.ISP_MAL:
@@ -175,6 +176,10 @@ namespace InSimDotNet {
         public static PacketType PacketLookup(Type type) {
             if (type == typeof(IS_ISI))
                 return PacketType.ISP_ISI;
+            if (type == typeof(IS_AIC))
+                return PacketType.ISP_AIC;
+            if (type == typeof(IS_AII))
+                return PacketType.ISP_AII;
             if (type == typeof(IS_MAL))
                 return PacketType.ISP_MAL;
             if (type == typeof(IS_IPB))

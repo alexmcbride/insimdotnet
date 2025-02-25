@@ -150,6 +150,9 @@
   <data name="IsReoPlidErrorMessage" xml:space="preserve">
     <value>IS_REO too many PLIDs set</value>
   </data>
+  <data name="IsAicPlidErrorMessage" xml:space="preserve">
+    <value>IS_AIC too many actions set. Max: {0}</value>
+  </data>
   <data name="PacketSizeErrorMessage" xml:space="preserve">
     <value>Packet size was not a multiple of four</value>
   </data>
