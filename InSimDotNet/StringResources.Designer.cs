@@ -115,6 +115,15 @@ namespace InSimDotNet {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IS_AIC too many actions set. Max: {0}.
+        /// </summary>
+        internal static string IsAicPlidErrorMessage {
+            get {
+                return ResourceManager.GetString("IsAicPlidErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IS_AXM too many objects set.
         /// </summary>
         internal static string IsAxmInfoErrorMessage {
