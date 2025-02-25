@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 
 namespace InSimDotNet.Out {
     /// <summary>
     /// OutGauge packet ShowLights and DashLight flags.
     /// </summary>
     [Flags]
-    public enum DashLightFlags {
+    public enum DashLightFlags : long {
         /// <summary>
         /// Shift light on.
         /// </summary>
@@ -61,5 +60,45 @@ namespace InSimDotNet.Out {
         /// Anti-lock brakes active.
         /// </summary>
         DL_ABS = 1024,
+
+        /// <summary>
+        /// engine damage
+        /// </summary>
+        DL_ENGINE = 2048,
+
+        /// <summary>
+        /// Fog rear
+        /// </summary>
+        DL_FOG_REAR = 4096,
+
+        /// <summary>
+        /// Fog front
+        /// </summary>
+        DL_FOG_FRONT = 8192,
+
+        /// <summary>
+        /// dipped headlight symbol
+        /// </summary>
+        DL_DIPPED = 16384,
+
+        /// <summary>
+        /// low fuel warning light
+        /// </summary>
+        DL_FUELWARN = 32768,
+
+        /// <summary>
+        /// sidelights symbol
+        /// </summary>
+        DL_SIDELIGHTS = 65536,
+
+        /// <summary>
+        /// sidelights symbol
+        /// </summary>
+        DL_NEUTRAL = 131072,
+
+        /// <summary>
+        /// set if engine damage is severe
+        /// </summary>
+        DLF_ENGINE_SEVERE = 0x10000000,
     }
 }
