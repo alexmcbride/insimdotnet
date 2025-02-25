@@ -57,5 +57,10 @@
         /// Set local car lights. Use <see cref="LocalCarLights"/> for options.
         /// </summary>
         SMALL_LCL = 10,
+
+        /// <summary>
+        /// get local AI info
+        /// </summary>
+        SMALL_AII = 11,
     }
 }
