@@ -8,13 +8,13 @@
 		<AssemblyOriginatorKeyFile>InSimDotNet.snk</AssemblyOriginatorKeyFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<AssemblyVersion>2.4.5.2</AssemblyVersion>
-		<FileVersion>2.4.5.2</FileVersion>
 		<PackageLicenseFile>license.txt</PackageLicenseFile>
 		<NeutralLanguage>en</NeutralLanguage>
 		<Title>InSim.NET</Title>
 		<PackageProjectUrl>https://github.com/alexmcbride/insimdotnet/</PackageProjectUrl>
-		<Version>$(AssemblyVersion)</Version>
+		<Version>2.4.5.3</Version>
+		<AssemblyVersion>$(Version)</AssemblyVersion>
+		<FileVersion>$(AssemblyVersion)</FileVersion>
 		<Authors>AlexMcBride</Authors>
 		<RepositoryUrl>https://github.com/alexmcbride/insimdotnet</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
