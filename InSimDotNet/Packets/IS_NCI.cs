@@ -36,7 +36,7 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Gets the license.
         /// </summary>
-        public byte License { get; private set; }
+        public LfsLicense License { get; private set; }
 
         /// <summary>
         /// Gets the LFS user ID.
@@ -67,7 +67,7 @@ namespace InSimDotNet.Packets {
             ReqI = reader.ReadByte();
             UCID = reader.ReadByte();
             Language = (LfsLanguage)reader.ReadByte();
-            License = reader.ReadByte();
+            License = (LfsLicense)reader.ReadByte();
             reader.Skip(2);
             UserID = reader.ReadUInt32();
             IPAddress = new IPAddress(reader.ReadUInt32());
