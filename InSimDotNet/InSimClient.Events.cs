@@ -267,6 +267,11 @@ namespace InSimDotNet
         /// set ip bans
         /// </summary>
         public event EventHandler<PacketEventArgs<IS_IPB>> IS_IPB;
+        
+        /// <summary>
+        /// set ip bans
+        /// </summary>
+        public event EventHandler<PacketEventArgs<IS_AII>> IS_AII;
 
         public static PacketType GetPacketType(byte[] buffer)
         {
@@ -440,6 +445,9 @@ namespace InSimDotNet
                     break;
                 case PacketType.ISP_IPB:
                     OnIS_IPB(new PacketEventArgs<IS_IPB>(new IS_IPB(packet)));
+                    break;
+                case PacketType.ISP_AII:
+                    OnIS_AII(new PacketEventArgs<IS_AII>(new IS_AII(packet)));
                     break;
             }
         }
@@ -702,6 +710,11 @@ namespace InSimDotNet
         protected virtual void OnIS_IPB(PacketEventArgs<IS_IPB> e)
         {
             IS_IPB?.Invoke(this, e);
+        }
+        
+        protected virtual void OnIS_AII(PacketEventArgs<IS_AII> e)
+        {
+            IS_AII?.Invoke(this, e);
         }
     }
 }
