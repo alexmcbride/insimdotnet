@@ -6,13 +6,15 @@
     <FileVersion>6.0.3.1</FileVersion>
     <Description>A light-weight InSim library for .NET 6 (min. LFS version: 0.6W)</Description>
     <Version>6.0.3.1</Version>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Company>Alex McBride</Company>
     <Authors>Alex McBride</Authors>
     <PackageTags>LFS InSim .NET</PackageTags>
     <RepositoryUrl>https://github.com/alexmcbride/insimdotnet</RepositoryUrl>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/alexmcbride/insimdotnet</PackageProjectUrl>
+    <PackageId>$(AssemblyName).NET</PackageId>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -25,6 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\insimdotnetForkOrig\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\license.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
