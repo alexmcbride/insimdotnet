@@ -12,8 +12,8 @@
 		<NeutralLanguage>en</NeutralLanguage>
 		<Title>InSim.NET</Title>
 		<PackageProjectUrl>https://github.com/alexmcbride/insimdotnet/</PackageProjectUrl>
-		<Version>2.4.5.3</Version>
-		<AssemblyVersion>$(Version)</AssemblyVersion>
+		<Version>2.4.6.1</Version>
+		<AssemblyVersion>2.4.6.1</AssemblyVersion>
 		<FileVersion>$(AssemblyVersion)</FileVersion>
 		<Authors>AlexMcBride</Authors>
 		<RepositoryUrl>https://github.com/alexmcbride/insimdotnet</RepositoryUrl>
