@@ -47,7 +47,7 @@ namespace InSimDotNet.Packets {
             Direction = reader.ReadByte();
             Heading = reader.ReadByte();
             Speed = reader.ReadByte();
-            reader.Skip(1);
+            Zbyte = reader.ReadByte();
             X = reader.ReadInt16();
             Y = reader.ReadInt16();
         }
