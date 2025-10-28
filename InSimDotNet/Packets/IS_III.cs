@@ -41,6 +41,12 @@ namespace InSimDotNet.Packets {
         public string Msg { get; private set; }
 
         /// <summary>
+        /// Gets the raw bytes of <see cref="Msg"/> string.
+        /// </summary>
+        public byte[] RawMsg => rawMsg;
+        private readonly byte[] rawMsg;
+
+        /// <summary>
         /// Creates a new InSim info packet.
         /// </summary>
         public IS_III() {
@@ -66,7 +72,7 @@ namespace InSimDotNet.Packets {
 
             // read variable sized packet.
             int msgLength = Size - DefaultSize;
-            Msg = reader.ReadString(msgLength);
+            Msg = reader.ReadString(msgLength, out rawMsg);
         }
     }
 }

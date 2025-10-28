@@ -123,6 +123,30 @@ namespace InSimDotNet.Packets {
         public byte Fuel { get; }
 
         /// <summary>
+        /// Gets the raw bytes of <see cref="PName"/> string.
+        /// </summary>
+        public byte[] RawPName => rawPName;
+        private readonly byte[] rawPName;
+
+        /// <summary>
+        /// Gets the raw bytes of <see cref="Plate"/> string.
+        /// </summary>
+        public byte[] RawPlate => rawPlate;
+        private readonly byte[] rawPlate;
+
+        /// <summary>
+        /// Gets the raw bytes of <see cref="CName"/> string.
+        /// </summary>
+        public byte[] RawCName => rawCName;
+        private readonly byte[] rawCName;
+
+        /// <summary>
+        /// Gets the raw bytes of <see cref="SName"/> string.
+        /// </summary>
+        public byte[] RawSName => rawSName;
+        private readonly byte[] rawSName;
+
+        /// <summary>
         /// Creates a new new player packet.
         /// </summary>
         public IS_NPL() {
@@ -148,10 +172,10 @@ namespace InSimDotNet.Packets {
             UCID = reader.ReadByte();
             PType = (PlayerTypes)reader.ReadByte();
             Flags = (PlayerFlags)reader.ReadUInt16();
-            PName = reader.ReadString(24);
-            Plate = reader.ReadString(8);
-            CName = reader.ReadCNameString();
-            SName = reader.ReadString(16);
+            PName = reader.ReadString(24, out rawPName);
+            Plate = reader.ReadString(8, out rawPlate);
+            CName = reader.ReadCNameString(out rawCName);
+            SName = reader.ReadString(16, out rawSName);
             Tyres = new Tyres(
                 (TyreCompound)reader.ReadByte(),
                 (TyreCompound)reader.ReadByte(),

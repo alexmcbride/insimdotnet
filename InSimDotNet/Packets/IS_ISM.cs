@@ -35,6 +35,12 @@ namespace InSimDotNet.Packets {
         public string HName { get; private set; }
 
         /// <summary>
+        /// Gets the raw bytes of <see cref="HName"/> string.
+        /// </summary>
+        public byte[] RawHName => rawHName;
+        private readonly byte[] rawHName;
+
+        /// <summary>
         /// Creates a new InSim multiplayer packet.
         /// </summary>
         public IS_ISM() {
@@ -56,7 +62,7 @@ namespace InSimDotNet.Packets {
             reader.Skip(1);
             Host = (HostType)reader.ReadByte();
             reader.Skip(3);
-            HName = reader.ReadString(32);
+            HName = reader.ReadString(32, out rawHName);
         }
     }
 }

@@ -59,6 +59,18 @@ namespace InSimDotNet.Packets {
         public bool Remote { get; private set; }
 
         /// <summary>
+        /// Gets the raw bytes of <see cref="UName"/> string.
+        /// </summary>
+        public byte[] RawUName => rawUName;
+        private readonly byte[] rawUName;
+
+        /// <summary>
+        /// Gets the raw bytes of <see cref="PName"/> string.
+        /// </summary>
+        public byte[] RawPName => rawPName;
+        private readonly byte[] rawPName;
+
+        /// <summary>
         /// Creates a new new connection packet.
         /// </summary>
         public IS_NCN() {
@@ -79,8 +91,8 @@ namespace InSimDotNet.Packets {
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             UCID = reader.ReadByte();
-            UName = reader.ReadString(24);
-            PName = reader.ReadString(24);
+            UName = reader.ReadString(24, out rawUName);
+            PName = reader.ReadString(24, out rawPName);
             Admin = reader.ReadBoolean();
             Total = reader.ReadByte();
             Remote = (reader.ReadByte() & 4) > 0; // bit 2: remote
