@@ -31,7 +31,7 @@ namespace InSimDotNet.Packets {
         public int SpClose { get; private set; }
 
         /// <summary>
-        /// Gets the looping time stamp (time since reset - like TINY_GTH).
+        /// Gets the looping time stamp (time since reset - like TINY_GTM).
         /// </summary>
         public TimeSpan Time { get; private set; }
 
@@ -76,7 +76,8 @@ namespace InSimDotNet.Packets {
             ReqI = reader.ReadByte();
             PLID = reader.ReadByte();
             SpClose = reader.ReadUInt16();
-            Time = TimeSpan.FromMilliseconds(reader.ReadUInt16() * 10);
+            reader.Skip(2);
+            Time = TimeSpan.FromMilliseconds(reader.ReadUInt32());
             C = new CarContOBJ(reader);
             X = reader.ReadInt16();
             Y = reader.ReadInt16();

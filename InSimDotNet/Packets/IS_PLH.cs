@@ -18,7 +18,7 @@ namespace InSimDotNet.Packets
         /// <summary>
         /// Maximum number of players that you can set handicap to.
         /// </summary>
-        public const int PLH_MAX_PLAYERS = 40;
+        public const int PLH_MAX_PLAYERS = 48;
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>

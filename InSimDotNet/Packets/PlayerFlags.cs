@@ -22,6 +22,11 @@ namespace InSimDotNet.Packets {
         PIF_SHIFTER = 16,
 
         /// <summary>
+        /// Flexible steer
+        /// </summary>
+        PIF_FLEXIBLE_STEER = 32,
+
+        /// <summary>
         /// Brake help.
         /// </summary>
         PIF_HELP_B = 64,
