@@ -44,9 +44,9 @@
         TINY_SST,
 
         /// <summary>
-        /// Get time in hundredths (i.e. SMALL_RTP).
+        /// Get time in ms (i.e. SMALL_RTP).
         /// </summary>
-        TINY_GTH,
+        TINY_GTM,
 
         /// <summary>
         /// Multi player end.
@@ -152,5 +152,10 @@
         /// Request IS_IPB listing the IP bans
         /// </summary>
         TINY_IPB,
+
+        /// <summary>
+        /// Request IS_LCL for local car's lights
+        /// </summary>
+        TINY_LCL,
     }
 }

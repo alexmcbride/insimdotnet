@@ -84,8 +84,8 @@ namespace InSimDotNet.Packets {
             reader.Skip(1);
 
             // Times here are in hundredths, for some reason.
-            CTime = TimeSpan.FromMilliseconds(reader.ReadUInt32() * 10);
-            TTime = TimeSpan.FromMilliseconds(reader.ReadUInt32() * 10);
+            CTime = TimeSpan.FromMilliseconds(reader.ReadUInt32());
+            TTime = TimeSpan.FromMilliseconds(reader.ReadUInt32());
 
             RName = reader.ReadString(64);
         }

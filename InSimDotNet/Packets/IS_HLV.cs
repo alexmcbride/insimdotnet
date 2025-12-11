@@ -34,7 +34,7 @@ namespace InSimDotNet.Packets {
         public HlvcFlags HLVC { get; private set; }
 
         /// <summary>
-        /// Gets the looping time stamp (time since reset - like TINY_GTH).
+        /// Gets the looping time stamp (time since reset - like TINY_GTM).
         /// </summary>
         public TimeSpan Time { get; private set; }
 
@@ -55,7 +55,8 @@ namespace InSimDotNet.Packets {
             PLID = reader.ReadByte();
             HLVC = (HlvcFlags)reader.ReadByte();
             reader.Skip(1);
-            Time = TimeSpan.FromMilliseconds(reader.ReadUInt16() * 10);
+            reader.Skip(2);
+            Time = TimeSpan.FromMilliseconds(reader.ReadUInt32());
             C = new CarContOBJ(reader);
         }
     }

@@ -12,7 +12,7 @@ namespace InSimDotNet.Packets {
 
         /// <summary>
         /// If PMO_FILE_END is set in a PMO_LOADING_FILE packet, LFS has reached the end of a 
-        /// layout file which it is loading. The added objects will then be optimised.
+        /// layout file which it is loading.
         /// </summary>
         PMO_FILE_END = 1,
 

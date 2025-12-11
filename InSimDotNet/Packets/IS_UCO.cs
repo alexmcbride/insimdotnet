@@ -29,7 +29,7 @@
         public UCOAction UCOAction { get; private set; }
 
         /// <summary>
-        /// Gets the time in hundredths of a second since start (as in SMALL_RTP).
+        /// Gets the time in ms of a second since start (as in SMALL_RTP).
         /// </summary>
         public long Time { get; private set; }
 

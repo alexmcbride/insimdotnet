@@ -10,7 +10,7 @@ namespace InSimDotNet.Packets {
     /// Sent when race starts or is restarted. Used to reorder grid.
     /// </remarks>
     public class IS_REO : IPacket, ISendable {
-        private const int MaxDrivers = 40;
+        private const int REO_MAX_PLAYERS = 48;
 
         /// <summary>
         /// Gets the size of the packet.
@@ -42,9 +42,9 @@ namespace InSimDotNet.Packets {
         /// Creates a new reorder packet.
         /// </summary>
         public IS_REO() {
-            Size = 4 + MaxDrivers;
+            Size = 4 + REO_MAX_PLAYERS;
             Type = PacketType.ISP_REO;
-            PLID = new List<byte>(MaxDrivers);
+            PLID = new List<byte>(REO_MAX_PLAYERS);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace InSimDotNet.Packets {
         /// </summary>
         /// <returns>The packet data.</returns>
         public byte[] GetBuffer() {
-            if (PLID.Count > MaxDrivers) {
+            if (PLID.Count > REO_MAX_PLAYERS) {
                 throw new InvalidOperationException("IS_REO too many PLIDs set");
             }
 

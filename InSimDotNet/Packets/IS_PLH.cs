@@ -5,7 +5,7 @@ namespace InSimDotNet.Packets
 {
     public class IS_PLH : IPacket, ISendable
     {
-        private const int MAX_PLH_PLAYERS = 40;
+        private const int MAX_PLH_PLAYERS = 48;
         /// <summary>
         /// Gets the packet size.
         /// </summary>

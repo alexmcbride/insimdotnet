@@ -17,6 +17,11 @@ namespace InSimDotNet.Packets {
         CCI_YELLOW = 2,
 
         /// <summary>
+        /// This car is outside the path
+        /// </summary>
+        CCI_OOB = 4,
+
+        /// <summary>
         /// This car is lagging (missing or delayed position packets)
         /// </summary>
         CCI_LAG = 32,

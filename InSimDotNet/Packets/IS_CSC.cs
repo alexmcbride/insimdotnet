@@ -53,7 +53,7 @@ namespace InSimDotNet.Packets {
             reader.Skip(1);
             CSCAction = (CSCAction)reader.ReadByte();
             reader.Skip(2);
-            Time = TimeSpan.FromMilliseconds(reader.ReadUInt32() * 10);
+            Time = TimeSpan.FromMilliseconds(reader.ReadUInt32());
             C = new CarContOBJ(reader);
         }
     }
