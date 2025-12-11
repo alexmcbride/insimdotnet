@@ -26,7 +26,7 @@ namespace InSimDotNet.Packets {
         public int SpClose { get; private set; }
 
         /// <summary>
-        /// Gets the timestamp (looping time stamp (hundredths - time since reset - like TINY_GTH)).
+        /// Gets the timestamp (looping time stamp (hundredths - time since reset - like TINY_GTM)).
         /// </summary>
         public TimeSpan Time { get; private set; }
 
@@ -44,7 +44,7 @@ namespace InSimDotNet.Packets {
         /// Creates a new instance of the <see cref="IS_CON"/> packet.
         /// </summary>
         public IS_CON() {
-            Size = 40;
+            Size = 44;
             Type = PacketType.ISP_CON;
         }
 
@@ -59,7 +59,8 @@ namespace InSimDotNet.Packets {
             ReqI = reader.ReadByte();
             reader.Skip(1);
             SpClose = reader.ReadUInt16();
-            Time = TimeSpan.FromMilliseconds(reader.ReadUInt16() * 10);
+            reader.Skip(2);
+            Time = TimeSpan.FromMilliseconds(reader.ReadUInt32());
             A = new CarContact(reader);
             B = new CarContact(reader);
         }
