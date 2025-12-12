@@ -32,7 +32,7 @@ namespace InSimDotNet.Helpers {
             { "SO4", new Track("South City Long", true) },
             { "SO5", new Track("South City Town", true) },
             { "SO6", new Track("South City Chicane", true) },
-            { "SO7", new Track("South City", true) },
+            { "SO7", new Track("South City", false) },
             { "FE1", new Track("Fern Bay Club", true) },
             { "FE2", new Track("Fern Bay Green", true) },
             { "FE3", new Track("Fern Bay Gold", true) },
