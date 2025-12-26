@@ -1,8 +1,11 @@
-﻿namespace InSimDotNet.Packets {
+﻿using System;
+
+namespace InSimDotNet.Packets {
     /// <summary>
     /// Some of the object type values to represent the IS_CIM SelType attribute.
     /// The remaining is found in the OCOIndex enumeration.
     /// </summary>
+    [Obsolete("MarshallObjectType is deprecated, please use "+nameof(AxoObject))]
     public enum MarshallObjectType {
         /// <summary>
         /// InSim checkpoint.

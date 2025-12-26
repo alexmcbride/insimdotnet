@@ -68,7 +68,7 @@ namespace InSimDotNet.Packets
         /// <summary>
         /// Creates a new <see cref="IS_MAL"/> object.
         /// </summary>
-        /// <param name="info">A collection of <see cref="ObjectInfo"/> sub-packets.</param>
+        /// <param name="info">A collection of <see cref="SkinID"/> sub-packets.</param>
         public IS_MAL(IEnumerable<SkinID> skinIDs)
             : this()
         {
@@ -78,7 +78,7 @@ namespace InSimDotNet.Packets
         /// <summary>
         /// Creates a new <see cref="IS_MAL"/> object.
         /// </summary>
-        /// <param name="info">A collection of <see cref="ObjectInfo"/> sub-packets.</param>
+        /// <param name="info">A collection of <see cref="SkinID"/> sub-packets.</param>
         public IS_MAL(IEnumerable<string> skinIDs)
             : this()
         {

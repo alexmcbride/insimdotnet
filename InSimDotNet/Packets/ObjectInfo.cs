@@ -28,7 +28,7 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Gets or sets the object index.
         /// </summary>
-        public byte Index { get; set; }
+        public AxoObject Index { get; set; }
 
         /// <summary>
         /// Gets or sets the object heading.
@@ -53,7 +53,7 @@ namespace InSimDotNet.Packets {
             Y = reader.ReadInt16();
             Zbyte = reader.ReadByte();
             Flags = reader.ReadByte();
-            Index = reader.ReadByte();
+            Index = (AxoObject)reader.ReadByte();
             Heading = reader.ReadByte();
         }
 
@@ -70,7 +70,7 @@ namespace InSimDotNet.Packets {
             writer.Write(Y);
             writer.Write(Zbyte);
             writer.Write(Flags);
-            writer.Write(Index);
+            writer.Write((byte)Index);
             writer.Write(Heading);
         }
     }
