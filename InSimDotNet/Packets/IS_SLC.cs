@@ -29,6 +29,12 @@
         public string CName { get; private set; }
 
         /// <summary>
+        /// Gets the raw bytes of <see cref="CName"/> string.
+        /// </summary>
+        public byte[] RawCName => rawCName;
+        private readonly byte[] rawCName;
+
+        /// <summary>
         /// Creates a new IS_SLC packet.
         /// </summary>
         /// <param name="buffer">A buffer containing the packet byte data.</param>
@@ -38,7 +44,7 @@
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             UCID = reader.ReadByte();
-            CName = reader.ReadCNameString();
+            CName = reader.ReadCNameString(out rawCName);
         }
     }
 }

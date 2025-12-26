@@ -39,6 +39,18 @@ namespace InSimDotNet.Packets {
         public int InSimVer { get; private set; }
 
         /// <summary>
+        /// Gets the raw bytes of <see cref="Version"/> string.
+        /// </summary>
+        public byte[] RawVersion => rawVersion;
+        private readonly byte[] rawVersion;
+
+        /// <summary>
+        /// Gets the raw bytes of <see cref="Product"/> string.
+        /// </summary>
+        public byte[] RawProduct => rawProduct;
+        private readonly byte[] rawProduct;
+
+        /// <summary>
         /// Creates a new version packet.
         /// </summary>
         public IS_VER() {
@@ -59,8 +71,8 @@ namespace InSimDotNet.Packets {
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             reader.Skip(1);
-            Version = reader.ReadString(8);
-            Product = reader.ReadString(6);
+            Version = reader.ReadString(8, out rawVersion);
+            Product = reader.ReadString(6, out rawProduct);
             InSimVer = reader.ReadByte();
             reader.Skip(1);
         }

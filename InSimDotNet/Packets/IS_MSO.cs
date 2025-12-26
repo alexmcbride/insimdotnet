@@ -51,6 +51,17 @@ namespace InSimDotNet.Packets {
         public string Msg { get; private set; }
 
         /// <summary>
+        /// Gets the first character of the raw message text after the player name.
+        /// </summary>
+        public byte RawTextStart { get; private set; }
+
+        /// <summary>
+        /// Gets the raw bytes of <see cref="Msg"/> string.
+        /// </summary>
+        public byte[] RawMsg => rawMsg;
+        private readonly byte[] rawMsg;
+
+        /// <summary>
         /// Creates a new message out packet.
         /// </summary>
         public IS_MSO() {
@@ -73,19 +84,21 @@ namespace InSimDotNet.Packets {
             UCID = reader.ReadByte();
             PLID = reader.ReadByte();
             UserType = (UserType)reader.ReadByte();
-            int textStart = reader.ReadByte();
+            RawTextStart = reader.ReadByte();
 
             // the length of the message will be the size of the packet minus all the above crap.
             int msgLength = Size - DefaultSize;
+            rawMsg = reader.ReadBytes(msgLength);
 
             // Need to correct textstart after we've converted string to unicode.
-            if (textStart > 0) {
-                string pname = reader.ReadString(textStart);
+            if (RawTextStart > 0) {
+                string pname = LfsEncoding.Current.GetString(rawMsg, 0, RawTextStart);
                 TextStart = (byte)pname.Length;
-                Msg = pname + reader.ReadString(msgLength - textStart);
+                Msg = pname + LfsEncoding.Current.GetString(rawMsg, RawTextStart, rawMsg.Length - RawTextStart);
             }
             else {
-                Msg = reader.ReadString(msgLength);
+                TextStart = 0;
+                Msg = LfsEncoding.Current.GetString(rawMsg, 0, rawMsg.Length);
             }
         }
     }

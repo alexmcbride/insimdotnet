@@ -81,6 +81,12 @@ namespace InSimDotNet.Packets {
         public string Caption { get; set; }
 
         /// <summary>
+        /// Gets or sets the raw bytes of <see cref="Text"/> string.
+        /// </summary>
+        public byte[] RawText { get => rawText; set => rawText = value; }
+        private byte[] rawText;
+
+        /// <summary>
         /// Creates a new button packet.
         /// </summary>
         public IS_BTN() {
@@ -95,19 +101,40 @@ namespace InSimDotNet.Packets {
         /// </summary>
         /// <returns>The packet data.</returns>
         public byte[] GetBuffer() {
-            string text = Text;
+            const int DefaultSize = 12;
+            const int TextSize = 240;
 
-            // Add button caption if set.
-            if (!String.IsNullOrEmpty(Caption) && TypeIn > 0) {
-                text = String.Format("{0}{1}{0}{2}", Char.MinValue, Caption, text);
+            byte[] buffer = new byte[TextSize];
+            int length;
+            if (RawText == null) {
+                string text = Text;
+
+                // Add button caption if set.
+                if (!String.IsNullOrEmpty(Caption) && TypeIn > 0) {
+                    text = String.Format("{0}{1}{0}{2}", Char.MinValue, Caption, text);
+                }
+
+                // Need to decode string first so we know how big to make the packet.
+                length = LfsEncoding.Current.GetBytes(text, buffer, 0, TextSize);
+
+                // Get packet size.
+                Size = (byte)(DefaultSize + Math.Min(length + (4 - (length % 4)), TextSize));
             }
+            else {
+                int rawLength = RawText.Length;
+                // If rawLength is above TextSize, truncate it.
+                if (rawLength > TextSize) {
+                    rawLength = TextSize;
+                }
 
-            // Need to decode string first so we know how big to make the packet.
-            byte[] buffer = new byte[240];
-            int length = LfsEncoding.Current.GetBytes(text, buffer, 0, 240);
+                // No need to manually null terminate it since the buffer is filled with 0s by default.
+                Buffer.BlockCopy(RawText, 0, buffer, 0, rawLength);
 
-            // Get packet size.
-            Size = (byte)(12 + Math.Min(length + (4 - (length % 4)), 240));
+                // If rawLength is not a multiple of 4, complete the buffer length to a multiple of 4.
+                length = (rawLength % 4 != 0) ? rawLength + (4 - (rawLength % 4)) : rawLength;
+
+                Size = (byte)(DefaultSize + length);
+            }
 
             PacketWriter writer = new PacketWriter(Size);
             writer.WriteSize(Size);

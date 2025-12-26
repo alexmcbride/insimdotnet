@@ -59,6 +59,12 @@ namespace InSimDotNet.Packets {
         public string RName { get; set; }
 
         /// <summary>
+        /// Gets or sets the raw bytes of <see cref="RName"/> string.
+        /// </summary>
+        public byte[] RawRName { get => rawRName; set => rawRName = value; }
+        private byte[] rawRName;
+
+        /// <summary>
         /// Creates a new replay information packet.
         /// </summary>
         public IS_RIP() {
@@ -87,7 +93,7 @@ namespace InSimDotNet.Packets {
             CTime = TimeSpan.FromMilliseconds(reader.ReadUInt32());
             TTime = TimeSpan.FromMilliseconds(reader.ReadUInt32());
 
-            RName = reader.ReadString(64);
+            RName = reader.ReadString(64, out rawRName);
         }
 
         /// <summary>
@@ -109,7 +115,8 @@ namespace InSimDotNet.Packets {
             writer.Write((uint)CTime.TotalMilliseconds / 10);
             writer.Write((uint)TTime.TotalMilliseconds / 10);
 
-            writer.Write(RName, 64);
+            writer.Write(rawRName, RName, 64);
+
             return writer.GetBuffer();
         }
     }

@@ -90,6 +90,12 @@ namespace InSimDotNet.Packets {
         public int Split3 { get; private set; }
 
         /// <summary>
+        /// Gets the raw bytes of <see cref="Track"/> string.
+        /// </summary>
+        public byte[] RawTrack => rawTrack;
+        private readonly byte[] rawTrack;
+
+        /// <summary>
         /// Creates a new race start packet.
         /// </summary>
         public IS_RST() {
@@ -113,7 +119,7 @@ namespace InSimDotNet.Packets {
             QualMins = reader.ReadByte();
             NumP = reader.ReadByte();
             Timing = reader.ReadByte();
-            Track = reader.ReadString(6);
+            Track = reader.ReadString(6, out rawTrack);
             Weather = reader.ReadByte();
             Wind = reader.ReadByte();
             Flags = (RaceFlags)reader.ReadUInt16();

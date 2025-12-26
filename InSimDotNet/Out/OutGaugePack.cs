@@ -109,6 +109,24 @@ namespace InSimDotNet.Out {
         public int ID { get; private set; }
 
         /// <summary>
+        /// Gets the raw bytes of <see cref="Car"/> string.
+        /// </summary>
+        public byte[] RawCar => rawCar;
+        private readonly byte[] rawCar;
+
+        /// <summary>
+        /// Gets the raw bytes of <see cref="Display1"/> string.
+        /// </summary>
+        public byte[] RawDisplay1 => rawDisplay1;
+        private readonly byte[] rawDisplay1;
+
+        /// <summary>
+        /// Gets the raw bytes of <see cref="Display2"/> string.
+        /// </summary>
+        public byte[] RawDisplay2 => rawDisplay2;
+        private readonly byte[] rawDisplay2;
+
+        /// <summary>
         /// Creates a new instance of the <see cref="OutGaugePack"/> class.
         /// </summary>
         /// <param name="buffer">A buffer contaning the packet data.</param>
@@ -119,7 +137,7 @@ namespace InSimDotNet.Out {
 
             PacketReader reader = new PacketReader(buffer);
             Time = TimeSpan.FromMilliseconds(reader.ReadUInt32());
-            Car = reader.ReadString(4);
+            Car = reader.ReadString(4, out rawCar);
             Flags = (OutGaugeFlags)reader.ReadUInt16();
             Gear = reader.ReadByte();
             PLID = reader.ReadByte();
@@ -135,8 +153,8 @@ namespace InSimDotNet.Out {
             Throttle = reader.ReadSingle();
             Brake = reader.ReadSingle();
             Clutch = reader.ReadSingle();
-            Display1 = reader.ReadString(16);
-            Display2 = reader.ReadString(16);
+            Display1 = reader.ReadString(16, out rawDisplay1);
+            Display2 = reader.ReadString(16, out rawDisplay2);
 
             // ID is optional.
             if (buffer.Length == MaxSize) {

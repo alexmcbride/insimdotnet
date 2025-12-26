@@ -45,6 +45,12 @@ namespace InSimDotNet.Packets {
         public string LName { get; private set; }
 
         /// <summary>
+        /// Gets the raw bytes of <see cref="LName"/> string.
+        /// </summary>
+        public byte[] RawLName => rawLName;
+        private readonly byte[] rawLName;
+
+        /// <summary>
         /// Creates a new AutoX info packet.
         /// </summary>
         public IS_AXI() {
@@ -67,7 +73,7 @@ namespace InSimDotNet.Packets {
             AXStart = reader.ReadByte();
             NumCP = reader.ReadByte();
             NumO = reader.ReadUInt16();
-            LName = reader.ReadString(32);
+            LName = reader.ReadString(32, out rawLName);
         }
     }
 }

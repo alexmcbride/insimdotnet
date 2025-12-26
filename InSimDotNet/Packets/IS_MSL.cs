@@ -34,6 +34,12 @@ namespace InSimDotNet.Packets {
         public string Msg { get; set; }
 
         /// <summary>
+        /// Gets or sets the raw bytes of <see cref="Msg"/> string.
+        /// </summary>
+        public byte[] RawMsg { get => rawMsg; set => rawMsg = value; }
+        private byte[] rawMsg;
+
+        /// <summary>
         /// Creates a new message local packet.
         /// </summary>
         public IS_MSL() {
@@ -52,7 +58,7 @@ namespace InSimDotNet.Packets {
             writer.Write((byte)Type);
             writer.Write(ReqI);
             writer.Write((byte)Sound);
-            writer.Write(Msg, 128);
+            writer.Write(rawMsg, Msg, 128);
             return writer.GetBuffer();
         }
     }

@@ -90,6 +90,12 @@ namespace InSimDotNet.Packets {
         public byte Wind { get; private set; }
 
         /// <summary>
+        /// Gets the raw bytes of <see cref="Track"/> string.
+        /// </summary>
+        public byte[] RawTrack => rawTrack;
+        private readonly byte[] rawTrack;
+
+        /// <summary>
         /// Creates a new state packet.
         /// </summary>
         public IS_STA() {
@@ -120,7 +126,7 @@ namespace InSimDotNet.Packets {
             QualMins = reader.ReadByte();
             RaceLaps = reader.ReadByte();
             reader.Skip(2);
-            Track = reader.ReadString(6);
+            Track = reader.ReadString(6, out rawTrack);
             Weather = reader.ReadByte();
             Wind = reader.ReadByte();
         }

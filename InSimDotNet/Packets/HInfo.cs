@@ -26,6 +26,18 @@ namespace InSimDotNet.Packets {
         public byte NumConns { get; private set; }
 
         /// <summary>
+        /// Gets the raw bytes of <see cref="HName"/> string.
+        /// </summary>
+        public byte[] RawHName => rawHName;
+        private readonly byte[] rawHName;
+
+        /// <summary>
+        /// Gets the raw bytes of <see cref="Track"/> string.
+        /// </summary>
+        public byte[] RawTrack => rawTrack;
+        private readonly byte[] rawTrack;
+
+        /// <summary>
         /// Creates a new <see cref="HInfo"/> sub-packet.
         /// </summary>
         /// <param name="reader">A <see cref="PacketReader"/> contaning the packet object.</param>
@@ -34,8 +46,8 @@ namespace InSimDotNet.Packets {
                 throw new ArgumentNullException("reader");
             }
 
-            HName = reader.ReadString(32);
-            Track = reader.ReadString(6);
+            HName = reader.ReadString(32, out rawHName);
+            Track = reader.ReadString(6, out rawTrack);
             Flags = (HostFlags)reader.ReadByte();
             NumConns = reader.ReadByte();
         }

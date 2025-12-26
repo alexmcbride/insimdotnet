@@ -95,6 +95,30 @@ namespace InSimDotNet.Packets {
         public TimeSpan PSeconds { get; private set; }
 
         /// <summary>
+        /// Gets the raw bytes of <see cref="UName"/> string.
+        /// </summary>
+        public byte[] RawUName => rawUName;
+        private readonly byte[] rawUName;
+
+        /// <summary>
+        /// Gets the raw bytes of <see cref="PName"/> string.
+        /// </summary>
+        public byte[] RawPName => rawPName;
+        private readonly byte[] rawPName;
+
+        /// <summary>
+        /// Gets the raw bytes of <see cref="Plate"/> string.
+        /// </summary>
+        public byte[] RawPlate => rawPlate;
+        private readonly byte[] rawPlate;
+
+        /// <summary>
+        /// Gets the raw bytes of <see cref="CName"/> string.
+        /// </summary>
+        public byte[] RawCName => rawCName;
+        private readonly byte[] rawCName;
+
+        /// <summary>
         /// Creates a new result packet.
         /// </summary>
         public IS_RES() {
@@ -117,10 +141,10 @@ namespace InSimDotNet.Packets {
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             PLID = reader.ReadByte();
-            UName = reader.ReadString(24);
-            PName = reader.ReadString(24);
-            Plate = reader.ReadString(8);
-            CName = reader.ReadCNameString();
+            UName = reader.ReadString(24, out rawUName);
+            PName = reader.ReadString(24, out rawPName);
+            Plate = reader.ReadString(8, out rawPlate);
+            CName = reader.ReadCNameString(out rawCName);
             TTime = TimeSpan.FromMilliseconds(reader.ReadUInt32());
             BTime = TimeSpan.FromMilliseconds(reader.ReadUInt32());
             reader.Skip(1);

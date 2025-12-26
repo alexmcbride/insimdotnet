@@ -45,6 +45,12 @@ namespace InSimDotNet.Packets {
         public string Text { get; private set; }
 
         /// <summary>
+        /// Gets the raw bytes of <see cref="Text"/> string.
+        /// </summary>
+        public byte[] RawText => rawText;
+        private readonly byte[] rawText;
+
+        /// <summary>
         /// Creates a new <see cref="IS_ACR"/> object.
         /// </summary>
         public IS_ACR() {
@@ -69,7 +75,7 @@ namespace InSimDotNet.Packets {
 
             // read out variable sized packet.
             int textLength = Size - DefaultSize;
-            Text = reader.ReadString(textLength);
+            Text = reader.ReadString(textLength, out rawText);
         }
     }
 }

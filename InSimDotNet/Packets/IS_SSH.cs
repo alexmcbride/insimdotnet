@@ -35,6 +35,12 @@ namespace InSimDotNet.Packets {
         public string Name { get; set; }
 
         /// <summary>
+        /// Gets or sets the raw bytes of <see cref="Name"/> string.
+        /// </summary>
+        public byte[] RawName { get => rawName; set => rawName = value; }
+        private byte[] rawName;
+
+        /// <summary>
         /// Creates a new screenshot packet.
         /// </summary>
         public IS_SSH() {
@@ -55,7 +61,7 @@ namespace InSimDotNet.Packets {
             ReqI = reader.ReadByte();
             Error = (ScreenshotError)reader.ReadByte();
             reader.Skip(4);
-            Name = reader.ReadString(32);
+            Name = reader.ReadString(32, out rawName);
         }
 
         /// <summary>
@@ -69,7 +75,7 @@ namespace InSimDotNet.Packets {
             writer.Write(ReqI);
             writer.Write((byte)Error);
             writer.Skip(4);
-            writer.Write(Name, 32);
+            writer.Write(rawName, Name, 32);
             return writer.GetBuffer();
         }
     }

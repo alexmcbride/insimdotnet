@@ -47,6 +47,7 @@ namespace InSimDotNet.Packets
         /// No description provided by lfs.
         /// </summary>
         public byte Flags { get; private set; }
+
         /// <summary>
         /// No description provided by lfs.
         /// </summary>
@@ -62,6 +63,11 @@ namespace InSimDotNet.Packets
         public IList<string> SkinIDs { get; set; }
 
         /// <summary>
+        /// Gets a collection with the carSkins information as raw bytes.
+        /// </summary>
+        public IList<byte[]> RawSkinIDs { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="IS_MAL"/> class.
         /// </summary>
         public IS_MAL()
@@ -69,16 +75,27 @@ namespace InSimDotNet.Packets
             Size = 8;
             Type = PacketType.ISP_MAL;
             SkinIDs = new List<string>(MAX_MAL_MODS);
+            RawSkinIDs = new List<byte[]>(MAX_MAL_MODS);
         }
 
         /// <summary>
         /// Creates a new IS_MAL packet.
         /// </summary>
-        /// <param name="plid">A collection of CarSkins.</param>
-        public IS_MAL(IEnumerable<string> plid)
+        /// <param name="skinIDs">A collection of CarSkins.</param>
+        public IS_MAL(IEnumerable<string> skinIDs)
             : this()
         {
-            SkinIDs = new List<string>(plid);
+            SkinIDs = new List<string>(skinIDs);
+        }
+
+        /// <summary>
+        /// Creates a new IS_MAL packet.
+        /// </summary>
+        /// <param name="rawSkinIDs">A collection of CarSkins.</param>
+        public IS_MAL(IEnumerable<byte[]> rawSkinIDs)
+            : this()
+        {
+            RawSkinIDs = new List<byte[]>(rawSkinIDs);
         }
 
         /// <summary>
@@ -99,11 +116,14 @@ namespace InSimDotNet.Packets
             Sp3 = reader.ReadByte();
 
             var info = new List<string>(NumM);
+            var infoRaw = new List<byte[]>(NumM);
             for (int i = 0; i < NumM; i++)
             {
-                info.Add(reader.ReadCNameString());
+                info.Add(reader.ReadCNameString(out byte[] rawSkinID));
+                infoRaw.Add(rawSkinID);
             }
             SkinIDs = info;
+            RawSkinIDs = infoRaw;
         }
 
         /// <summary>
@@ -112,13 +132,28 @@ namespace InSimDotNet.Packets
         /// <returns>An array contaning the packet data.</returns>
         public byte[] GetBuffer()
         {
-            if (SkinIDs.Count > MAX_MAL_MODS)
+            if (SkinIDs.Count > MAX_MAL_MODS || RawSkinIDs.Count > MAX_MAL_MODS)
             {
                 throw new InvalidOperationException(StringResources.IsMalInfoErrorMessage);
             }
 
-            NumM = (byte)SkinIDs.Count;
-            Size = (8 + (NumM * 4));
+            const int SkinIDLength = 4;
+            bool useRaw = RawSkinIDs.Count != 0;
+            if (!useRaw)
+            {
+                NumM = (byte)SkinIDs.Count;
+            }
+            else
+            {
+                NumM = (byte)RawSkinIDs.Count;
+                foreach (var infoRaw in RawSkinIDs)
+                {
+                    if (infoRaw.Length != SkinIDLength)
+                        NumM--;
+                }
+            }
+
+            Size = (8 + (NumM * SkinIDLength));
             Flags = 0; // zero (for now)
             PacketWriter writer = new PacketWriter(Size);
             writer.WriteSize(Size);
@@ -130,9 +165,23 @@ namespace InSimDotNet.Packets
             writer.Skip(1);
             writer.Skip(1);
 
-            foreach (var info in SkinIDs)
+            if (!useRaw)
             {
-                writer.Write(Convert.ToUInt32(info, 16));
+                foreach (var info in SkinIDs)
+                {
+                    writer.Write(Convert.ToUInt32(info, 16));
+                }
+            }
+            else
+            {
+                foreach (var infoRaw in RawSkinIDs)
+                {
+                    if (infoRaw.Length == SkinIDLength)
+                    {
+                        writer.Write(infoRaw);
+                    }
+                }
+
             }
             return writer.GetBuffer();
         }
