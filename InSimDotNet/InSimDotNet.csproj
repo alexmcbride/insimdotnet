@@ -12,9 +12,9 @@
 		<NeutralLanguage>en</NeutralLanguage>
 		<Title>InSim.NET</Title>
 		<PackageProjectUrl>https://github.com/alexmcbride/insimdotnet/</PackageProjectUrl>
-		<Version>2.5.1.1</Version>
-		<AssemblyVersion>2.5.1.1</AssemblyVersion>
-		<FileVersion>2.5.1.1</FileVersion>
+		<Version>2.6.1.1</Version>
+		<AssemblyVersion>2.6.1.1</AssemblyVersion>
+		<FileVersion>2.6.1.1</FileVersion>
 		<Authors>AlexMcBride</Authors>
 		<RepositoryUrl>https://github.com/alexmcbride/insimdotnet</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
