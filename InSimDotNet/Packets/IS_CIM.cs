@@ -43,7 +43,7 @@ namespace InSimDotNet.Packets {
         /// Gets the selected object type (or zero if unselected).
         /// It may be an AXO_x as in ObjectInfo or one of the marshall enum values.
         /// </summary>
-        public byte SelType { get; private set; }
+        public AxoObject SelType { get; private set; }
 
         /// <summary>
         /// Creates a new connection interface mode packet.
@@ -66,7 +66,7 @@ namespace InSimDotNet.Packets {
             UCID = reader.ReadByte();
             Mode = (ModeIdentifier)reader.ReadByte();
             SubMode = reader.ReadByte();
-            SelType = reader.ReadByte();
+            SelType = (AxoObject)reader.ReadByte();
             reader.Skip(1);
         }
     }

@@ -11,6 +11,8 @@
         /// <summary>
         /// Set just AutoX lights.
         /// </summary>
-        AXO_START_LIGHTS = 149
+        AXO_START_LIGHTS1 = 149,
+        AXO_START_LIGHTS2 = 150,
+        AXO_START_LIGHTS3 = 151,
     }
 }

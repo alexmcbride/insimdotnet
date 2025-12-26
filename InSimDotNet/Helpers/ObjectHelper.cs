@@ -1,132 +1,141 @@
-﻿using System.Collections.Generic;
+﻿using InSimDotNet.Packets;
+using System.Collections.Generic;
 
 namespace InSimDotNet.Helpers {
     /// <summary>
     /// Static class to help with object names.
     /// </summary>
     public static class ObjectHelper {
-        private static readonly Dictionary<int, string[]> ObjMap = new Dictionary<int, string[]>() {
-           { 0, new string[] { "Unknown", "Unknown Object" }},
+        private static readonly Dictionary<AxoObject, string[]> ObjMap = new Dictionary<AxoObject, string[]>() {
+            { AxoObject.AXO_UNKNOWN, new string[] { "Unknown", "Unknown Object" }},
 
-            { 4, new string[] { "Chalk", "Chalk Line Long" }},
-            { 5, new string[] { "Chalk", "Chalk Line" }},
-            { 6, new string[] { "Chalk", "Chalk Ahead" }},
-            { 7, new string[] { "Chalk", "Chalk Ahead Long" }},
-            { 8, new string[] { "Chalk", "Chalk Soft Left" }},
-            { 9, new string[] { "Chalk", "Chalk Hard Left" }},
-            { 10, new string[] { "Chalk", "Chalk Soft Left Long" }},
-            { 11, new string[] { "Chalk", "Chalk Soft Right" }},
-            { 12, new string[] { "Chalk", "Chalk Hard Right" }},
-            { 13, new string[] { "Chalk", "Chalk Soft Right Long" }},
+            // Chalk
+            { AxoObject.AXO_CHALK_LINE, new string[] { "Chalk", "Chalk Line" }},
+            { AxoObject.AXO_CHALK_LINE2, new string[] { "Chalk", "Chalk Line2" }},
+            { AxoObject.AXO_CHALK_AHEAD, new string[] { "Chalk", "Chalk Ahead" }},
+            { AxoObject.AXO_CHALK_AHEAD2, new string[] { "Chalk", "Chalk Ahead Long" }},
+            { AxoObject.AXO_CHALK_LEFT, new string[] { "Chalk", "Chalk Soft Left" }},
+            { AxoObject.AXO_CHALK_LEFT2, new string[] { "Chalk", "Chalk Hard Left" }},
+            { AxoObject.AXO_CHALK_LEFT3, new string[] { "Chalk", "Chalk Soft Left Long" }},
+            { AxoObject.AXO_CHALK_RIGHT, new string[] { "Chalk", "Chalk Soft Right" }},
+            { AxoObject.AXO_CHALK_RIGHT2, new string[] { "Chalk", "Chalk Hard Right" }},
+            { AxoObject.AXO_CHALK_RIGHT3, new string[] { "Chalk", "Chalk Soft Right Long" }},
 
-            { 20, new string[] { "Cone", "Cone Red/White" }},
-            { 21, new string[] { "Cone", "Cone Red" }},
-            { 22, new string[] { "Cone", "Cone Red Striped" }},
-            { 23, new string[] { "Cone", "Cone Blue Striped" }},
-            { 24, new string[] { "Cone", "Cone Blue" }},
-            { 25, new string[] { "Cone", "Cone Green Striped" }},
-            { 26, new string[] { "Cone", "Cone Green" }},
-            { 27, new string[] { "Cone", "Cone Orange" }},
-            { 28, new string[] { "Cone", "Cone White" }},
-            { 29, new string[] { "Cone", "Cone Yellow Striped" }},
-            { 30, new string[] { "Cone", "Cone Yellow" }},
+            // Paint
+            { AxoObject.AXO_PAINT_LETTERS, new string[] { "Paint", "Paint Letters" }},
+            { AxoObject.AXO_PAINT_ARROWS, new string[] { "Paint", "Paint Arrows" }},
 
-            { 40, new string[] { "Cone", "Cone Red Directional" }},
-            { 41, new string[] { "Cone", "Cone Blue Directional" }},
-            { 42, new string[] { "Cone", "Cone Green Directional" }},
-            { 43, new string[] { "Cone", "Cone Yellow Directional" }},
+            // Cones
+            { AxoObject.AXO_CONE1, new string[] { "Cone", "Cone1" }},
+            { AxoObject.AXO_CONE2, new string[] { "Cone", "Cone2" }},
+            { AxoObject.AXO_CONE_TALL1, new string[] { "Cone", "Cone Tall1" }},
+            { AxoObject.AXO_CONE_TALL2, new string[] { "Cone", "Cone Tall2" }},
+            { AxoObject.AXO_CONE_POINTER, new string[] { "Cone", "Cone Pointer" }},
 
-            { 48, new string[] { "Tyre", "Tyre" }},
-            { 49, new string[] { "Tyres", "Tyre Stack of 2" }},
-            { 50, new string[] { "Tyres", "Tyre Stack of 3" }},
-            { 51, new string[] { "Tyres", "Tyre Stack of 4" }},
-            { 52, new string[] { "Tyre", "Big Tyre" }},
-            { 53, new string[] { "Tyres", "Big Tyre Stack of 2" }},
-            { 54, new string[] { "Tyres", "Big Tyre Stack of 3" }},
-            { 55, new string[] { "Tyres", "Big Tyre Stack of 4" }},
+            // Tyres
+            { AxoObject.AXO_TYRE_SINGLE, new string[] { "Tyres", "Tyre" }},
+            { AxoObject.AXO_TYRE_STACK2, new string[] { "Tyres", "Tyre Stack of 2" }},
+            { AxoObject.AXO_TYRE_STACK3, new string[] { "Tyres", "Tyre Stack of 3" }},
+            { AxoObject.AXO_TYRE_STACK4, new string[] { "Tyres", "Tyre Stack of 4" }},
+            { AxoObject.AXO_TYRE_SINGLE_BIG, new string[] { "Tyres", "Big Tyre" }},
+            { AxoObject.AXO_TYRE_STACK2_BIG, new string[] { "Tyres", "Big Tyre Stack of 2" }},
+            { AxoObject.AXO_TYRE_STACK3_BIG, new string[] { "Tyres", "Big Tyre Stack of 3" }},
+            { AxoObject.AXO_TYRE_STACK4_BIG, new string[] { "Tyres", "Big Tyre Stack of 4" }},
 
-            { 64, new string[] { "Marker", "Marker Curve Left" }},
-            { 65, new string[] { "Marker", "Marker Curve Right" }},
-            { 66, new string[] { "Marker", "Marker Left" }},
-            { 67, new string[] { "Marker", "Marker Right" }},
-            { 68, new string[] { "Marker", "Marker Left Hard" }},
-            { 69, new string[] { "Marker", "Marker Right Hard" }},
-            { 70, new string[] { "Marker", "Marker Left->Right" }},
-            { 71, new string[] { "Marker", "Marker Right->Left" }},
-            { 72, new string[] { "Marker", "Marker U-Turn->Right" }},
-            { 73, new string[] { "Marker", "Marker U-Turn->Left" }},
-            { 74, new string[] { "Marker", "Marker Winding Left" }},
-            { 75, new string[] { "Marker", "Marker Winding Right" }},
-            { 76, new string[] { "Marker", "Marker U-Turn Left" }},
-            { 77, new string[] { "Marker", "Marker U-Turn Right" }},
+            // Signs
+            { AxoObject.AXO_MARKER_CORNER, new string[] { "Signs", "Marker Corner" }},
+            { AxoObject.AXO_MARKER_DISTANCE, new string[] { "Signs", "Marker Distance" }},
 
-            { 84, new string[] { "Marker", "Marker 25" }},
-            { 85, new string[] { "Marker", "Marker 50" }},
-            { 86, new string[] { "Marker", "Marker 75" }},
-            { 87, new string[] { "Marker", "Marker 100" }},
-            { 88, new string[] { "Marker", "Marker 125" }},
-            { 89, new string[] { "Marker", "Marker 150" }},
-            { 90, new string[] { "Marker", "Marker 200" }},
-            { 91, new string[] { "Marker", "Marker 250" }},
+            // Letter boards
+            { AxoObject.AXO_LETTER_BOARD_WY, new string[] { "Signs", "Letter Board WY" }},
+            { AxoObject.AXO_LETTER_BOARD_RB, new string[] { "Signs", "Letter Board RB" }},
 
-            { 96, new string[] { "Railing", "Railing Short" }},
-            { 97, new string[] { "Railing", "Railing Medium" }},
-            { 98, new string[] { "Railing", "Railing Long" }},
+            // Railings / Armco
+            { AxoObject.AXO_ARMCO1, new string[] { "Barriers", "Railing Short" }},
+            { AxoObject.AXO_ARMCO3, new string[] { "Barriers", "Railing Medium" }},
+            { AxoObject.AXO_ARMCO5, new string[] { "Barriers", "Railing Long" }},
 
-            { 104, new string[] { "Barrier", "Barrier Long" }},
-            { 105, new string[] { "Barrier", "Barrier Red" }},
-            { 106, new string[] { "Barrier", "Barrier White" }},
+            // Barriers
+            { AxoObject.AXO_BARRIER_LONG, new string[] { "Barriers", "Barrier Long" }},
+            { AxoObject.AXO_BARRIER_RED, new string[] { "Barriers", "Barrier Red" }},
+            { AxoObject.AXO_BARRIER_WHITE, new string[] { "Barriers", "Barrier White" }},
 
-            { 112, new string[] { "Banner", "Banner 1" }},
-            { 113, new string[] { "Banner", "Banner 2" }},
+            // Banner
+            { AxoObject.AXO_BANNER, new string[] { "Banners", "Banner" }},
 
-            { 120, new string[] { "Ramp", "Ramp" }},
-            { 121, new string[] { "Ramp", "Ramp Wide" }},
+            // Ramps
+            { AxoObject.AXO_RAMP1, new string[] { "Ramp", "Ramp" }},
+            { AxoObject.AXO_RAMP2, new string[] { "Ramp", "Ramp Wide" }},
 
-            { 128, new string[] { "Speed Bump", "Speed Bump Long" }},
-            { 129, new string[] { "Speed Bump", "Speed Bump" }},
+            // Vehicles
+            { AxoObject.AXO_VEH_SUV, new string[] { "Vehicle", "SUV" }},
+            { AxoObject.AXO_VEH_VAN, new string[] { "Vehicle", "Van" }},
+            { AxoObject.AXO_VEH_TRUCK, new string[] { "Vehicle", "Truck" }},
+            { AxoObject.AXO_VEH_AMBULANCE, new string[] { "Vehicle", "Ambulance" }},
 
-            { 136, new string[] { "Post", "Post Green" }},
-            { 137, new string[] { "Post", "Post Orange" }},
-            { 138, new string[] { "Post", "Post Red" }},
-            { 139, new string[] { "Post", "Post White" }},
+            // Speed bumps
+            { AxoObject.AXO_SPEED_HUMP_10M, new string[] { "Speed Bump", "Speed Bump 10m" }},
+            { AxoObject.AXO_SPEED_HUMP_6M, new string[] { "Speed Bump", "Speed Bump 6m" }},
+            { AxoObject.AXO_SPEED_HUMP_2M, new string[] { "Speed Bump", "Speed Bump 2m" }},
+            { AxoObject.AXO_SPEED_HUMP_1M, new string[] { "Speed Bump", "Speed Bump 1m" }},
 
-            { 144, new string[] { "Bale", "Bale" }},
+            // Kerb
+            { AxoObject.AXO_KERB, new string[] { "Kerb", "Kerb" }},
 
-            { 148, new string[] { "Railing", "Railing" }},
-            { 149, new string[] { "Control", "Start lights" }},
+            // Posts
+            { AxoObject.AXO_POST, new string[] { "Post", "Post Green" }},
 
-            { 160, new string[] { "Sign", "Sign Keep Left" }},
-            { 161, new string[] { "Sign", "Sign Keep Right" }},
+            // Structures
+            { AxoObject.AXO_MARQUEE, new string[] { "Objects", "Marquee" }},
+            { AxoObject.AXO_BALE, new string[] { "Objects", "Bale" }},
+            { AxoObject.AXO_BIN1, new string[] { "Objects", "Bin Small" }},
+            { AxoObject.AXO_BIN2, new string[] { "Objects", "Bin Large" }},
 
-            { 168, new string[] { "Sign", "Sign 80 km/h" }},
-            { 169, new string[] { "Sign", "Sign 50 km/h" }},
+            { AxoObject.AXO_RAILING1, new string[] { "Railing", "Railing1" }},
+            { AxoObject.AXO_RAILING2, new string[] { "Railing", "Railing2" }},
 
-            { 172, new string[] { "Concrete", "Concrete Slab" }},
-            { 173, new string[] { "Concrete", "Concrete Ramp" }},
-            { 174, new string[] { "Concrete", "Concrete Wall" }},
-            { 175, new string[] { "Concrete", "Concrete Pillar" }},
-            { 176, new string[] { "Concrete", "Concrete Slab Wall" }},
-            { 177, new string[] { "Concrete", "Concrete Ramp Wall" }},
-            { 178, new string[] { "Concrete", "Concrete Short Slab Wall" }}, 
-            { 179, new string[] { "Concrete", "Concrete Wedge" }},
+            // Start lights
+            { AxoObject.AXO_START_LIGHTS1, new string[] { "Control", "Start Lights" }},
+            { AxoObject.AXO_START_LIGHTS2, new string[] { "Control", "Start Lights2" }},
+            { AxoObject.AXO_START_LIGHTS3, new string[] { "Control", "Start Lights3" }},
 
-            { 184, new string[] { "Control", "Start position" }},
-            { 185, new string[] { "Control", "Pit Start Point" }},
-            { 186, new string[] { "Control", "Pit Stop Box" }},
+            // More Signs
+            { AxoObject.AXO_SIGN_METAL, new string[] { "Signs", "Metal" }},
+            { AxoObject.AXO_SIGN_CHEVRON_LEFT, new string[] { "Signs", "Sign Chevron Left" }},
+            { AxoObject.AXO_SIGN_CHEVRON_RIGHT, new string[] { "Signs", "Sign Chevron Right" }},
+            { AxoObject.AXO_SIGN_SPEED, new string[] { "Signs", "Sign Speed" }},
 
-            { 254, new string[] { "Marshall", "Restricted area" }},
-            { 255, new string[] { "Marshall", "Route checker" }},
+            // Concrete
+            { AxoObject.AXO_CONCRETE_SLAB, new string[] { "Concrete", "Concrete Slab" }},
+            { AxoObject.AXO_CONCRETE_RAMP, new string[] { "Concrete", "Concrete Ramp" }},
+            { AxoObject.AXO_CONCRETE_WALL, new string[] { "Concrete", "Concrete Wall" }},
+            { AxoObject.AXO_CONCRETE_PILLAR, new string[] { "Concrete", "Concrete Pillar" }},
+            { AxoObject.AXO_CONCRETE_SLAB_WALL, new string[] { "Concrete", "Concrete Slab Wall" }},
+            { AxoObject.AXO_CONCRETE_RAMP_WALL, new string[] { "Concrete", "Concrete Ramp Wall" }},
+            { AxoObject.AXO_CONCRETE_SHORT_SLAB_WALL, new string[] { "Concrete", "Concrete Short Slab Wall" }},
+            { AxoObject.AXO_CONCRETE_WEDGE, new string[] { "Concrete", "Concrete Wedge" }},
+
+            // Start / pit
+            { AxoObject.AXO_START_POSITION, new string[] { "Control", "Start position" }},
+            { AxoObject.AXO_PIT_START_POINT, new string[] { "Control", "Pit Start Point" }},
+            { AxoObject.AXO_PIT_STOP_BOX, new string[] { "Control", "Pit Stop Box" }},
+
+            // Marshal / InSim
+            { AxoObject.AXO_MARSHAL, new string[] { "Marshal", "Marshal" }},
+            { AxoObject.MARSH_IS_CP, new string[] { "Marshal", "InSim checkpoint" }},
+            { AxoObject.MARSH_IS_AREA, new string[] { "Marshal", "InSim circle" }},
+            { AxoObject.MARSH_MARSHAL, new string[] { "Marshal", "Restricted Area" }},
+            { AxoObject.MARSH_ROUTE, new string[] { "Marshal", "Route Checker" }},
         };
+
 
         /// <summary>
         /// Determines the full name of an object or null if the index does not exist.
         /// </summary>
-        /// <param name="index">The object's index.</param>
+        /// <param name="index">The object's AxoObject.</param>
         /// <returns>The full name.</returns>
-        public static string GetObjName(int index) {
-            string[] obj;
-            if (ObjMap.TryGetValue(index, out obj)) {
+        public static string GetObjName(AxoObject index) {
+            if (ObjMap.TryGetValue(index, out string[] obj)) {
                 return obj[1];
             }
             return null;
@@ -135,11 +144,11 @@ namespace InSimDotNet.Helpers {
         /// <summary>
         /// Determines the type of the object or returns null if the index does not exist.
         /// </summary>
-        /// <param name="index">The object's index.</param>
+        /// <param name="index">The object's AxoObject.</param>
         /// <returns>The type of the object.</returns>
-        public static string GetObjType(int index) {
-            string[] obj;
-            if (ObjMap.TryGetValue(index, out obj)) {
+        public static string GetObjType(AxoObject index) {
+            if (ObjMap.TryGetValue(index, out string[] obj))
+            {
                 return obj[0];
             }
             return null;
@@ -148,9 +157,9 @@ namespace InSimDotNet.Helpers {
         /// <summary>
         /// Determines if the specified object exists.
         /// </summary>
-        /// <param name="index">The index of the object.</param>
+        /// <param name="index">The AxoObject of the object.</param>
         /// <returns>True if the object exists.</returns>
-        public static bool ObjExists(int index) {
+        public static bool ObjExists(AxoObject index) {
             return ObjMap.ContainsKey(index);
         }
     }

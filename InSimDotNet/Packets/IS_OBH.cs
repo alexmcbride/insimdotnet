@@ -58,7 +58,7 @@ namespace InSimDotNet.Packets {
         /// <summary>
         /// Gets the object index or zero if it is an unknown object.
         /// </summary>
-        public byte Index { get; private set; }
+        public AxoObject Index { get; private set; }
 
         /// <summary>
         /// Gets the object flags.
@@ -83,7 +83,7 @@ namespace InSimDotNet.Packets {
             Y = reader.ReadInt16();
             Zbyte = reader.ReadByte();
             reader.Skip(1);
-            Index = reader.ReadByte();
+            Index = (AxoObject)reader.ReadByte();
             OBHFlags = (ObjectFlags)reader.ReadByte();
         }
     };
