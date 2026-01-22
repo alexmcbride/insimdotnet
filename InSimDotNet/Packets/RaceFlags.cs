@@ -40,5 +40,35 @@ namespace InSimDotNet.Packets {
         /// Cruise mode.
         /// </summary>
         HOSTF_CRUISE = 512,
+
+        /// <summary>
+        /// Show fuel.
+        /// </summary>
+        HOSTF_SHOW_FUEL = 1024,
+
+        /// <summary>
+        /// Can refuel.
+        /// </summary>
+        HOSTF_CAN_REFUEL = 2048,
+
+        /// <summary>
+        /// Allow mods.
+        /// </summary>
+        HOSTF_ALLOW_MODS = 4096,
+
+        /// <summary>
+        /// Unapproved mods.
+        /// </summary>
+        HOSTF_UNAPPROVED = 8192,
+
+        /// <summary>
+        /// Team arrows.
+        /// </summary>
+        HOSTF_TEAMARROWS = 16384,
+
+        /// <summary>
+        /// No flood lights.
+        /// </summary>
+        HOSTF_NO_FLOOD = 32768,
     }
 }
