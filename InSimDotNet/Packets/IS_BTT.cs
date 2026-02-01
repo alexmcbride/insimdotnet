@@ -49,6 +49,12 @@ namespace InSimDotNet.Packets {
         public string Text { get; private set; }
 
         /// <summary>
+        /// Gets the raw bytes of <see cref="Text"/> string.
+        /// </summary>
+        public byte[] RawText => rawText;
+        private readonly byte[] rawText;
+
+        /// <summary>
         /// Creates a new button type packet.
         /// </summary>
         public IS_BTT() {
@@ -72,7 +78,7 @@ namespace InSimDotNet.Packets {
             Inst = reader.ReadByte();
             TypeIn = reader.ReadByte();
             reader.Skip(1);
-            Text = reader.ReadString(96);
+            Text = reader.ReadString(96, out rawText);
         }
     }
 }

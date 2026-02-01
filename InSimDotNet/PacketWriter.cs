@@ -139,13 +139,29 @@ namespace InSimDotNet {
         /// </summary>
         /// <param name="value">A Unicode string.</param>
         /// <param name="length">The maximum length of the string to write.</param>
-        public void Write(string value, int length) {
+        internal void Write(string value, int length) {
             if (value == null) {
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
 
             LfsEncoding.Current.GetBytes(value, buffer, position, length);
             position += length;
+        }
+
+        /// <summary>
+        /// If <see cref="rawValue"/> is not null, writes it to the buffer. Otherwise, writes the
+        /// specified Unicode string <see cref="value"/> to the buffer as an LFS-encoded string.
+        /// </summary>
+        /// <param name="rawValue">Raw LFS-Encoded bytes.</param>
+        /// <param name="value">A Unicode string.</param>
+        /// <param name="length">The maximum amount of bytes to write.</param>
+        public void Write(byte[] rawValue, string value, int length) {
+            if (rawValue != null)
+                Write(rawValue, length);
+            else if (value != null)
+                Write(value, length);
+            else
+                throw new ArgumentNullException($"Both {nameof(rawValue)} and {nameof(value)} was null");
         }
 
         /// <summary>

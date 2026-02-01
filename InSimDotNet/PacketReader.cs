@@ -115,21 +115,20 @@ namespace InSimDotNet {
         /// <summary>
         /// Reads a LFS Car name or modded car skinID (as of 0.6W)
         /// </summary>
-        /// <param name="count">The number of bytes to read.</param>
         /// <returns>A Unicode string.</returns>
-        public string ReadCNameString(int count = 4)
-        {
+        public string ReadCNameString(out byte[] rawBytes) {
+            const int count = 4;
             position += count;
 
-            var buf = new byte[4];
-            Array.Copy(buffer, position - count, buf, 0, count);
+            rawBytes = new byte[count];
+            Buffer.BlockCopy(buffer, position - count, rawBytes, 0, count);
 
-            if (IsAlphaNumeric(buf[0]) && IsAlphaNumeric(buf[1]) && IsAlphaNumeric(buf[2]))
+            if (IsAlphaNumeric(rawBytes[0]) && IsAlphaNumeric(rawBytes[1]) && IsAlphaNumeric(rawBytes[2]))
             {
                 return LfsEncoding.Current.GetString(buffer, position - count, count);
             }
 
-            return buf[2].ToString("X2") + buf[1].ToString("X2") + buf[0].ToString("X2");
+            return rawBytes[2].ToString("X2") + rawBytes[1].ToString("X2") + rawBytes[0].ToString("X2");
 
             bool IsAlphaNumeric(byte b)
             {
@@ -141,13 +140,17 @@ namespace InSimDotNet {
         }
 
         /// <summary>
-        /// Reads a LFS encoded string from the buffer.
+        /// Reads a LFS encoded string from the buffer and
+        /// sets the rawBytes parameter to the original bytes.
         /// </summary>
         /// <param name="count">The number of bytes to read.</param>
+        /// <param name="rawBytes">Raw bytes used to create the string.</param>
         /// <returns>A Unicode string.</returns>
-        public string ReadString(int count) {
+        public string ReadString(int count, out byte[] rawBytes) {
             position += count;
-            return LfsEncoding.Current.GetString(buffer, position - count, count);
+            rawBytes = new byte[count];
+            Buffer.BlockCopy(buffer, position - count, rawBytes, 0, count);
+            return LfsEncoding.Current.GetString(rawBytes, 0, count);
         }
 
         /// <summary>

@@ -8,8 +8,6 @@ namespace InSimDotNet.Packets {
     /// Used to type message or command into LFS.
     /// </remarks>
     public class IS_MST : IPacket, ISendable {
-        private byte[] message;
-
         /// <summary>
         /// Gets the size of the packet.
         /// </summary>
@@ -31,6 +29,12 @@ namespace InSimDotNet.Packets {
         public string Msg { get; set; }
 
         /// <summary>
+        /// Gets or sets the raw bytes of <see cref="Msg"/> string.
+        /// </summary>
+        public byte[] RawMsg { get => rawMsg; set => rawMsg = value; }
+        private byte[] rawMsg;
+
+        /// <summary>
         /// Creates a new message type packet.
         /// </summary>
         public IS_MST() {
@@ -39,8 +43,8 @@ namespace InSimDotNet.Packets {
             Msg = String.Empty;
         }
 
-        internal IS_MST(byte[] message) : this() {
-            this.message = message;
+        public IS_MST(byte[] rawMsg) : this() {
+            RawMsg = rawMsg;
         }
 
         /// <summary>
@@ -53,12 +57,7 @@ namespace InSimDotNet.Packets {
             writer.Write((byte)Type);
             writer.Write(ReqI);
             writer.Skip(1);
-            if (message == null) {
-                writer.Write(Msg, 64);
-            }
-            else {
-                writer.Write(message);
-            }
+            writer.Write(rawMsg, Msg, 64);
             return writer.GetBuffer();
         }
     }

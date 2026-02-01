@@ -39,6 +39,18 @@ namespace InSimDotNet.Packets {
         public string Plate { get; private set; }
 
         /// <summary>
+        /// Gets the raw bytes of <see cref="PName"/> string.
+        /// </summary>
+        public byte[] RawPName => rawPName;
+        private readonly byte[] rawPName;
+
+        /// <summary>
+        /// Gets the raw bytes of <see cref="Plate"/> string.
+        /// </summary>
+        public byte[] RawPlate => rawPlate;
+        private readonly byte[] rawPlate;
+
+        /// <summary>
         /// Creates a new connection player rename packet.
         /// </summary>
         public IS_CPR() {
@@ -59,8 +71,8 @@ namespace InSimDotNet.Packets {
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             UCID = reader.ReadByte();
-            PName = reader.ReadString(24);
-            Plate = reader.ReadString(8);
+            PName = reader.ReadString(24, out rawPName);
+            Plate = reader.ReadString(8, out rawPlate);
         }
     }
 }

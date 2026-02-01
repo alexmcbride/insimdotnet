@@ -39,6 +39,24 @@ namespace InSimDotNet.Packets {
         public string Spec { get; set; }
 
         /// <summary>
+        /// Gets or sets the raw bytes of <see cref="HName"/> string.
+        /// </summary>
+        public byte[] RawHName { get => rawHName; set => rawHName = value; }
+        private byte[] rawHName;
+
+        /// <summary>
+        /// Gets or sets the raw bytes of <see cref="Admin"/> string.
+        /// </summary>
+        public byte[] RawAdmin { get => rawAdmin; set => rawAdmin = value; }
+        private byte[] rawAdmin;
+
+        /// <summary>
+        /// Gets or sets the raw bytes of <see cref="Spec"/> string.
+        /// </summary>
+        public byte[] RawSpec { get => rawSpec; set => rawSpec = value; }
+        private byte[] rawSpec;
+
+        /// <summary>
         /// Creates a new select host packet.
         /// </summary>
         public IR_SEL() {
@@ -59,9 +77,9 @@ namespace InSimDotNet.Packets {
             writer.Write((byte)Type);
             writer.Write((byte)ReqI);
             writer.Skip(1);
-            writer.Write(HName, 32);
-            writer.Write(Admin, 16);
-            writer.Write(Spec, 16);
+            writer.Write(rawHName, HName, 32);
+            writer.Write(rawAdmin, Admin, 16);
+            writer.Write(rawSpec, Spec, 16);
             return writer.GetBuffer();
         }
     }

@@ -44,6 +44,12 @@ namespace InSimDotNet.Packets {
         public string Msg { get; set; }
 
         /// <summary>
+        /// Gets or sets the raw bytes of <see cref="Msg"/> string.
+        /// </summary>
+        public byte[] RawMsg { get => rawMsg; set => rawMsg = value; }
+        private byte[] rawMsg;
+
+        /// <summary>
         /// Creates a new message to connection packet.
         /// </summary>
         public IS_MTC() {
@@ -57,12 +63,34 @@ namespace InSimDotNet.Packets {
         /// </summary>
         /// <returns>The packet data.</returns>
         public byte[] GetBuffer() {
-            // Encode string first so we can figure out the packet size.
-            byte[] buffer = new byte[128];
-            int length = LfsEncoding.Current.GetBytes(Msg, buffer, 0, 128);
+            const int DefaultSize = 8;
+            const int TextSize = 128;
 
-            // Get the packet size (MTC needs trailing zero).
-            Size = (byte)(8 + Math.Min(length + (4 - (length % 4)), 128));
+            byte[] buffer = new byte[TextSize];
+            int length;
+            if (RawMsg == null) {
+                // Encode string first so we can figure out the packet size.
+                length = LfsEncoding.Current.GetBytes(Msg, buffer, 0, buffer.Length);
+
+                // Get the packet size (MTC needs trailing zero).
+                Size = (byte)(DefaultSize + Math.Min(length + (4 - (length % 4)), TextSize));
+            }
+            else
+            {
+                int rawLength = RawMsg.Length;
+                // If rawLength is above TextSize, truncate it.
+                if (rawLength > TextSize) {
+                    rawLength = TextSize;
+                }
+
+                // No need to manually null terminate it since the buffer is filled with 0s by default.
+                Buffer.BlockCopy(RawMsg, 0, buffer, 0, rawLength);
+
+                // If rawLength is not a multiple of 4, complete the buffer length to a multiple of 4.
+                length = (rawLength % 4 != 0) ? rawLength + (4 - (rawLength % 4)) : rawLength;
+
+                Size = (byte)(DefaultSize + length);
+            }
 
             PacketWriter writer = new PacketWriter(Size);
             writer.WriteSize(Size);

@@ -59,6 +59,18 @@ namespace InSimDotNet.Packets {
         public string IName { get; set; }
 
         /// <summary>
+        /// Gets or sets the raw bytes of <see cref="Admin"/> string.
+        /// </summary>
+        public byte[] RawAdmin { get => rawAdmin; set => rawAdmin = value; }
+        private byte[] rawAdmin;
+
+        /// <summary>
+        /// Gets or sets the raw bytes of <see cref="IName"/> string.
+        /// </summary>
+        public byte[] RawIName { get => rawIName; set => rawIName = value; }
+        private byte[] rawIName;
+
+        /// <summary>
         /// Creates a new InSim initialization packet.
         /// </summary>
         public IS_ISI() {
@@ -83,8 +95,8 @@ namespace InSimDotNet.Packets {
             writer.Write(InSimVer);
             writer.Write(Prefix);
             writer.Write((ushort)Interval);
-            writer.Write(Admin, 16);
-            writer.Write(IName, 16);
+            writer.Write(rawAdmin, Admin, 16);
+            writer.Write(rawIName, IName, 16);
             return writer.GetBuffer();
         }
     }
