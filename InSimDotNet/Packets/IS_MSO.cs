@@ -46,9 +46,21 @@ namespace InSimDotNet.Packets {
         public byte TextStart { get; private set; }
 
         /// <summary>
-        /// Gets the message.
+        /// Gets the full message (nick + message).
         /// </summary>
-        public string Msg { get; private set; }
+        public string FullMsg { get; private set; }
+
+
+        [Obsolete("Should now use "+nameof(FullMsg))]
+        /// <summary>
+        /// Gets the full message (nick + message).
+        /// </summary>
+        public string Msg => FullMsg;
+
+        /// <summary>
+        /// Gets the text message ( it doesn't include sender nickname).
+        /// </summary>
+        public string Text { get; private set; }
 
         /// <summary>
         /// Creates a new message out packet.
@@ -56,7 +68,7 @@ namespace InSimDotNet.Packets {
         public IS_MSO() {
             Size = DefaultSize;
             Type = PacketType.ISP_MSO;
-            Msg = String.Empty;
+            FullMsg = string.Empty;
         }
 
         /// <summary>
@@ -80,12 +92,15 @@ namespace InSimDotNet.Packets {
 
             // Need to correct textstart after we've converted string to unicode.
             if (textStart > 0) {
-                string pname = reader.ReadString(textStart);
+                var pname = reader.ReadString(textStart);
                 TextStart = (byte)pname.Length;
-                Msg = pname + reader.ReadString(msgLength - textStart);
+                var msg= reader.ReadString(msgLength - textStart);
+                FullMsg = pname + msg;
+                Text = msg;
             }
             else {
-                Msg = reader.ReadString(msgLength);
+                FullMsg = reader.ReadString(msgLength);
+                Text = FullMsg;
             }
         }
     }
