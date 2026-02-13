@@ -44,8 +44,8 @@ namespace InSimDotNet.Helpers {
         /// <param name="value">The string to strip.</param>
         /// <returns>The resulting string, sans colors.</returns>
         public static string StripColors(string value) {
-            if (String.IsNullOrEmpty(value)) {
-                throw new ArgumentNullException("value");
+            if (string.IsNullOrEmpty(value)) {
+                return value;
             }
 
             var sb = new StringBuilder(value.Length);

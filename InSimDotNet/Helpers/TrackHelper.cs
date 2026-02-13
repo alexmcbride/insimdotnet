@@ -20,6 +20,20 @@ namespace InSimDotNet.Helpers {
             }
         }
 
+        /// <summary>
+        /// 
+        /// Gets the pitlane speed limit for the specified track in Kph.
+        /// 
+        /// Rockingham has a pitlane speed limit of 65kph, all other tracks have a limit of 80kph.
+        /// <returns>Pit speed limit in Kph</returns>
+        public static double PitlaneSpeedLimit(string shortTrackName)
+        {
+            if (string.IsNullOrWhiteSpace(shortTrackName))
+                throw new ArgumentException("Track name cannot be null or empty", nameof(shortTrackName));
+
+            return shortTrackName.StartsWith("RO", StringComparison.OrdinalIgnoreCase) ? 65 : 80;
+        }
+
         private static readonly Dictionary<string, Track> TrackMap = new Dictionary<string, Track>()
         {
             { "BL1", new Track("Blackwood Grand Prix", true) },
