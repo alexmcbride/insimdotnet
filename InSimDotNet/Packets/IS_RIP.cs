@@ -106,8 +106,8 @@ namespace InSimDotNet.Packets {
             writer.Skip(1);
 
             // Convert back to hundredths.
-            writer.Write((uint)CTime.TotalMilliseconds / 10);
-            writer.Write((uint)TTime.TotalMilliseconds / 10);
+            writer.Write((uint)CTime.TotalMilliseconds);
+            writer.Write((uint)TTime.TotalMilliseconds);
 
             writer.Write(RName, 64);
             return writer.GetBuffer();
