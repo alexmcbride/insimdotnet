@@ -72,8 +72,8 @@ namespace InSimDotNet.Helpers
         /// <param name="value">The string to strip.</param>
         /// <returns>The resulting string, sans language.</returns>
         public static string StripLanguage(string value) {
-            if (String.IsNullOrEmpty(value)) {
-                throw new ArgumentNullException("value");
+            if (string.IsNullOrEmpty(value)) {
+                return value;
             }
 
             var sb = new StringBuilder(value.Length);
@@ -98,8 +98,8 @@ namespace InSimDotNet.Helpers
         /// <param name="value">The string to strip.</param>
         /// <returns>The resulting string.</returns>
         public static string Strip(string value) {
-            if (String.IsNullOrEmpty(value)) {
-                throw new ArgumentNullException("value");
+            if (string.IsNullOrEmpty(value)) {
+                return value;
             }
 
             var sb = new StringBuilder(value.Length);
@@ -133,8 +133,8 @@ namespace InSimDotNet.Helpers
         /// <param name="value">The string to unescape.</param>
         /// <returns>The unescaped string.</returns>
         public static string Unescape(string value) {
-            if (String.IsNullOrEmpty(value)) {
-                throw new ArgumentNullException("value");
+            if (string.IsNullOrEmpty(value)) {
+                return value;
             }
 
             var sb = new StringBuilder(value.Length);
@@ -161,8 +161,8 @@ namespace InSimDotNet.Helpers
         /// <param name="value">The string to escape.</param>
         /// <returns>The escaped string.</returns>
         public static string Escape(string value) {
-            if (String.IsNullOrEmpty(value)) {
-                throw new ArgumentNullException("value");
+            if (string.IsNullOrEmpty(value)) {
+                return value;
             }
 
             var sb = new StringBuilder(value.Length);
