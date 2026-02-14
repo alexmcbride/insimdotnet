@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyVersion>6.3.1.1</AssemblyVersion>
     <FileVersion>6.3.1.1</FileVersion>
     <Description>A light-weight InSim library for .NET 6 (min. LFS version: 0.8B)</Description>
