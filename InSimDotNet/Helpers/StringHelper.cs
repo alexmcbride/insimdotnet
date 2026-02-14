@@ -23,6 +23,7 @@ namespace InSimDotNet.Helpers {
             { 'l', '<' },
             { 'r', '>' },
             { '^', '^' },
+            { 'h', '#' },
         };
 
         private static readonly Dictionary<char, char> EscapeMap = new Dictionary<char, char> {
@@ -36,6 +37,7 @@ namespace InSimDotNet.Helpers {
             { '<', 'l' },
             { '>', 'r' },
             { '^', '^' },
+            { '#', 'h' },
         };
 
         /// <summary>

@@ -40,6 +40,7 @@ namespace InSimDotNet {
             { 'l', '<' },
             { 'r', '>' },
             { '^', '^' },
+            { 'h', '#' },
         };
 
         /// <summary>
