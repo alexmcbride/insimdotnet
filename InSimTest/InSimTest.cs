@@ -68,7 +68,7 @@ namespace InSimTest
 
         private void Client_IS_MSO(object sender, PacketEventArgs<IS_MSO> e)
         {
-            Console.WriteLine(e.Packet.Msg);
+            Console.WriteLine(e.Packet.FullMsg);
         }
 
         private void Client_IS_VER(object sender, PacketEventArgs<IS_VER> e)
