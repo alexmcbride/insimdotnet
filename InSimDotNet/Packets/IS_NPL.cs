@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-
 namespace InSimDotNet.Packets {
     /// <summary>
     /// New player packet.
@@ -101,6 +97,11 @@ namespace InSimDotNet.Packets {
         public byte FWAdj { get; }
 
         /// <summary>
+        /// Racer info flags (RIF_x)
+        /// </summary>
+        public RacerInfoFlags RIFlags { get; }
+
+        /// <summary>
         /// Gets the setup flags.
         /// </summary>
         public SetupFlags SetF { get; private set; }
@@ -122,16 +123,31 @@ namespace InSimDotNet.Packets {
         /// </summary>
         public byte Fuel { get; }
 
+
+        private const RacerInfoFlags RIF_SAI_MASK = RacerInfoFlags.RIF_SAI_0 | RacerInfoFlags.RIF_SAI_1;
+        private const int RIF_SAI_SHIFTS = 4;
+        /// <summary>
+        /// SAIType (as in /sai command) can be determined from the Racer info flags
+        /// </summary>
+        public SAIType SAI
+        {
+            get
+            {
+                int value = ((int)RIFlags & (int)RIF_SAI_MASK) >> RIF_SAI_SHIFTS;
+                return (SAIType)value;
+            }
+        }
+
         /// <summary>
         /// Creates a new new player packet.
         /// </summary>
         public IS_NPL() {
             Size = 76;
             Type = PacketType.ISP_NPL;
-            PName = String.Empty;
-            Plate = String.Empty;
-            CName = String.Empty;
-            SName = String.Empty;
+            PName = string.Empty;
+            Plate = string.Empty;
+            CName = string.Empty;
+            SName = string.Empty;
         }
 
         /// <summary>
@@ -163,7 +179,8 @@ namespace InSimDotNet.Packets {
             Pass = (PassengerFlags)reader.ReadByte();
             RWAdj = reader.ReadByte();
             FWAdj = reader.ReadByte();
-            reader.Skip(2);
+            RIFlags = (RacerInfoFlags)reader.ReadByte();
+            reader.Skip(1);
             SetF = (SetupFlags)reader.ReadByte();
             NumP = reader.ReadByte();
             Config = reader.ReadByte();

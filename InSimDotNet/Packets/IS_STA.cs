@@ -70,7 +70,12 @@ namespace InSimDotNet.Packets {
         public byte QualMins { get; private set; }
 
         /// <summary>
-        /// Gets the race laps.
+        /// Gets the laps of the race (various meanings depending on range).
+        /// <para>0       : practice</para>
+        /// <para>1-99    : number of laps...   laps  = rl</para>
+        /// <para>100-190 : 100 to 1000 laps... laps  = (rl - 100) * 10 + 100</para>
+        /// <para>191-238 : 1 to 48 hours...    hours = rl - 190</para>
+        /// <para>255     : no lap timing</para>
         /// </summary>
         public byte RaceLaps { get; private set; }
 
