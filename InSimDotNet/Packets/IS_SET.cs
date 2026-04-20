@@ -66,7 +66,7 @@ namespace InSimDotNet.Packets
             Type = (PacketType)reader.ReadByte();
             ReqI = reader.ReadByte();
             PLID = reader.ReadByte();
-            CName = reader.ReadCNameString();
+            CName = reader.ReadCNameString(4);
             reader.Skip(4);
             FuelLoad = reader.ReadByte();
             reader.Skip(3);
