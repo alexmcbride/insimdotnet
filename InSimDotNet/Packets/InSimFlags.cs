@@ -65,5 +65,10 @@ namespace InSimDotNet.Packets {
         /// Enable to get send JRR join request packets.
         /// </summary>
         ISF_REQ_JOIN = 2048,
+
+        /// <summary>
+        /// Enable to receive SET packets from guests who send their setup.
+        /// </summary>
+        ISF_SET = 4096,
     }
 }

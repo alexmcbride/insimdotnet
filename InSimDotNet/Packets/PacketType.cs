@@ -354,6 +354,11 @@
         ISP_AII,
 
         /// <summary>
+        /// output a sent setup
+        /// </summary>
+        ISP_SET,
+
+        /// <summary>
         /// Admin request
         /// </summary>
         IRP_ARQ = 250,
