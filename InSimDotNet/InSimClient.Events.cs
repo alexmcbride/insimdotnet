@@ -273,6 +273,11 @@ namespace InSimDotNet
         /// </summary>
         public event EventHandler<PacketEventArgs<IS_AII>> IS_AII;
 
+        /// <summary>
+        /// output a sent setup
+        /// </summary>
+        public event EventHandler<PacketEventArgs<IS_SET>> IS_SET;
+
         public static PacketType GetPacketType(byte[] buffer)
         {
             if (buffer.Length >= 4)
@@ -448,6 +453,9 @@ namespace InSimDotNet
                     break;
                 case PacketType.ISP_AII:
                     OnIS_AII(new PacketEventArgs<IS_AII>(new IS_AII(packet)));
+                    break;
+                case PacketType.ISP_SET:
+                    OnIS_SET(new PacketEventArgs<IS_SET>(new IS_SET(packet)));
                     break;
             }
         }
@@ -715,6 +723,11 @@ namespace InSimDotNet
         protected virtual void OnIS_AII(PacketEventArgs<IS_AII> e)
         {
             IS_AII?.Invoke(this, e);
+        }
+        
+        protected virtual void OnIS_SET(PacketEventArgs<IS_SET> e)
+        {
+            IS_SET?.Invoke(this, e);
         }
     }
 }
