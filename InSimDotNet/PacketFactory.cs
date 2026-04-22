@@ -39,6 +39,8 @@ namespace InSimDotNet {
                     return new IS_AIC(buffer);
                 case PacketType.ISP_AII:
                     return new IS_AII(buffer);
+                case PacketType.ISP_SET:
+                    return new IS_SET(buffer);
                 case PacketType.ISP_PLH:
                     return new IS_PLH(buffer);
                 case PacketType.ISP_MAL:
@@ -180,6 +182,8 @@ namespace InSimDotNet {
                 return PacketType.ISP_AIC;
             if (type == typeof(IS_AII))
                 return PacketType.ISP_AII;
+            if (type == typeof(IS_SET))
+                return PacketType.ISP_SET;
             if (type == typeof(IS_MAL))
                 return PacketType.ISP_MAL;
             if (type == typeof(IS_IPB))
