@@ -1,3 +1,5 @@
+using static InSimDotNet.Helpers.CarSetupHelper;
+
 namespace InSimDotNet.Packets
 {
     /// <summary>
@@ -44,6 +46,24 @@ namespace InSimDotNet.Packets
         /// </summary>
         public byte[] Setup { get; private set; }
 
+        /// <summary>
+        /// Gets the parsed representation of the current car setup.
+        /// </summary>
+        private ParsedCarSetup _parsedSetup;
+        private bool _parsedSetupInitialized;
+
+        public ParsedCarSetup ParsedSetup
+        {
+            get
+            {
+                if (!_parsedSetupInitialized)
+                {
+                    _parsedSetup = ParseSetup(Setup, false);
+                    _parsedSetupInitialized = true;
+                }
+                return _parsedSetup;
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IS_SET"/> class.

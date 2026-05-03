@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <AssemblyVersion>6.5.1.2</AssemblyVersion>
-    <FileVersion>6.5.1.2</FileVersion>
+    <AssemblyVersion>6.5.2.1</AssemblyVersion>
+    <FileVersion>6.5.2.1</FileVersion>
     <Description>A light-weight InSim library for .NET 8 (min. LFS version: 0.8C)</Description>
-    <Version>6.5.1.2</Version>
+    <Version>6.5.2.1</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Company>Alex McBride</Company>
     <Authors>Alex McBride</Authors>
