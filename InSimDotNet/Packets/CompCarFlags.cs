@@ -22,6 +22,11 @@ namespace InSimDotNet.Packets {
         CCI_OOB = 4,
 
         /// <summary>
+        /// This car has been retired
+        /// </summary>
+        CCI_RETIRED = 8,
+
+        /// <summary>
         /// This car is lagging (missing or delayed position packets)
         /// </summary>
         CCI_LAG = 32,
