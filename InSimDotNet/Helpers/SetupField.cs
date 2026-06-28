@@ -16,6 +16,7 @@ namespace InSimDotNet.Helpers {
         // Brakes
         BrakePower,
         BrakeDistribution,
+        EngineBrakeReduction,
         Handbrake,
 
         // Steering
@@ -57,6 +58,7 @@ namespace InSimDotNet.Helpers {
         // Traction Control
         TractionControlActive,
         TractionControlSlipAllowed,
+        TractionControlMinSpeed,
 
         // Anti-lock Brakes
         AntiLockBrakesActive,

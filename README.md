@@ -175,3 +175,71 @@ outgauge.Connect("127.0.0.1", 30000);
 ```
 
 You can find many more examples and information about using the library in the [documentation wiki](https://github.com/alexmcbride/insimdotnet/wiki).
+
+Car Setup Validation — CarSetupHelper
+======================================
+
+This fork adds `CarSetupHelper` in the `InSimDotNet.Helpers` namespace for comparing car setups received via `IS_SET` against a reference `.set` file.
+
+### Basic usage
+
+```csharp
+byte[] referenceSetBytes = File.ReadAllBytes("reference.set");
+
+insim.Bind<IS_SET>(OnCarSetup);
+
+void OnCarSetup(InSim insim, IS_SET packet) {
+    var diffs = CarSetupHelper.CompareSetups(referenceSetBytes, packet);
+    if (diffs.Count == 0) {
+        Console.WriteLine("Setup matches the reference.");
+    } else {
+        foreach (var d in diffs)
+            Console.WriteLine($"{d.Field}: expected {d.ExpectedValue}, got {d.ActualValue}");
+    }
+}
+```
+
+### SetupDifference
+
+Each entry in the returned list has:
+
+- `Field` (`SetupField`) — enum value identifying the differing field
+- `ExpectedValue` (`string`) — human-readable value from the reference setup
+- `ActualValue` (`string`) — human-readable value from the driver's setup
+
+### SetupField enum
+
+All comparable fields:
+
+```
+ExtraWeight, IntakeRestriction, ExtraWeightDistribution
+RearWing, FrontWing
+BrakePower, BrakeDistribution, Handbrake, AntiLockBrakesActive
+MaxSteeringAngle, SteeringParallel, FrontToe, RearToe, Caster
+FinalDriveRatio, Gear1–Gear7
+FrontDifferentialType, FrontDifferentialPreload, FrontDifferentialPowerLock,
+  FrontDifferentialCoastLock, FrontDifferentialViscosity
+RearDifferentialType, RearDifferentialPreload, RearDifferentialPowerLock,
+  RearDifferentialCoastLock, RearDifferentialViscosity
+CenterDifferentialType, CenterDifferentialViscosity, CenterDifferentialPowerSplit
+TractionControlActive, TractionControlSlipAllowed, TractionControlMinSpeed
+FrontSuspensionHeight, FrontSuspensionStiffness, FrontSuspensionBumpDamper,
+  FrontSuspensionReboundDamper, FrontSuspensionAntiRollBar
+RearSuspensionHeight, RearSuspensionStiffness, RearSuspensionBumpDamper,
+  RearSuspensionReboundDamper, RearSuspensionAntiRollBar
+WheelManufacturer
+FrontTyreCompound, RearTyreCompound, FrontTyreSize, RearTyreSize
+FrontLeftTyrePressure, FrontRightTyrePressure, RearLeftTyrePressure, RearRightTyrePressure
+FrontLeftCamber, FrontRightCamber, RearLeftCamber, RearRightCamber
+Passenger, CarConfig
+```
+
+### Parsing a setup file directly
+
+```csharp
+byte[] bytes = File.ReadAllBytes("mysetup.set");
+CarSetupHelper.ParsedCarSetup parsed = CarSetupHelper.ParseSetup(bytes, isFile: true);
+Console.WriteLine($"Rear wing: {parsed.RearWing}");
+Console.WriteLine($"TC min speed: {parsed.TractionControlMinSpeed} m/s");
+```
+

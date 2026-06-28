@@ -25,6 +25,7 @@ namespace InSimDotNet.Helpers {
         private const int OffsetMaxSteeringLock = 24;
         private const int OffsetParallelSteering = 25;
         private const int OffsetBrakeBalance = 26;
+        private const int OffsetEngineBrakeReduction = 27;
         private const int OffsetCenterDiffType = 28;
         private const int OffsetCenterDiffViscosity = 29;
         private const int OffsetCenterDiffPowerSplit = 31;
@@ -32,6 +33,7 @@ namespace InSimDotNet.Helpers {
         private const int OffsetPassengers = 48;
         private const int OffsetCarConfig = 49;
         private const int OffsetTCSlip = 50;
+        private const int OffsetTCMinSpeed = 51;
         private const int OffsetRearRideHeight = 52;
         private const int OffsetRearSpringStiffness = 56;
         private const int OffsetRearBumpDamping = 60;
@@ -72,7 +74,7 @@ namespace InSimDotNet.Helpers {
         public class ParsedCarSetup {
             public string ExtraWeight, IntakeRestriction, ExtraWeightDistribution;
             public string RearWing, FrontWing;
-            public string BrakePower, BrakeDistribution, Handbrake;
+            public string BrakePower, BrakeDistribution, Handbrake, EngineBrakeReduction;
             public string MaxSteeringAngle, SteeringParallel, FrontToe, RearToe, Caster;
             public string FinalDriveRatio, Gear1, Gear2, Gear3, Gear4, Gear5, Gear6, Gear7;
             public DiffType FrontDiffType, RearDiffType;
@@ -80,7 +82,7 @@ namespace InSimDotNet.Helpers {
             public string RearDiffPreload, RearDiffPowerLock, RearDiffCoastLock, RearDiffViscosity;
             public CenterDiffType CenterDiffType;
             public string CenterDiffViscosity, CenterDiffPowerSplit;
-            public string TractionControlActive, TractionControlSlip;
+            public string TractionControlActive, TractionControlSlip, TractionControlMinSpeed;
             public string AntiLockBrakesActive;
             public string FrontSuspHeight, FrontSuspStiffness, FrontSuspBump, FrontSuspRebound, FrontSuspARB;
             public string RearSuspHeight, RearSuspStiffness, RearSuspBump, RearSuspRebound, RearSuspARB;
@@ -169,6 +171,7 @@ namespace InSimDotNet.Helpers {
             s.MaxSteeringAngle = SByte(d, OffsetMaxSteeringLock - shift);
             s.SteeringParallel = SByte(d, OffsetParallelSteering - shift);
             s.BrakeDistribution = SByte(d, OffsetBrakeBalance - shift);
+            s.EngineBrakeReduction = SByte(d, OffsetEngineBrakeReduction - shift);
             s.Handbrake = HandbrakeValue(
                 BitConverter.ToSingle(d, OffsetHandbrake - shift),
                 BitConverter.ToSingle(d, OffsetBrakePower - shift));
@@ -204,6 +207,7 @@ namespace InSimDotNet.Helpers {
             s.Passenger = d[OffsetPassengers - shift].ToString();
             s.CarConfig = d[OffsetCarConfig - shift].ToString();
             s.TractionControlSlip = TCSlip((sbyte)d[OffsetTCSlip - shift]);
+            s.TractionControlMinSpeed = d[OffsetTCMinSpeed - shift].ToString();
 
             s.RearSuspHeight = Float3(d, OffsetRearRideHeight - shift);
             s.RearSuspStiffness = FloatDiv1000F1(d, OffsetRearSpringStiffness - shift);
@@ -268,6 +272,7 @@ namespace InSimDotNet.Helpers {
             // Brakes
             Diff(diffs, SetupField.BrakePower, e.BrakePower, a.BrakePower);
             Diff(diffs, SetupField.BrakeDistribution, e.BrakeDistribution, a.BrakeDistribution);
+            Diff(diffs, SetupField.EngineBrakeReduction, e.EngineBrakeReduction, a.EngineBrakeReduction);
             Diff(diffs, SetupField.Handbrake, e.Handbrake, a.Handbrake);
 
             // Steering
@@ -310,6 +315,7 @@ namespace InSimDotNet.Helpers {
             // Traction Control
             Diff(diffs, SetupField.TractionControlActive, e.TractionControlActive, a.TractionControlActive);
             Diff(diffs, SetupField.TractionControlSlipAllowed, e.TractionControlSlip, a.TractionControlSlip);
+            Diff(diffs, SetupField.TractionControlMinSpeed, e.TractionControlMinSpeed, a.TractionControlMinSpeed);
 
             // Anti-lock Brakes
             Diff(diffs, SetupField.AntiLockBrakesActive, e.AntiLockBrakesActive, a.AntiLockBrakesActive);
