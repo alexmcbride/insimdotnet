@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <AssemblyVersion>6.5.3.1</AssemblyVersion>
-    <FileVersion>6.5.3.1</FileVersion>
+    <AssemblyVersion>6.5.4.1</AssemblyVersion>
+    <FileVersion>6.5.4.1</FileVersion>
     <Description>A light-weight InSim library for .NET 8 (min. LFS version: 0.8C)</Description>
-    <Version>6.5.3.1</Version>
+    <Version>6.5.4.1</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Company>Alex McBride</Company>
     <Authors>Alex McBride</Authors>
@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\insimdotnetForkOrig\README.md">
+    <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
